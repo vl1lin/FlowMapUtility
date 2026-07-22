@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FlowMapUtilite"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+[tool.setuptools.packages.find]
+include = ["Data_Block_1*", "Correlation*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "ruff",
+]
