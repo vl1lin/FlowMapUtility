@@ -6,9 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "FlowMapUtilite"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "numpy>=2.5.1",
+    "matplotlib>=3.11.1",
+]
 [tool.setuptools.packages.find]
-include = ["Data_Block_1*", "Correlation*"]
+include = ["Data_Block_1*", "Correlation*", "Grid_Generation*"]
 
 [project.optional-dependencies]
 dev = [
