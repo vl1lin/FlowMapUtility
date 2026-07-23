@@ -28,7 +28,7 @@ def system_adapter_all_not_SI():
 
 @fixture
 def system_adapter_all_SI():
-    system_adapter = SystemParamsAdapter(1 * 10e6, 274)
+    system_adapter = SystemParamsAdapter(1 * 1e6, 274)
     return system_adapter
 
 
@@ -39,5 +39,5 @@ def fluid_adapter_not_valid():
 
 @fixture
 def fluid_adapter_all_SI():
-    fluid_adapter = FluidParamsAdapter(1000, 7, 0.1, 0.5, 400)
+    fluid_adapter = FluidParamsAdapter(1000, 7, 0.1, 0.5, 40)
     return fluid_adapter

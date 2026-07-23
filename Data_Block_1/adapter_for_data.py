@@ -92,6 +92,7 @@ class FluidParamsAdapter(AdapterProtocol[FluidParams]):
         Переводит параметры потока в систему СИ.
         return: объект FluidParams
         """
+        self.check_valide()
         return FluidParams(
             self.density_liquid,
             self.density_gas,
