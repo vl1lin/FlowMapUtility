@@ -33,11 +33,15 @@ class PipeParamsAdapter(AdapterProtocol[PipeParams]):
 
     def _roughness(self) -> float:
         """
-        Проверяет валидный тип данных для относительной шероховатости трубы
+        Проверяет валидный тип данных для шероховатости трубы
         """
-        if type(self.roughness) is not float:
+        try:
+            if self.roughness > 1:
+                return self.roughness / MM_TO_METRES
+            else:
+                return self.roughness
+        except TypeError:
             raise TypeError("roughness must be a number")
-        return self.roughness
 
     def _angle_to_rad(self) -> float:
         """

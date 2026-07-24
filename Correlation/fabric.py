@@ -1,0 +1,41 @@
+from typing_extensions import overload
+
+from Correlation.model_abs import IFlowModel
+from Correlation.ansari import AnsariModel
+from Data_Block_1.data import PipeParams, FluidParams
+
+
+class ModelFabric:
+
+    def __init__(self):
+        self.MODELS: dict[str, type[IFlowModel]] = {
+            "ansari": AnsariModel,
+        }
+    @overload
+    def creat_model(self, model_name_or_angel: str, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+        pass
+
+    @overload
+    def creat_model(self, model_name_or_angel: float, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+        pass
+
+    def creat_model(self, model_name_or_angel: str | float, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+        if isinstance(model_name_or_angel, str):
+            try:
+                model = self.MODELS[self.parse_name(model_name_or_angel)](pipe, fluid)
+                model.validate_angle()
+                return model
+            except KeyError:
+                raise ValueError(f"Model {model_name_or_angel} is not supported")
+        elif isinstance(model_name_or_angel, float):
+            for model in self.MODELS.values():
+                angle_range = model.angle_limit()
+                if angle_range[0] <= model_name_or_angel <= angle_range[1]:
+                    return model(pipe, fluid)
+            raise ValueError(f"Angle {model_name_or_angel} is out of range for any model")
+        else:
+            raise TypeError(f"Expected str or float, got {type(model_name_or_angel)}")
+
+    def parse_name(self, model_name: str) -> str:
+        model_name_lower = model_name.lower().replace('-', '_').replace(' ', '_')
+        return model_name_lower
