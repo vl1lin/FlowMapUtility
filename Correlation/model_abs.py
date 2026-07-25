@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+
 from enum import IntEnum
+
 from Data_Block_1.data import PipeParams, FluidParams
 
 class FlowPatternCode(IntEnum):
@@ -15,7 +17,9 @@ class FlowPatternCode(IntEnum):
 
 class IFlowModel(ABC):
     """
-    Базовый интерфейс для всех моделей корреляции<[fim-middle]>
+    Базовый интерфейс для всех моделей корреляции
+    :param pipe: Объект PipeParams, в котором информация о трубе
+    :param fluid: Объект FluidParams, в котором информация о свойствах флюидов в потоке
     """
     def __init__(self, pipe: PipeParams, fluid: FluidParams):
         self.pipe = pipe

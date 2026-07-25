@@ -9,10 +9,10 @@ def test_for_pipe_adapter_all_not_SI(pipe_adapter_all_not_SI):
     pipe = pipe_adapter_all_not_SI.to_si()
     assert pipe.diameter == 1
     assert pipe.roughness == 0.1
-    assert pipe.angle == pytest.approx(math.radians(45))
+    assert pipe.angle == 45.0
 
 def test_for_pipe_adapter_all_SI(pipe_adapter_all_SI):
     pipe = pipe_adapter_all_SI.to_si()
     assert pipe.diameter == 0.1
     assert pipe.roughness == 0.1
-    assert pipe.angle == 0.6
+    assert pipe.angle == 45.0

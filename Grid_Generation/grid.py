@@ -1,6 +1,5 @@
-
-from Grid_Generation.grid_info import GridInfo
 from Grid_Generation.grid_generator import GridGenerator, GridGeneratorABS
+from Grid_Generation.grid_info import GridInfo
 
 
 class Grid:

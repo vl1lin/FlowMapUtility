@@ -5,20 +5,36 @@ import math
 _MAXIT = 100 # Максимальное количество итераций
 
 class AnsariModel(IFlowModel):
+    """
+    Модель Ансаря для расчета режима потока.
+    :param pipe: Объект PipeParams, в котором информация о трубе
+    :param fluid: Объект FluidParams, в котором информация о свойствах флюидов в потоке
+    """
+
     def __init__(self, pipe: PipeParams, fluid: FluidParams):
         super().__init__(pipe, fluid)
 
 
     @classmethod
     def name(cls) -> str:
+        """
+        Метод класса, возвращает имя модели
+        """
         return "Ansari"
 
     @classmethod
     def angle_limit(cls) -> tuple[float, float]:
+        """
+        Метод класса, возвращает допустимый диапазон углов в градусах (min, max)
+        """
         return (75.0, 90.0)
 
     def get_pattern_code(self, vsl: float, vsg: float) -> int:
-
+        """
+        Рассчитывает режим потока по значениям скоростей жидкости и газа
+        :param vsl: Скорость жидкости в м/c
+        :param vsg: Скорость газа в м/c
+        """
         if vsl < 1e-9:
             return FlowPatternCode.SINGLE_GAS.value
         if vsg < 1e-9:

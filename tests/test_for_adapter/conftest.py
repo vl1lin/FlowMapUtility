@@ -1,4 +1,5 @@
 from pytest import fixture
+import math
 from Data_Block_1.adapter_for_data import PipeParamsAdapter, SystemParamsAdapter, FluidParamsAdapter
 
 @fixture
@@ -8,12 +9,12 @@ def pipe_adapter_not_valid():
 
 @fixture
 def pipe_adapter_all_not_SI():
-    pipe_adapter = PipeParamsAdapter(1000, 0.1, 45)
+    pipe_adapter = PipeParamsAdapter(1000, 0.1, 45 * math.pi / 180)
     return pipe_adapter
 
 @fixture
 def pipe_adapter_all_SI():
-    pipe_adapter = PipeParamsAdapter(0.1, 0.1, 0.6)
+    pipe_adapter = PipeParamsAdapter(0.1, 0.1, 45)
     return pipe_adapter
 
 @fixture

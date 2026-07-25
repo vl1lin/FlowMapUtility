@@ -1,22 +1,15 @@
-import numpy as np
 from Grid_Generation.grid_info import GridInfo
-from typing import cast
-from abc import ABC, abstractmethod
+
 import warnings
 
+import numpy as np
+
+from abc import ABC, abstractmethod
+
+from typing import cast
+
+
 class GridGeneratorABS(ABC):
-    """
-    Абстрактный класс GridGeneratorABS.
-    """
-
-    @abstractmethod
-    def grid_generator(self) -> GridInfo:
-        """
-        Абстрактный метод для генерации сетки.
-        """
-        pass
-
-class GridGenerator(GridGeneratorABS):
     """
     Класс GridGenerator управляет генерацией сетки.
 
@@ -26,6 +19,7 @@ class GridGenerator(GridGeneratorABS):
         resolution: Разрешение сетки.
         log_scale: Флаг, указывающий на использование логарифмической шкалы.
     """
+
     def __init__(self,
         vsl_range: tuple[float, float],
         vsg_range: tuple[float, float],
@@ -35,6 +29,23 @@ class GridGenerator(GridGeneratorABS):
         self.vsg_range: tuple[float, float] = vsg_range
         self.resolution: int = resolution
         self.log_scale: bool = log_scale
+
+    @abstractmethod
+    def grid_generator(self) -> GridInfo:
+        """
+        Генерирует сетку и возвращает информацию о ней.
+        :return: Объект GridInfo с информацией о сетке.
+        """
+        pass
+
+class GridGenerator(GridGeneratorABS):
+
+    def __init__(self,
+        vsl_range: tuple[float, float],
+        vsg_range: tuple[float, float],
+        resolution: int = 100,
+        log_scale: bool = True):
+        super().__init__(vsl_range, vsg_range, resolution, log_scale)
 
 
     def grid_generator(self) -> GridInfo:
@@ -84,6 +95,7 @@ class GridGenerator(GridGeneratorABS):
     def _validation_range(self, range_input: tuple[float, float]) -> tuple[float, float]:
         """
         Валидирует диапазон значений скорости.
+        :param range_input: Кортеж с минимальным и максимальным значением скорости
         """
         if len(range_input) != 2:
             raise ValueError("range_input must be a tuple of two numbers")

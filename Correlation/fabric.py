@@ -1,4 +1,4 @@
-from typing_extensions import overload
+from typing import overload
 
 from Correlation.model_abs import IFlowModel
 from Correlation.ansari import AnsariModel
@@ -6,6 +6,10 @@ from Data_Block_1.data import PipeParams, FluidParams
 
 
 class ModelFabric:
+    """
+    Фабрика для создания моделей расчета режима потока
+    Основной элемент: словарь MODELS (название модели -> класс модели)
+    """
 
     def __init__(self):
         self.MODELS: dict[str, type[IFlowModel]] = {
@@ -20,6 +24,13 @@ class ModelFabric:
         pass
 
     def creat_model(self, model_name_or_angel: str | float, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+        """
+        Создает модель расчета режима потока по имени или углу
+        :param model_name_or_angel: Имя модели или угол в градусах
+        :param pipe: Объект PipeParams, в котором информация о трубе
+        :param fluid: Объект FluidParams, в котором информация о свойствах флюидов в потоке
+        :return: Объект модели расчета режима потока (наследник IFlowModel)
+        """
         if isinstance(model_name_or_angel, str):
             try:
                 model = self.MODELS[self.parse_name(model_name_or_angel)](pipe, fluid)
@@ -37,5 +48,11 @@ class ModelFabric:
             raise TypeError(f"Expected str or float, got {type(model_name_or_angel)}")
 
     def parse_name(self, model_name: str) -> str:
+        """
+        Приводит имя модели к нижнему регистру и заменяет пробелы и дефисы на подчеркивания
+        (единый стиль именования моделей в словере MODELS)
+        :param model_name: Имя модели
+        :return: Приведённое к нижнему регистру имя модели
+        """
         model_name_lower = model_name.lower().replace('-', '_').replace(' ', '_')
         return model_name_lower
