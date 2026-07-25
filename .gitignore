@@ -4,6 +4,8 @@
 *.ps1
 *.cfg
 *.typed
+*.pyc
+__init__.py
 FlowMapUtilite.egg-info
 tests/test_for_adapter/__pycache__/test_for_fluid_adarpter.cpython-314-pytest-9.1.1.pyc
 tests/test_for_adapter/__pycache__/test_for_pipe_adapter.cpython-314-pytest-9.1.1.pyc
