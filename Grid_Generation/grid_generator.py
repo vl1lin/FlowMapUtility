@@ -62,18 +62,51 @@ class GridGenerator(GridGeneratorABS):
             warnings.warn("log_scale requires positive values, switching to linear scale")
             self.log_scale = False
 
+        vsl_1d = self._generate_1d_array(vsl_min, vsl_max)
+        vsg_1d = self._generate_1d_array(vsg_min, vsg_max)
+
+        vsl_2d = self._generate_2d_array_x(vsl_1d)
+        vsg_2d = self._generate_2d_array_y(vsg_1d)
+
+        return GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, self.resolution)
+
+    def _generate_1d_array(self, min_val: float, max_val: float) -> np.ndarray:
+        """
+        Генерирует одномерный массив значений от min_val до max_val с заданным разрешением.
+
+        :param min_val: Минимальное значение.
+        :param max_val: Максимальное значение.
+        :return: Одномерный массив значений.
+        """
         if self.log_scale:
 
-            vsl_1d = np.logspace(vsl_min, vsl_max, self.resolution)
-            vsg_1d = np.logspace(vsg_min, vsg_max, self.resolution)
-
+            vsl_1d = np.logspace(min_val, max_val, self.resolution)
         else:
 
-            vsl_1d = np.linspace(vsl_min, vsl_max, self.resolution)
-            vsg_1d = np.linspace(vsg_min, vsg_max, self.resolution)
+            vsl_1d = np.linspace(min_val, max_val, self.resolution)
 
-        vsl_2d, vsg_2d = np.meshgrid(vsl_1d, vsg_1d, indexing='ij')
-        return GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, self.resolution)
+        return vsl_1d
+
+    def _generate_2d_array_x(self, vsl_1d: np.ndarray) -> np.ndarray:
+        """
+        Генерирует двумерный массив, повторяя строки.
+
+        :param vsl_1d: Одномерный массив значений.
+        :return: Двумерный массив, повторяющий vsl_1d по оси x.
+        """
+        vsl_2d = np.ones((self.resolution, 1)) * vsl_1d
+        return vsl_2d
+
+    def _generate_2d_array_y(self, vsg_1d: np.ndarray) -> np.ndarray:
+        """
+        Генерирует двумерный массив, разворачивая одномерный массив и повторяя столбцы.
+
+        :param vsg_1d: Одномерный массив значений.
+        :return: Двумерный массив, повторяющий vsg_1d по оси y.
+        """
+        revese_vsg_1d = np.flip(vsg_1d)
+        vsg_2d = revese_vsg_1d[:, np.newaxis] * np.ones(self.resolution)
+        return vsg_2d
 
     def validation_befor_grid_generation(self) -> None:
         """

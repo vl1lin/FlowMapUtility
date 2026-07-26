@@ -4,7 +4,7 @@ import numpy as np
 
 from typing import TYPE_CHECKING, Iterator
 
-from worker_settings import init_worker, worker_function
+from Run_Core.worker_settings import init_worker, worker_function
 
 
 if TYPE_CHECKING:
@@ -49,5 +49,5 @@ class ProcessManager:
         """
         Подготавливает задачи для расчета в процессах
         """
-        tasks = ((i, self.grid.vsl_2d[i:], self.grid.vsg_2d[i:]) for i in range(self.grid.resolution))
+        tasks = ((i, self.grid.vsl_2d[i, :], self.grid.vsg_2d[i, :]) for i in range(self.grid.resolution))
         return tasks
