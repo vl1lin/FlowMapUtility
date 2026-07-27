@@ -24,16 +24,16 @@ class ProcessManager:
         self.grid = grid
         self.n_workers = n_workers
 
-    def run(self):
+    def run(self) -> np.ndarray:
         """
         Запускает расчет кодов режима потока
         """
         with mp.Pool(processes=self._count_workers(), initializer=init_worker, initargs=(self.worker_model,)) as pool:
             results = pool.imap_unordered(worker_function, self._prepare_tasks())
+            code_pattern_grid = np.zeros([self.grid.resolution, self.grid.resolution], dtype=np.int32)
+            for i, row in results:
+                code_pattern_grid[i] = row
 
-        code_pattern_grid = np.zeros([self.grid.resolution, self.grid.resolution], dtype=np.int32)
-        for i, row in results:
-            code_pattern_grid[i] = row
 
         return code_pattern_grid
 

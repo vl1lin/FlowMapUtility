@@ -24,6 +24,6 @@ def worker_function(args: tuple[int, np.ndarray, np.ndarray]) -> tuple[int, np.n
     i, vsl, vsg = args
     results = np.zeros(len(vsl), dtype=np.int32)
     for j in range(len(vsl)):
-        results[i] = _worker_model.get_pattern_code(vsl[j], vsg[j])
+        results[j] = _worker_model.get_pattern_code(vsl[j], vsg[j])
 
     return i, results
