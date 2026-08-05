@@ -14,9 +14,11 @@ class GridInfo(NamedTuple):
         vsl_2d: 2D массив скоростей по оси vsl.
         vsg_2d: 2D массив скоростей по оси vsg.
         resolution: Разрешение сетки.
+        log_scale: Флаг использования логарифмической шкалы.
     """
     vsl_1d: np.ndarray
     vsg_1d: np.ndarray
     vsl_2d: np.ndarray
     vsg_2d: np.ndarray
     resolution: int
+    log_scale: bool

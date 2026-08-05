@@ -5,7 +5,8 @@ from Run_Core.process_manager import ProcessManager
 from Data_Block_1.adapter_for_data import PipeParamsAdapter, FluidParamsAdapter, SystemParamsAdapter
 from Correlation.ansari import AnsariModel
 from Grid_Generation.grid_generator import GridGenerator
-from unittest.mock import Mock
+from unittest.mock import Mock, patch, MagicMock
+from visualization.tuners import ColorTuner, GraphTuner
 import math
 
 @pytest.fixture
@@ -113,5 +114,28 @@ def core_beginer(info_for_ansari_correlation):
     vsl_2d = np.ones((3, 1)) * vsl_1d
     vsg_1d = np.flip(np.array([1.0, 2.0, 3.0]))
     vsg_2d = vsg_1d[:, np.newaxis] * np.ones((3,3))
-    grid_info = GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, 3)
+    grid_info = GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, 3, True)
     return ProcessManager(info_for_ansari_correlation, grid_info)
+
+@pytest.fixture
+def mock_plt():
+    with patch("visualization.tuners.plt") as mock:
+        yield mock
+
+@pytest.fixture
+def mock_mcolors():
+    with patch("visualization.tuners.mcolors") as mock:
+        yield mock
+
+@pytest.fixture
+def mock_color_tuner():
+    mock_ax = MagicMock()
+    mock_grid = MagicMock()
+    mock_codes = MagicMock()
+    tuner = ColorTuner(mock_ax, mock_grid, mock_codes)
+    return tuner
+
+@pytest.fixture
+def mock_graph_tuner() -> GraphTuner:
+    tuner = GraphTuner()
+    return tuner

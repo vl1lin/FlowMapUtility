@@ -68,7 +68,7 @@ class GridGenerator(GridGeneratorABS):
         vsl_2d = self._generate_2d_array_x(vsl_1d)
         vsg_2d = self._generate_2d_array_y(vsg_1d)
 
-        return GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, self.resolution)
+        return GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, self.resolution, self.log_scale)
 
     def _generate_1d_array(self, min_val: float, max_val: float) -> np.ndarray:
         """
