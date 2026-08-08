@@ -31,7 +31,7 @@ class GridGeneratorABS(ABC):
         self.log_scale: bool = log_scale
 
     @abstractmethod
-    def grid_generator(self) -> GridInfo:
+    def generate(self) -> GridInfo:
         """
         Генерирует сетку и возвращает информацию о ней.
         :return: Объект GridInfo с информацией о сетке.
@@ -48,7 +48,7 @@ class GridGenerator(GridGeneratorABS):
         super().__init__(vsl_range, vsg_range, resolution, log_scale)
 
 
-    def grid_generator(self) -> GridInfo:
+    def generate(self) -> GridInfo:
         """
         Генерирует сетку и возвращает информацию о ней.
         :return: Объект GridInfo с информацией о сетке.
