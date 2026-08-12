@@ -7,6 +7,7 @@ from Correlation.ansari import AnsariModel
 from Grid_Generation.grid_generator import GridGenerator
 from unittest.mock import Mock, patch, MagicMock
 from visualization.tuners import ColorTuner, GraphTuner
+from api.main_object import Builder
 import math
 
 @pytest.fixture
@@ -139,3 +140,29 @@ def mock_color_tuner():
 def mock_graph_tuner() -> GraphTuner:
     tuner = GraphTuner()
     return tuner
+
+@pytest.fixture
+def builder() -> Builder:
+    builder = Builder()
+    builder.pipe_params = MagicMock()
+    builder.fluid_params = MagicMock()
+    builder.system_params = MagicMock()
+
+    builder.velocite_liquid = Mock()
+    builder.velocite_gas = Mock()
+    builder.resolution = Mock()
+    builder.grid_info = MagicMock()
+    builder.scale_flag = Mock()
+    builder.grid_generator = MagicMock()
+
+    builder.correlation_fabric = MagicMock()
+    builder.model = MagicMock()
+    builder.model_name = Mock()
+
+    builder.n_count = Mock()
+    builder.run_core = MagicMock()
+
+    builder.save_path = Mock()
+    builder.show_plot = Mock()
+    builder.vis_manadger = MagicMock()
+    return builder
