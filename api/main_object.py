@@ -146,7 +146,11 @@ class Builder:
 
     @requires("correlation_fabric", "model_name")
     def build_model(self) -> "Builder":
-        self.model = self.correlation_fabric.creat_model(self.model_name)  # type: ignore
+        self.model = self.correlation_fabric.creat_model(  # type: ignore
+            self.model_name,  # type: ignore
+            self.pipe_params,  # type: ignore
+            self.fluid_params,  # type: ignore
+        )
         return self
 
     @requires("model", "grid_info")
