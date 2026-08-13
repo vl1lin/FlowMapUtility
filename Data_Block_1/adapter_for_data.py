@@ -1,17 +1,17 @@
 import math
-
 from typing import Protocol
 
-from Data_Block_1.data import PipeParams, FluidParams, SystemParams
+from Data_Block_1.data import FluidParams, PipeParams, SystemParams
 
 MEGAPASCAL_TO_PASCAL = 1e6
 CELSIUS_TO_KELVIN = 273.15
 MM_TO_METRES = 1000.0
 GSM3_TO_KGM3 = 1e3
 
+
 class AdapterProtocol[T](Protocol):
-    def to_si(self) -> T:
-        ...
+    def to_si(self) -> T: ...
+
 
 class PipeParamsAdapter(AdapterProtocol[PipeParams]):
     """
@@ -21,6 +21,7 @@ class PipeParamsAdapter(AdapterProtocol[PipeParams]):
     :param roughness: шероховатость трубы: мм или м
     :param angle: угол наклона трубы: градусы или радианы
     """
+
     def __init__(self, diameter: float, roughness: float, angle: float):
         self.diameter = diameter
         self.roughness = roughness
@@ -34,7 +35,7 @@ class PipeParamsAdapter(AdapterProtocol[PipeParams]):
         return PipeParams(
             diameter=self._diameter_to_m(),
             roughness=self._roughness(),
-            angle=self._angle_to_rad()
+            angle=self._angle_to_rad(),
         )
 
     def _diameter_to_m(self) -> float:
@@ -87,12 +88,14 @@ class FluidParamsAdapter(AdapterProtocol[FluidParams]):
     :param surface_tension: поверхностная плотность: Н/м
     """
 
-    def __init__(self,
+    def __init__(
+        self,
         density_liquid: float,
         density_gas: float,
         viscosity_liquid: float,
         viscosity_gas: float,
-        surface_tension: float):
+        surface_tension: float,
+    ):
         self.density_liquid = density_liquid
         self.density_gas = density_gas
         self.viscosity_liquid = viscosity_liquid
@@ -118,9 +121,12 @@ class FluidParamsAdapter(AdapterProtocol[FluidParams]):
         Проверяет, что все параметры являются числами.
         """
         for param in (
-            self.density_liquid, self.density_gas,
-            self.viscosity_liquid, self.viscosity_gas,
-            self.surface_tension):
+            self.density_liquid,
+            self.density_gas,
+            self.viscosity_liquid,
+            self.viscosity_gas,
+            self.surface_tension,
+        ):
             if not isinstance(param, (int, float)):
                 raise TypeError(f"{param} must be a number, not {type(param)}")
 

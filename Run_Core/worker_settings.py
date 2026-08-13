@@ -16,6 +16,7 @@ def init_worker(model: "IFlowModel"):
     global _worker_model
     _worker_model = model
 
+
 def worker_function(args: tuple[int, np.ndarray, np.ndarray]) -> tuple[int, np.ndarray]:
     """
     Основная функция - воркер которая будет запускаться в процессах

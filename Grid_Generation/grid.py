@@ -10,10 +10,11 @@ class Grid:
         grid_generator (GridGenerator): Объект генератора сетки.
         grid_printer: Функция вывода сетки.
     """
+
     def __init__(self, grid_generator: GridGenerator, grid_printer):
         self.grid_generator: GridGeneratorABS = grid_generator
         self.grid_printer = grid_printer
 
     def generate(self) -> GridInfo:
-        grid_info = self.grid_generator.grid_generator()
+        grid_info = self.grid_generator.generate()
         return grid_info

@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_for_fluid_adapter_not_valid(fluid_adapter_not_valid):
     with pytest.raises(TypeError):
         fluid_adapter_not_valid.to_si()

@@ -1,8 +1,10 @@
-from Correlation.model_abs import IFlowModel, FlowPatternCode
-from Data_Block_1.data import PipeParams, FluidParams
 import math
 
-_MAXIT = 100 # Максимальное количество итераций
+from Correlation.model_abs import FlowPatternCode, IFlowModel
+from Data_Block_1.data import FluidParams, PipeParams
+
+_MAXIT = 100  # Максимальное количество итераций
+
 
 class AnsariModel(IFlowModel):
     """
@@ -13,7 +15,6 @@ class AnsariModel(IFlowModel):
 
     def __init__(self, pipe: PipeParams, fluid: FluidParams):
         super().__init__(pipe, fluid)
-
 
     @classmethod
     def name(cls) -> str:
@@ -49,7 +50,18 @@ class AnsariModel(IFlowModel):
         viscosity_gas = self.fluid.viscosity_gas
         surface_tension = self.fluid.surface_tension
 
-        pattern_code = self._fpup(vsl, vsg, diameter, roughness, density_liquid, density_gas, viscosity_liquid, viscosity_gas, angle, surface_tension)
+        pattern_code = self._fpup(
+            vsl,
+            vsg,
+            diameter,
+            roughness,
+            density_liquid,
+            density_gas,
+            viscosity_liquid,
+            viscosity_gas,
+            angle,
+            surface_tension,
+        )
         return pattern_code
 
     def _func(self, a, b, c, d, e, g, i, x):
@@ -103,7 +115,9 @@ class AnsariModel(IFlowModel):
             f = x**3 - 0.75 * a * g * t4 * (1.0 - t2)
             dt2 = -4.0 * (1.0 - 2.0 * x / a) / a
             dt3 = (b - c) * t1 * dt2 / t2**2
-            dt4 = (dt3 * t2 + t3 * dt2) / (1.0 - t2) + (t3 * t2 - (d + e)) * dt2 / (1.0 - t2) ** 2
+            dt4 = (dt3 * t2 + t3 * dt2) / (1.0 - t2) + (t3 * t2 - (d + e)) * dt2 / (
+                1.0 - t2
+            ) ** 2
             df = 3.0 * x**2 - 0.75 * a * g * (dt4 * (1.0 - t2) - t4 * dt2)
         elif i == 4:
             t1 = 4.0 * x * (1.0 - x)
@@ -127,10 +141,15 @@ class AnsariModel(IFlowModel):
             f = b - (2.0 - 1.5 * t1) * a / t1**3 / (1.0 - 1.5 * t1)
             df = (
                 1.5 * dt1 * a / t1**3 / (1.0 - 1.5 * t1)
-                + 3.0 * a * dt1 * (1.0 - 2.0 * t1) * (2.0 - 1.5 * t1) / t1**4 / (1.0 - 1.5 * t1) ** 2
+                + 3.0
+                * a
+                * dt1
+                * (1.0 - 2.0 * t1)
+                * (2.0 - 1.5 * t1)
+                / t1**4
+                / (1.0 - 1.5 * t1) ** 2
             )
         return f, df
-
 
     def _itsafe(self, a, b, c, d, e, g, i, x1, x2, xacc):
         """
@@ -156,7 +175,9 @@ class AnsariModel(IFlowModel):
         f, df = self._func(a, b, c, d, e, g, i, result)
 
         for _ in range(_MAXIT):
-            if ((result - xh) * df - f) * ((result - xl) * df - f) >= 0.0 or abs(2.0 * f) > abs(dxold * df):
+            if ((result - xh) * df - f) * ((result - xl) * df - f) >= 0.0 or abs(
+                2.0 * f
+            ) > abs(dxold * df):
                 dxold = dx
                 dx = 0.5 * (xh - xl)
                 result = xl + dx
@@ -180,14 +201,18 @@ class AnsariModel(IFlowModel):
                 return result
         return result
 
-
     def _dbtran(self, hgg, vsg, di, ed, denl, deng, visl_pas, visg_pas, ang, surl):
         """
         Граничные скорости перехода в рассеянно-пузырьковый режим.
 
         :return: (vsl, vsg). Type: tuple
         """
-        c = 2.0 * ((0.4 * surl) / ((denl - deng) * 9.81)) ** 0.5 * (denl / surl) ** 0.6 * (2.0 / di) ** 0.4
+        c = (
+            2.0
+            * ((0.4 * surl) / ((denl - deng) * 9.81)) ** 0.5
+            * (denl / surl) ** 0.6
+            * (2.0 / di) ** 0.4
+        )
         vme = vsg + 1.5
         vsl = 0.0
         vmc = vme
@@ -217,7 +242,7 @@ class AnsariModel(IFlowModel):
             vsg = vm * hgg
         return vsl, vsg
 
-    def _mpoint(self,di, ed, denl, deng, visl_pas, visg_pas, ang, surl):
+    def _mpoint(self, di, ed, denl, deng, visl_pas, visg_pas, ang, surl):
         """
         Граничные точки переходов режима течения.
 
@@ -227,23 +252,38 @@ class AnsariModel(IFlowModel):
         dmin = 19.0 * math.sqrt((denl - deng) * surl / (denl**2 * 9.81))
         if ang > 70.0 and di > dmin * 0.95:
             vsl_tmp = 0.001
-            vsgo = (vsl_tmp + 1.15 * (9.81 * (denl - deng) * surl / denl**2) ** 0.25 * math.sin(alfa)) / 3.0
+            vsgo = (
+                vsl_tmp
+                + 1.15
+                * (9.81 * (denl - deng) * surl / denl**2) ** 0.25
+                * math.sin(alfa)
+            ) / 3.0
         else:
             vsgo = -1.0
 
-        vsg3 = 3.1 * (surl * 9.81 * math.sin(alfa) * (denl - deng)) ** 0.25 / math.sqrt(deng)
+        vsg3 = (
+            3.1
+            * (surl * 9.81 * math.sin(alfa) * (denl - deng)) ** 0.25
+            / math.sqrt(deng)
+        )
 
         vsg1, vsl1 = -1.0, -1.0
         if vsgo > 0.0:
-            vsl1, vsg1 = self._dbtran(0.25, -1.0, di, ed, denl, deng, visl_pas, visg_pas, ang, surl)
+            vsl1, vsg1 = self._dbtran(
+                0.25, -1.0, di, ed, denl, deng, visl_pas, visg_pas, ang, surl
+            )
 
         vsg2 = 0.2
-        vsl2, vsg2 = self._dbtran(0.76, vsg2, di, ed, denl, deng, visl_pas, visg_pas, ang, surl)
+        vsl2, vsg2 = self._dbtran(
+            0.76, vsg2, di, ed, denl, deng, visl_pas, visg_pas, ang, surl
+        )
 
         vsl3 = 0.0
         if vsg2 >= vsg3:
             vsg2 = vsg3
-            vsl2, _ = self._dbtran(0.0, vsg2, di, ed, denl, deng, visl_pas, visg_pas, ang, surl)
+            vsl2, _ = self._dbtran(
+                0.0, vsg2, di, ed, denl, deng, visl_pas, visg_pas, ang, surl
+            )
             vsl3 = vsl2
             if vsg1 < vsg2:
                 return vsgo, vsg1, vsl1, vsg2, vsl2, vsg3, vsl3
@@ -253,32 +293,48 @@ class AnsariModel(IFlowModel):
         vsl3 = vsg3 / 0.76 - vsg3
         return vsgo, vsg1, vsl1, vsg2, vsl2, vsg3, vsl3
 
-
-    def _fpup(self,vsl, vsg, di, ed, denl, deng, visl_pas, visg_pas, ang, surl):
+    def _fpup(self, vsl, vsg, di, ed, denl, deng, visl_pas, visg_pas, ang, surl):
         """
         Определить режим течения для восходящего наклонного/вертикального потока.
 
         :return: целочисленный код режима течения. Type: int
         """
         alfa = 0.0174533 * ang
-        vsgo, vsg1, vsl1, vsg2, vsl2, vsg3, vsl3 = self._mpoint(di, ed, denl, deng, visl_pas, visg_pas, ang, surl)
+        vsgo, vsg1, vsl1, vsg2, vsl2, vsg3, vsl3 = self._mpoint(
+            di, ed, denl, deng, visl_pas, visg_pas, ang, surl
+        )
 
         if vsg >= vsg3:
             return FlowPatternCode.ANNULAR.value
 
         if vsg <= vsg2:
-            vslb, _ = self._dbtran(0.0, vsg, di, ed, denl, deng, visl_pas, visg_pas, ang, surl)
+            vslb, _ = self._dbtran(
+                0.0, vsg, di, ed, denl, deng, visl_pas, visg_pas, ang, surl
+            )
             if vsl < vslb:
                 if vsgo > 0.0:
-                    vsgb = (vsl + 1.15 * (9.81 * (denl - deng) * surl / denl**2) ** 0.25 * math.sin(alfa)) / 3.0
-                    return FlowPatternCode.SLUG.value if vsg > vsgb else FlowPatternCode.BUBBLE.value
+                    vsgb = (
+                        vsl
+                        + 1.15
+                        * (9.81 * (denl - deng) * surl / denl**2) ** 0.25
+                        * math.sin(alfa)
+                    ) / 3.0
+                    return (
+                        FlowPatternCode.SLUG.value
+                        if vsg > vsgb
+                        else FlowPatternCode.BUBBLE.value
+                    )
                 else:
                     return FlowPatternCode.SLUG.value
             else:
                 return FlowPatternCode.DISPERSED_BUBBLE.value
         else:
             vslb = vsg / 0.76 - vsg
-            return FlowPatternCode.DISPERSED_BUBBLE.value if vsl >= vslb else FlowPatternCode.SLUG.value
+            return (
+                FlowPatternCode.DISPERSED_BUBBLE.value
+                if vsl >= vslb
+                else FlowPatternCode.SLUG.value
+            )
 
     def _friction_factor(self, n_re: float, roughness_d: float) -> float:
         """

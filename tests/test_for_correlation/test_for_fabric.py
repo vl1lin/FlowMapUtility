@@ -1,7 +1,10 @@
-from Correlation.fabric import ModelFabric
-from Correlation.ansari import AnsariModel
 from unittest.mock import Mock
+
 import pytest
+
+from Correlation.ansari import AnsariModel
+from Correlation.fabric import ModelFabric
+
 
 @pytest.mark.parametrize("name", ["Ansari", "ansari", "ANSARI"])
 def test_for_fabric_name(name: str, creating_Pipe):
@@ -9,6 +12,7 @@ def test_for_fabric_name(name: str, creating_Pipe):
     model = fabric.creat_model(name, creating_Pipe, Mock())
     assert isinstance(model, AnsariModel)
     assert model.name() == "Ansari"
+
 
 @pytest.mark.parametrize("angle", [75.0, 80.0, 85.0, 90.0])
 def test_fabric_for_ansari_angle(angle: float, creating_Pipe):

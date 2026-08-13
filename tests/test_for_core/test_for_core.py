@@ -1,11 +1,10 @@
-from asyncio import taskgroups
 from typing import TYPE_CHECKING
-import numpy as np
-import pytest
-import multiprocessing as mp
-from Run_Core.worker_settings import worker_function, init_worker
 from unittest.mock import Mock
 
+import numpy as np
+import pytest
+
+from Run_Core.worker_settings import init_worker, worker_function
 
 if TYPE_CHECKING:
     from Run_Core.process_manager import ProcessManager
@@ -14,15 +13,18 @@ if TYPE_CHECKING:
 def test_core_run(core_beginer: "ProcessManager") -> None:
     manager: "ProcessManager" = core_beginer
     assert manager._count_workers() == 7
-    tasks = [(0, [0.1, 0.2, 0.3], [3. for _ in range(3)]),
-        (1, [0.1, 0.2, 0.3], [2. for _ in range(3)]),
-        (2, [0.1, 0.2, 0.3], [1. for _ in range(3)])]
+    tasks = [
+        (0, [0.1, 0.2, 0.3], [3.0 for _ in range(3)]),
+        (1, [0.1, 0.2, 0.3], [2.0 for _ in range(3)]),
+        (2, [0.1, 0.2, 0.3], [1.0 for _ in range(3)]),
+    ]
     for tsk_my, tsk_manager in zip(tasks, manager._prepare_tasks()):
         i, vsl, vsg = tsk_my
         i_manager, vsl_manager, vsg_manager = tsk_manager
         assert i == i_manager
         assert np.allclose(vsl, vsl_manager)
         assert np.allclose(vsg, vsg_manager)
+
 
 def test_worker_function() -> None:
     ansari = Mock(get_pattern_code=Mock(return_value=105))
@@ -39,17 +41,14 @@ def test_worker_function() -> None:
 
 def test_for_core(core_beginer: "ProcessManager") -> None:
     manager: "ProcessManager" = core_beginer
-    grid = [
-        [105, 105, 105],
-        [105, 105, 105],
-        [103, 103, 103]
-    ]
+    grid = [[105, 105, 105], [105, 105, 105], [103, 103, 103]]
     code_grid = manager.run()
     assert code_grid is not None
     assert code_grid.shape == (manager.grid.resolution, manager.grid.resolution)
     assert np.all(code_grid == np.array(grid))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # Если ты запускаешь через pytest, он сам поймет эту конструкцию.
     # Если запускаешь просто python test_file.py, сработает этот блок.
     pytest.main([__file__])

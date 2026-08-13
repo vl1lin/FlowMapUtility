@@ -1,4 +1,3 @@
-
 from typing import NamedTuple
 
 import numpy as np
@@ -16,6 +15,7 @@ class GridInfo(NamedTuple):
         resolution: Разрешение сетки.
         log_scale: Флаг использования логарифмической шкалы.
     """
+
     vsl_1d: np.ndarray
     vsg_1d: np.ndarray
     vsl_2d: np.ndarray

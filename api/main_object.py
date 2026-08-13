@@ -1,16 +1,22 @@
-from Data_Block_1.adapter_for_data import PipeParamsAdapter, FluidParamsAdapter, SystemParamsAdapter
-from Data_Block_1.data import PipeParams, FluidParams, SystemParams
+from collections.abc import Callable
+from functools import wraps
+from typing import TypeVar
+
+from Correlation.fabric import ModelFabric
+from Correlation.model_abs import IFlowModel
+from Data_Block_1.adapter_for_data import (
+    FluidParamsAdapter,
+    PipeParamsAdapter,
+    SystemParamsAdapter,
+)
+from Data_Block_1.data import FluidParams, PipeParams, SystemParams
 from Grid_Generation.grid_generator import GridGenerator
 from Grid_Generation.grid_info import GridInfo
-from Correlation.model_abs import IFlowModel
-from Correlation.fabric import ModelFabric
 from Run_Core.process_manager import ProcessManager
 from visualization.map import MapVisualizer
-from functools import wraps
-from collections.abc import Callable
-from typing import TypeVar, Any
 
 F = TypeVar("F", bound=Callable)
+
 
 def requires(*attr: str):
     def decorator(method: F) -> F:
@@ -24,9 +30,10 @@ def requires(*attr: str):
                     "Вызови соответствующие et_*/build_* методы перед этим."
                 )
             return method(self, *args, **kwargs)
-        return wrapper #type: ignore
-    return decorator
 
+        return wrapper  # type: ignore
+
+    return decorator
 
 
 class Builder:
@@ -54,17 +61,21 @@ class Builder:
         self.save_path: str | None = None
         self.vis_manadger: MapVisualizer | None = None
 
-    def set_pipe_params(self, diameter: float, roughness: float, angle: float) -> "Builder":
+    def set_pipe_params(
+        self, diameter: float, roughness: float, angle: float
+    ) -> "Builder":
         pipe_params = PipeParamsAdapter(diameter, roughness, angle)
         self.pipe_params = pipe_params.to_si()
         return self
 
-    def set_fluid_params(self,
+    def set_fluid_params(
+        self,
         density_liquid: float,
         density_gas: float,
         viscosity_liquid: float,
         viscosity_gas: float,
-        surface_tension: float) -> "Builder":
+        surface_tension: float,
+    ) -> "Builder":
         fluid_params = FluidParamsAdapter(
             density_liquid,
             density_gas,
@@ -80,7 +91,9 @@ class Builder:
         self.system_params = system_params.to_si()
         return self
 
-    def set_velocite_liquid(self, velocity_min: float, velocity_max: float) -> "Builder":
+    def set_velocite_liquid(
+        self, velocity_min: float, velocity_max: float
+    ) -> "Builder":
         self.velocite_liquid = (velocity_min, velocity_max)
         return self
 
@@ -115,8 +128,8 @@ class Builder:
     @requires("velocite_liquid", "velocite_gas")
     def build_grid_generator(self) -> "Builder":
         self.grid_generator = GridGenerator(
-            self.velocite_liquid, # type:ignore
-            self.velocite_gas, #type: ignore
+            self.velocite_liquid,  # type:ignore
+            self.velocite_gas,  # type: ignore
             self.resolution,
             self.scale_flag,
         )
@@ -124,7 +137,7 @@ class Builder:
 
     @requires("grid_generator")
     def build_grid_info(self) -> "Builder":
-        self.grid_info = self.grid_generator.generate() #type: ignore
+        self.grid_info = self.grid_generator.generate()  # type: ignore
         return self
 
     def build_model_fabric(self) -> "Builder":
@@ -133,29 +146,30 @@ class Builder:
 
     @requires("correlation_fabric", "model_name")
     def build_model(self) -> "Builder":
-        self.model = self.correlation_fabric.creat_model(self.model_name) #type: ignore
+        self.model = self.correlation_fabric.creat_model(self.model_name)  # type: ignore
         return self
 
     @requires("model", "grid_info")
     def build_core(self) -> "Builder":
-        self.run_core = ProcessManager(self.model, self.grid_info, self.n_count) #type: ignore
+        self.run_core = ProcessManager(self.model, self.grid_info, self.n_count)  # type: ignore
         return self
 
     @requires("grid_info")
     def build_visualization_manadger(self, code_matrix) -> "Builder":
-        self.vis_manadger = MapVisualizer(code_matrix , self.grid_info, self.show_plot, self.save_path) #type: ignore
+        self.vis_manadger = MapVisualizer(
+            code_matrix,
+            self.grid_info,  # type: ignore
+            self.show_plot,
+            self.save_path,  # type: ignore
+        )
         return self
 
     def build_all(self) -> "Builder":
-        self.build_grid_generator() \
-            .build_grid_info() \
-            .build_model_fabric() \
-            .build_model() \
-            .build_core()
-        code_matrix = self.run_core.run() # type: ignore
+        self.build_grid_generator().build_grid_info().build_model_fabric().build_model().build_core()
+        code_matrix = self.run_core.run()  # type: ignore
         print(code_matrix)
         final_obj = self.build_visualization_manadger(code_matrix)
         return final_obj
 
     def run(self) -> None:
-        self.vis_manadger.run() #type: ignore
+        self.vis_manadger.run()  # type: ignore

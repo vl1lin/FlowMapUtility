@@ -1,14 +1,14 @@
 from typing import TYPE_CHECKING
-from pathlib import Path
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from visualization.tuners import GraphTuner, ColorTuner
 from visualization.map_info import DEFAULT_COLORS, PATTERN_NAMES
+from visualization.tuners import ColorTuner, GraphTuner
 
 if TYPE_CHECKING:
     from Grid_Generation.grid_info import GridInfo
+
 
 class MapVisualizer:
     """
@@ -18,7 +18,9 @@ class MapVisualizer:
     :param show_plot: Показывать ли график (флаг)
     :param save_path: Путь для сохранения графика
     """
-    def __init__(self,
+
+    def __init__(
+        self,
         code_matrix: np.ndarray,
         grid: "GridInfo",
         show_plot: bool = True,
@@ -45,7 +47,6 @@ class MapVisualizer:
         self._save_map(self.save_path)
         self._show_map(self.show_plot)
 
-
     def _get_unique_patterns(self) -> np.ndarray:
         """
         Возвращает уникальные коды паттернов в отсортированном порядке
@@ -62,7 +63,9 @@ class MapVisualizer:
         :param sorted_unique_codes: Отсортированный массив NumPy уникальных кодов
         :return: Список цветов
         """
-        pattern_colors = [DEFAULT_COLORS.get(code, '#FFFFFF') for code in sorted_unique_codes]
+        pattern_colors = [
+            DEFAULT_COLORS.get(code, "#FFFFFF") for code in sorted_unique_codes
+        ]
         return pattern_colors
 
     @classmethod
@@ -72,7 +75,10 @@ class MapVisualizer:
         :param sorted_unique_codes: Отсортированный массив NumPy уникальных кодов
         :return: Список названий
         """
-        pattern_names = [PATTERN_NAMES.get(code, "Такой код не предусмотрен") for code in sorted_unique_codes]
+        pattern_names = [
+            PATTERN_NAMES.get(code, "Такой код не предусмотрен")
+            for code in sorted_unique_codes
+        ]
         return pattern_names
 
     @classmethod
@@ -85,7 +91,6 @@ class MapVisualizer:
         bounds = [c - 0.5 for c in sorted_codes] + [sorted_codes[-1] + 0.5]
         return bounds
 
-
     @classmethod
     def _save_map(cls, save_path: str | None) -> None:
         """
@@ -93,7 +98,7 @@ class MapVisualizer:
         :param save_path: Путь для сохранения
         """
         if save_path:
-            plt.savefig(save_path, dpi=300, bbox_inches='tight')
+            plt.savefig(save_path, dpi=300, bbox_inches="tight")
             print(f"Карта сохранена в {save_path}")
 
     @classmethod

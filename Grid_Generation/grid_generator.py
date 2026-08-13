@@ -1,12 +1,10 @@
-from Grid_Generation.grid_info import GridInfo
-
 import warnings
+from abc import ABC, abstractmethod
+from typing import cast
 
 import numpy as np
 
-from abc import ABC, abstractmethod
-
-from typing import cast
+from Grid_Generation.grid_info import GridInfo
 
 
 class GridGeneratorABS(ABC):
@@ -20,11 +18,13 @@ class GridGeneratorABS(ABC):
         log_scale: Флаг, указывающий на использование логарифмической шкалы.
     """
 
-    def __init__(self,
+    def __init__(
+        self,
         vsl_range: tuple[float, float],
         vsg_range: tuple[float, float],
         resolution: int = 100,
-        log_scale: bool = True):
+        log_scale: bool = True,
+    ):
         self.vsl_range: tuple[float, float] = vsl_range
         self.vsg_range: tuple[float, float] = vsg_range
         self.resolution: int = resolution
@@ -38,15 +38,16 @@ class GridGeneratorABS(ABC):
         """
         pass
 
-class GridGenerator(GridGeneratorABS):
 
-    def __init__(self,
+class GridGenerator(GridGeneratorABS):
+    def __init__(
+        self,
         vsl_range: tuple[float, float],
         vsg_range: tuple[float, float],
         resolution: int = 100,
-        log_scale: bool = True):
+        log_scale: bool = True,
+    ):
         super().__init__(vsl_range, vsg_range, resolution, log_scale)
-
 
     def generate(self) -> GridInfo:
         """
@@ -59,7 +60,9 @@ class GridGenerator(GridGeneratorABS):
         vsg_min, vsg_max = self.vsg_range
 
         if vsl_min <= 0 or vsg_min <= 0:
-            warnings.warn("log_scale requires positive values, switching to linear scale")
+            warnings.warn(
+                "log_scale requires positive values, switching to linear scale"
+            )
             self.log_scale = False
 
         vsl_1d = self._generate_1d_array(vsl_min, vsl_max)
@@ -79,10 +82,8 @@ class GridGenerator(GridGeneratorABS):
         :return: Одномерный массив значений.
         """
         if self.log_scale:
-
             vsl_1d = np.logspace(min_val, max_val, self.resolution)
         else:
-
             vsl_1d = np.linspace(min_val, max_val, self.resolution)
 
         return vsl_1d
@@ -125,7 +126,9 @@ class GridGenerator(GridGeneratorABS):
         if not isinstance(self.log_scale, bool):
             raise TypeError("log_scale must be a boolean")
 
-    def _validation_range(self, range_input: tuple[float, float]) -> tuple[float, float]:
+    def _validation_range(
+        self, range_input: tuple[float, float]
+    ) -> tuple[float, float]:
         """
         Валидирует диапазон значений скорости.
         :param range_input: Кортеж с минимальным и максимальным значением скорости
@@ -135,11 +138,15 @@ class GridGenerator(GridGeneratorABS):
         try:
             vs = tuple(float(i) for i in range_input)
         except (IndexError, ValueError, TypeError) as e:
-            e.add_note(f"Диапазон должен быть кортежем из двух чисел. Получено: {range_input}")
+            e.add_note(
+                f"Диапазон должен быть кортежем из двух чисел. Получено: {range_input}"
+            )
             raise e
 
         if vs[0] > vs[1]:
-            warnings.warn(f"Минимальное значение ({vs[0]}) должно быть строго меньше максимального ({vs[1]}) \n Меняем местами")
+            warnings.warn(
+                f"Минимальное значение ({vs[0]}) должно быть строго меньше максимального ({vs[1]}) \n Меняем местами"
+            )
             vs = (vs[1], vs[0])
 
         return cast(tuple[float, float], vs)

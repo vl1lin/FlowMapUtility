@@ -1,19 +1,21 @@
 from abc import ABC, abstractmethod
-
 from enum import IntEnum
 
-from Data_Block_1.data import PipeParams, FluidParams
+from Data_Block_1.data import FluidParams, PipeParams
+
 
 class FlowPatternCode(IntEnum):
     """Единый словарь режимов для всех корреляций"""
+
     SINGLE_LIQUID = 100
     SINGLE_GAS = 101
     BUBBLE = 102
     SLUG = 103
     DISPERSED_BUBBLE = 104
     ANNULAR = 105
-    STRATIFIED = 106 # Добавим для горизонтальных труб
+    STRATIFIED = 106  # Добавим для горизонтальных труб
     UNKNOWN = 199
+
 
 class IFlowModel(ABC):
     """
@@ -21,6 +23,7 @@ class IFlowModel(ABC):
     :param pipe: Объект PipeParams, в котором информация о трубе
     :param fluid: Объект FluidParams, в котором информация о свойствах флюидов в потоке
     """
+
     def __init__(self, pipe: PipeParams, fluid: FluidParams):
         self.pipe = pipe
         self.fluid = fluid

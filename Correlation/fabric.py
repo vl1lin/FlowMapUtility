@@ -1,8 +1,8 @@
 from typing import overload
 
-from Correlation.model_abs import IFlowModel
 from Correlation.ansari import AnsariModel
-from Data_Block_1.data import PipeParams, FluidParams
+from Correlation.model_abs import IFlowModel
+from Data_Block_1.data import FluidParams, PipeParams
 
 
 class ModelFabric:
@@ -15,15 +15,22 @@ class ModelFabric:
         self.MODELS: dict[str, type[IFlowModel]] = {
             "ansari": AnsariModel,
         }
+
     @overload
-    def creat_model(self, model_name_or_angel: str, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+    def creat_model(
+        self, model_name_or_angel: str, pipe: PipeParams, fluid: FluidParams
+    ) -> IFlowModel:
         pass
 
     @overload
-    def creat_model(self, model_name_or_angel: float, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+    def creat_model(
+        self, model_name_or_angel: float, pipe: PipeParams, fluid: FluidParams
+    ) -> IFlowModel:
         pass
 
-    def creat_model(self, model_name_or_angel: str | float, pipe: PipeParams, fluid: FluidParams) -> IFlowModel:
+    def creat_model(
+        self, model_name_or_angel: str | float, pipe: PipeParams, fluid: FluidParams
+    ) -> IFlowModel:
         """
         Создает модель расчета режима потока по имени или углу
         :param model_name_or_angel: Имя модели или угол в градусах
@@ -43,7 +50,9 @@ class ModelFabric:
                 angle_range = model.angle_limit()
                 if angle_range[0] <= model_name_or_angel <= angle_range[1]:
                     return model(pipe, fluid)
-            raise ValueError(f"Angle {model_name_or_angel} is out of range for any model")
+            raise ValueError(
+                f"Angle {model_name_or_angel} is out of range for any model"
+            )
         else:
             raise TypeError(f"Expected str or float, got {type(model_name_or_angel)}")
 
@@ -54,5 +63,5 @@ class ModelFabric:
         :param model_name: Имя модели
         :return: Приведённое к нижнему регистру имя модели
         """
-        model_name_lower = model_name.lower().replace('-', '_').replace(' ', '_')
+        model_name_lower = model_name.lower().replace("-", "_").replace(" ", "_")
         return model_name_lower

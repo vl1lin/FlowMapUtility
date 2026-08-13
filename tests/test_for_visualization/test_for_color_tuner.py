@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, Mock
+
 from visualization.tuners import ColorTuner
-import numpy as np
 
 
 def test_colot_tuner_colormap_settings(mock_mcolors):
@@ -17,6 +17,7 @@ def test_colot_tuner_colormap_settings(mock_mcolors):
     assert tuner.cmap == mock_cmap
     assert tuner.norm == mock_norm
 
+
 def test_color_tuner_create_contur():
     mock_ax = MagicMock()
     mock_grid = MagicMock()
@@ -25,11 +26,14 @@ def test_color_tuner_create_contur():
     tuner = ColorTuner(mock_ax, mock_grid, mock_codes)
     tuner.create_countur(sorted_unique_codes)
     mock_ax.contour.assert_called_once_with(
-        mock_grid.vsl_2d, mock_grid.vsg_2d, mock_codes,
+        mock_grid.vsl_2d,
+        mock_grid.vsg_2d,
+        mock_codes,
         levels=sorted_unique_codes,
-        colors='black',
-        linewidths=0.8
+        colors="black",
+        linewidths=0.8,
     )
+
 
 def test_color_tuner_drawning_color_grid(mock_color_tuner: ColorTuner, mock_mcolors):
     mock_cmap = MagicMock()
@@ -39,14 +43,18 @@ def test_color_tuner_drawning_color_grid(mock_color_tuner: ColorTuner, mock_mcol
     mock_pc = Mock()
     tuner = mock_color_tuner
     tuner._colormap_settings([], [])
-    tuner.ax.pcolormesh.return_value = mock_pc # type: ignore
+    tuner.ax.pcolormesh.return_value = mock_pc  # type: ignore
     pc = tuner.drawning_color_grid()
-    mock_color_tuner.ax.pcolormesh.assert_called_once_with( # type: ignore
-        mock_color_tuner.grid.vsl_2d, mock_color_tuner.grid.vsg_2d, mock_color_tuner.codes,
-        cmap=mock_color_tuner.cmap, norm=mock_color_tuner.norm,
-        shading='auto'
+    mock_color_tuner.ax.pcolormesh.assert_called_once_with(  # type: ignore
+        mock_color_tuner.grid.vsl_2d,
+        mock_color_tuner.grid.vsg_2d,
+        mock_color_tuner.codes,
+        cmap=mock_color_tuner.cmap,
+        norm=mock_color_tuner.norm,
+        shading="auto",
     )
     assert pc == mock_pc
+
 
 def test_color_tuner_calling(mock_color_tuner: ColorTuner, mock_mcolors):
     mock_cmap = MagicMock()
@@ -63,14 +71,19 @@ def test_color_tuner_calling(mock_color_tuner: ColorTuner, mock_mcolors):
     mock_mcolors.ListedColormap.assert_called_once_with(color)
     mock_mcolors.BoundaryNorm.assert_called_once_with(bounds, mock_cmap.N)
     tuner.ax.contour.assert_called_once_with(  # type: ignore
-        mock_color_tuner.grid.vsl_2d, mock_color_tuner.grid.vsg_2d, mock_color_tuner.codes,
+        mock_color_tuner.grid.vsl_2d,
+        mock_color_tuner.grid.vsg_2d,
+        mock_color_tuner.codes,
         levels=sorted_unique_codes,
-        colors='black',
-        linewidths=0.8
+        colors="black",
+        linewidths=0.8,
     )
-    mock_color_tuner.ax.pcolormesh.assert_called_once_with( # type: ignore
-        mock_color_tuner.grid.vsl_2d, mock_color_tuner.grid.vsg_2d, mock_color_tuner.codes,
-        cmap=mock_color_tuner.cmap, norm=mock_color_tuner.norm,
-        shading='auto'
+    mock_color_tuner.ax.pcolormesh.assert_called_once_with(  # type: ignore
+        mock_color_tuner.grid.vsl_2d,
+        mock_color_tuner.grid.vsg_2d,
+        mock_color_tuner.codes,
+        cmap=mock_color_tuner.cmap,
+        norm=mock_color_tuner.norm,
+        shading="auto",
     )
     assert pc == mock_pc
