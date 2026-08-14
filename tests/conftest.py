@@ -61,7 +61,7 @@ def fluid_adapter_not_valid():
 
 @pytest.fixture
 def fluid_adapter_all_SI():
-    fluid_adapter = FluidParamsAdapter(1000, 7, 0.1, 0.5, 40)
+    fluid_adapter = FluidParamsAdapter(1000, 7, 0.1, 0.5, 0.01)
     return fluid_adapter
 
 

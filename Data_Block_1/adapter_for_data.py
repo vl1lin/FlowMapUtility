@@ -66,7 +66,7 @@ class PipeParamsAdapter(AdapterProtocol[PipeParams]):
 
     def _angle_to_rad(self) -> float:
         """
-        Проверяет валидный тип данных для угла наклона трубы и возвращает его в градусах.
+        Проверяет валидный тип данных для угла наклона трубы и возвращает его в градусах
         """
         try:
             if self.angle > 1:
@@ -107,28 +107,57 @@ class FluidParamsAdapter(AdapterProtocol[FluidParams]):
         Переводит параметры потока в систему СИ.
         return: объект FluidParams
         """
-        self.check_valide()
         return FluidParams(
-            self.density_liquid,
-            self.density_gas,
-            self.viscosity_liquid,
-            self.viscosity_gas,
-            self.surface_tension,
+            density_liquid=self._density_to_si(self.density_liquid),
+            density_gas=self._density_to_si(self.density_gas),
+            viscosity_liquid=self._viscosity_to_si(self.viscosity_liquid),
+            viscosity_gas=self._viscosity_to_si(self.viscosity_gas),
+            surface_tension=self._surface_tension_to_si(self.surface_tension),
         )
 
-    def check_valide(self) -> None:
+    def _density_to_si(self, density: float) -> float:
         """
-        Проверяет, что все параметры являются числами.
+        Проверяет валидность плотности и конвертирует в систему СИ.
+        г/см³ -> кг/м³
+        :param density: плотность
         """
-        for param in (
-            self.density_liquid,
-            self.density_gas,
-            self.viscosity_liquid,
-            self.viscosity_gas,
-            self.surface_tension,
-        ):
-            if not isinstance(param, (int, float)):
-                raise TypeError(f"{param} must be a number, not {type(param)}")
+        try:
+            if density <= 1:
+                return density * 1000.0
+            else:
+                return density
+        except TypeError:
+            raise TypeError(f"density must be a number, not {type(density)}")
+
+    def _viscosity_to_si(self, viscosity: float) -> float:
+        """
+        Проверяет валидность вязкости и конвертирует в систему СИ.
+        :param viscosity: вязкость
+        сПз -> Па*с
+        """
+        try:
+            if viscosity >= 1:
+                return viscosity / 1000.0
+            else:
+                return viscosity
+        except TypeError:
+            raise TypeError(f"viscosity must be a number, not {type(viscosity)}")
+
+    def _surface_tension_to_si(self, surface_tension: float) -> float:
+        """
+        Конвертирует поверхностное натяжение в систему СИ.
+        :param surface_tension: поверхностное натажение на границе жидкость-газ
+        мН/м -> Н/м
+        """
+        try:
+            if surface_tension >= 1:
+                return surface_tension / 1000.0
+            else:
+                return surface_tension
+        except TypeError:
+            raise TypeError(
+                f"surface_tension must be a number, not {type(surface_tension)}"
+            )
 
 
 class SystemParamsAdapter(AdapterProtocol[SystemParams]):
