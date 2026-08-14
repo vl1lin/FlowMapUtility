@@ -63,7 +63,7 @@ class Builder:
         resolution (int): Разрешение сетки.
         scale_flag (bool): Флаг логорифмирования сетки. (Необязательный параметр.)
         grid_info (GridInfo | None): Информация о сетке.
-        model_name (str | None): Название модели.
+        model_name (str | None): Название модели. (Необязательный параметр.)
         model (IFlowModel | None): Модель.
         n_count (int): Количество процессов. (Необязательный параметр.)
         show_plot (bool): Флаг отображения графика. (Необязательный параметр.)
@@ -191,6 +191,8 @@ class Builder:
     def set_model(self, model: str) -> "Builder":
         """
         Устанавливает имя модели.
+        Атрибут model_name является НЕОБЯЗАТЕЛЬНЫМ.
+        ПО УМОЛЧАНИЮ равно None. Выбор модели будет происходить автоматически для угла.
         :param model: имя модели
         """
         self.model_name = model
@@ -259,19 +261,25 @@ class Builder:
         self.correlation_fabric = ModelFabric()
         return self
 
-    @requires("correlation_fabric", "model_name")
+    @requires("correlation_fabric")
     def build_model(self) -> "Builder":
         """
         Создает и устанавливает модель.
-        Перед вызовом этого метода нужно создать фабрику моделей и
-        установить название модели.
+        Перед вызовом этого метода нужно создать фабрику моделей
         :return: self
         """
-        self.model = self.correlation_fabric.creat_model(  # type: ignore
-            self.model_name,  # type: ignore
-            self.pipe_params,  # type: ignore
-            self.fluid_params,  # type: ignore
-        )
+        if not self.model_name:
+            self.model = self.correlation_fabric.creat_model(  # type: ignore
+                self.pipe_params.angle,  # type: ignore
+                self.pipe_params,  # type: ignore
+                self.fluid_params,  # type: ignore
+            )
+        else:
+            self.model = self.correlation_fabric.creat_model(  # type: ignore
+                self.model_name,  # type: ignore
+                self.pipe_params,  # type: ignore
+                self.fluid_params,  # type: ignore
+            )
         return self
 
     @requires("model", "grid_info")
