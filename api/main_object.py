@@ -35,7 +35,7 @@ def requires(*attr: str):
                 raise ValueError(
                     f"{method.__name__}: не заданы следующие атрибуты: "
                     f"{', '.join(missing)}\n"
-                    "Вызови соответствующие et_*/build_* методы перед этим."
+                    "Вызови соответствующие st_*/build_* методы перед этим."
                 )
             return method(self, *args, **kwargs)
 

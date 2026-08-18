@@ -82,7 +82,7 @@ class GridGenerator(GridGeneratorABS):
         :return: Одномерный массив значений.
         """
         if self.log_scale:
-            vsl_1d = np.logspace(min_val, max_val, self.resolution)
+            vsl_1d = np.logspace(np.log10(min_val), np.log10(max_val), self.resolution)
         else:
             vsl_1d = np.linspace(min_val, max_val, self.resolution)
 

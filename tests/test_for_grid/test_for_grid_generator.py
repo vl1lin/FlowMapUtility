@@ -19,8 +19,8 @@ def test_for_grid_generator_output_type() -> None:
 def test_for_grid_generator_log_scale(create_grid_generator: GridGenerator) -> None:
     info = create_grid_generator.generate()
     assert create_grid_generator.log_scale is True
-    assert np.all(info.vsl_1d == np.logspace(0.1, 0.5, 10))
-    assert np.all(info.vsg_1d == np.logspace(10.0, 15.0, 10))
+    assert np.all(info.vsl_1d == np.logspace(np.log10(0.1), np.log10(0.5), 10))
+    assert np.all(info.vsg_1d == np.logspace(np.log10(10.0), np.log10(15.0), 10))
     assert info.vsl_2d.shape == (10, 10)
     assert info.vsg_2d.shape == (10, 10)
 
