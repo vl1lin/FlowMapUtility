@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Iterator
 
 import numpy as np
 
-from Run_Core.worker_settings import init_worker, worker_function
+from flowmaputility.engine.worker import init_worker, worker_function
 
 if TYPE_CHECKING:
-    from Correlation.model_abs import IFlowModel
-    from Grid_Generation.grid_info import GridInfo
+    from flowmaputility.correlations.base import IFlowModel
+    from flowmaputility.grid.info import GridInfo
 
 
 class ProcessManager:

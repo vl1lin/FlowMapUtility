@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    from Correlation.model_abs import IFlowModel
+    from flowmaputility.correlations.base import IFlowModel
 
 _worker_model: "IFlowModel"
 

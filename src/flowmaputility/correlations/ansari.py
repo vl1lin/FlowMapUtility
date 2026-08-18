@@ -1,7 +1,7 @@
 import math
 
-from Correlation.model_abs import FlowPatternCode, IFlowModel
-from Data_Block_1.data import FluidParams, PipeParams
+from flowmaputility.correlations.base import FlowPatternCode, IFlowModel
+from flowmaputility.domain.params import FluidParams, PipeParams
 
 _MAXIT = 100  # Максимальное количество итераций
 

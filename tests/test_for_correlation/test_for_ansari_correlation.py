@@ -1,4 +1,4 @@
-from Correlation.model_abs import FlowPatternCode
+from flowmaputility.correlations.base import FlowPatternCode
 
 
 def test_ansari_correlation_name_angle_range(info_for_ansari_correlation):

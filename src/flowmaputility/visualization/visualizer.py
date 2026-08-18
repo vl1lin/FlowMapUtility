@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING
 import matplotlib.pyplot as plt
 import numpy as np
 
-from visualization.map_info import DEFAULT_COLORS, PATTERN_NAMES
-from visualization.tuners import ColorTuner, GraphTuner
+from flowmaputility.visualization.palette import DEFAULT_COLORS, PATTERN_NAMES
+from flowmaputility.visualization.tuners import ColorTuner, GraphTuner
 
 if TYPE_CHECKING:
-    from Grid_Generation.grid_info import GridInfo
+    from flowmaputility.grid.info import GridInfo
 
 
 class MapVisualizer:

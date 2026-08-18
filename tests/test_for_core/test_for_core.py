@@ -4,10 +4,10 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
-from Run_Core.worker_settings import init_worker, worker_function
+from flowmaputility.engine.worker import init_worker, worker_function
 
 if TYPE_CHECKING:
-    from Run_Core.process_manager import ProcessManager
+    from flowmaputility.engine.manager import ProcessManager
 
 
 def test_core_run(core_beginer: "ProcessManager") -> None:

@@ -2,13 +2,13 @@ from unittest.mock import Mock
 
 import pytest
 
-from api.main_object import Builder
-from Correlation.fabric import ModelFabric
-from Correlation.model_abs import IFlowModel
-from Data_Block_1.data import PipeParams
-from Grid_Generation.grid_generator import GridGenerator
-from Run_Core.process_manager import ProcessManager
-from visualization.map import MapVisualizer
+from flowmaputility.builder import Builder
+from flowmaputility.correlations.base import IFlowModel
+from flowmaputility.correlations.factory import ModelFactory
+from flowmaputility.domain.params import PipeParams
+from flowmaputility.engine.manager import ProcessManager
+from flowmaputility.grid.generator import GridGenerator
+from flowmaputility.visualization.visualizer import MapVisualizer
 
 
 def test_for_build_grid_info(builder: "Builder") -> None:
@@ -31,17 +31,17 @@ def test_for_build_grid_generator(builder: "Builder") -> None:
     assert isinstance(builder.grid_generator, GridGenerator)
 
 
-def test_for_build_model_fabric(builder: "Builder") -> None:
-    builder.correlation_fabric = None
-    builder = builder.build_model_fabric()
+def test_for_build_model_factory(builder: "Builder") -> None:
+    builder.correlation_factory = None
+    builder = builder.build_model_factory()
     assert isinstance(builder, Builder)
-    assert isinstance(builder.correlation_fabric, ModelFabric)
+    assert isinstance(builder.correlation_factory, ModelFactory)
 
 
 def test_for_build_model(builder: "Builder") -> None:
     builder = builder.build_model()
     assert isinstance(builder, Builder)
-    builder.correlation_fabric.creat_model.assert_called_once_with(  # type: ignore
+    builder.correlation_factory.creat_model.assert_called_once_with(  # type: ignore
         builder.model_name,
         builder.pipe_params,
         builder.fluid_params,
@@ -52,7 +52,7 @@ def test_for_build_model_with_angle(builder: "Builder") -> None:
     builder.model_name = None
     builder = builder.build_model()
     assert isinstance(builder, Builder)
-    builder.correlation_fabric.creat_model.assert_called_once_with(  # type: ignore
+    builder.correlation_factory.creat_model.assert_called_once_with(  # type: ignore
         builder.pipe_params.angle,  # type: ignore
         builder.pipe_params,  # type: ignore
         builder.fluid_params,  # type: ignore
@@ -62,7 +62,7 @@ def test_for_build_model_with_angle(builder: "Builder") -> None:
 def test_for_integration_build_model_with_angle(builder: "Builder") -> None:
     builder.model_name = None
     builder.pipe_params = PipeParams(diameter=1.0, roughness=0.01, angle=90.0)
-    builder.correlation_fabric = ModelFabric()
+    builder.correlation_factory = ModelFactory()
     builder = builder.build_model()
     assert isinstance(builder, Builder)
     assert isinstance(builder.model, IFlowModel)
@@ -90,7 +90,7 @@ def test_for_build_all(builder: "Builder", monkeypatch: pytest.MonkeyPatch) -> N
         builder, "build_visualization_manadger", Mock(return_value=builder)
     )
     monkeypatch.setattr(builder, "build_model", Mock(return_value=builder))
-    monkeypatch.setattr(builder, "build_model_fabric", Mock(return_value=builder))
+    monkeypatch.setattr(builder, "build_model_factory", Mock(return_value=builder))
     monkeypatch.setattr(builder, "build_grid_info", Mock(return_value=builder))
     monkeypatch.setattr(builder, "build_grid_generator", Mock(return_value=builder))
     builder = builder.build_all()
@@ -98,6 +98,6 @@ def test_for_build_all(builder: "Builder", monkeypatch: pytest.MonkeyPatch) -> N
     builder.build_core.assert_called_once()  # type: ignore
     builder.build_visualization_manadger.assert_called_once()  # type: ignore
     builder.build_model.assert_called_once()  # type: ignore
-    builder.build_model_fabric.assert_called_once()  # type: ignore
+    builder.build_model_factory.assert_called_once()  # type: ignore
     builder.build_grid_info.assert_called_once()  # type: ignore
     builder.build_grid_generator.assert_called_once()  # type: ignore

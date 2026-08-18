@@ -1,6 +1,6 @@
 import pytest
 
-from Grid_Generation.grid_generator import GridGenerator
+from flowmaputility.grid.generator import GridGenerator
 
 
 def test_generator_not_valid_ranges():

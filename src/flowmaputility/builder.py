@@ -6,18 +6,18 @@ from collections.abc import Callable
 from functools import wraps
 from typing import TypeVar
 
-from Correlation.fabric import ModelFabric
-from Correlation.model_abs import IFlowModel
-from Data_Block_1.adapter_for_data import (
+from flowmaputility.correlations.base import IFlowModel
+from flowmaputility.correlations.factory import ModelFactory
+from flowmaputility.domain.adapters import (
     FluidParamsAdapter,
     PipeParamsAdapter,
     SystemParamsAdapter,
 )
-from Data_Block_1.data import FluidParams, PipeParams, SystemParams
-from Grid_Generation.grid_generator import GridGenerator
-from Grid_Generation.grid_info import GridInfo
-from Run_Core.process_manager import ProcessManager
-from visualization.map import MapVisualizer
+from flowmaputility.domain.params import FluidParams, PipeParams, SystemParams
+from flowmaputility.engine.manager import ProcessManager
+from flowmaputility.grid.generator import GridGenerator
+from flowmaputility.grid.info import GridInfo
+from flowmaputility.visualization.visualizer import MapVisualizer
 
 F = TypeVar("F", bound=Callable)
 
@@ -35,7 +35,7 @@ def requires(*attr: str):
                 raise ValueError(
                     f"{method.__name__}: не заданы следующие атрибуты: "
                     f"{', '.join(missing)}\n"
-                    "Вызови соответствующие st_*/build_* методы перед этим."
+                    "Вызови соответствующие set_*/build_* методы перед этим."
                 )
             return method(self, *args, **kwargs)
 
@@ -86,7 +86,7 @@ class Builder:
         self.grid_generator: GridGenerator | None = None
         # Блок 3
         self.model_name: str | None = None
-        self.correlation_fabric: ModelFabric | None = None
+        self.correlation_factory: ModelFactory | None = None
         self.model: IFlowModel | None = None
         # Блок 4
         self.n_count: int | None = None
@@ -253,15 +253,15 @@ class Builder:
         self.grid_info = self.grid_generator.generate()  # type: ignore
         return self
 
-    def build_model_fabric(self) -> "Builder":
+    def build_model_factory(self) -> "Builder":
         """
         Создает и устанавливает объект фабрики моделей.
         :return: self
         """
-        self.correlation_fabric = ModelFabric()
+        self.correlation_factory = ModelFactory()
         return self
 
-    @requires("correlation_fabric")
+    @requires("correlation_factory")
     def build_model(self) -> "Builder":
         """
         Создает и устанавливает модель.
@@ -269,13 +269,13 @@ class Builder:
         :return: self
         """
         if not self.model_name:
-            self.model = self.correlation_fabric.creat_model(  # type: ignore
+            self.model = self.correlation_factory.creat_model(  # type: ignore
                 self.pipe_params.angle,  # type: ignore
                 self.pipe_params,  # type: ignore
                 self.fluid_params,  # type: ignore
             )
         else:
-            self.model = self.correlation_fabric.creat_model(  # type: ignore
+            self.model = self.correlation_factory.creat_model(  # type: ignore
                 self.model_name,  # type: ignore
                 self.pipe_params,  # type: ignore
                 self.fluid_params,  # type: ignore
@@ -315,7 +315,7 @@ class Builder:
             сетка, модель, ядро, менеджер визуализации.
         :return: self
         """
-        self.build_grid_generator().build_grid_info().build_model_fabric().build_model().build_core()
+        self.build_grid_generator().build_grid_info().build_model_factory().build_model().build_core()
         code_matrix = self.run_core.run()  # type: ignore
         print(code_matrix)
         final_obj = self.build_visualization_manadger(code_matrix)

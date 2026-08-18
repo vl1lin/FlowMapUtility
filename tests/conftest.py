@@ -4,17 +4,17 @@ from unittest.mock import MagicMock, Mock, patch
 import numpy as np
 import pytest
 
-from api.main_object import Builder
-from Correlation.ansari import AnsariModel
-from Data_Block_1.adapter_for_data import (
+from flowmaputility.builder import Builder
+from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.domain.adapters import (
     FluidParamsAdapter,
     PipeParamsAdapter,
     SystemParamsAdapter,
 )
-from Grid_Generation.grid_generator import GridGenerator
-from Grid_Generation.grid_info import GridInfo
-from Run_Core.process_manager import ProcessManager
-from visualization.tuners import ColorTuner, GraphTuner
+from flowmaputility.engine.manager import ProcessManager
+from flowmaputility.grid.generator import GridGenerator
+from flowmaputility.grid.info import GridInfo
+from flowmaputility.visualization.tuners import ColorTuner, GraphTuner
 
 
 @pytest.fixture
@@ -135,13 +135,13 @@ def core_beginer(info_for_ansari_correlation):
 
 @pytest.fixture
 def mock_plt():
-    with patch("visualization.tuners.plt") as mock:
+    with patch("flowmaputility.visualization.tuners.plt") as mock:
         yield mock
 
 
 @pytest.fixture
 def mock_mcolors():
-    with patch("visualization.tuners.mcolors") as mock:
+    with patch("flowmaputility.visualization.tuners.mcolors") as mock:
         yield mock
 
 
@@ -174,7 +174,7 @@ def builder() -> Builder:
     builder.scale_flag = Mock()
     builder.grid_generator = MagicMock()
 
-    builder.correlation_fabric = MagicMock()
+    builder.correlation_factory = MagicMock()
     builder.model = MagicMock()
     builder.model_name = Mock()
 

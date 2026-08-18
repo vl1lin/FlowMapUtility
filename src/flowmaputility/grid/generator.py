@@ -4,7 +4,7 @@ from typing import cast
 
 import numpy as np
 
-from Grid_Generation.grid_info import GridInfo
+from flowmaputility.grid.info import GridInfo
 
 
 class GridGeneratorABS(ABC):

@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from Grid_Generation.grid_generator import GridGenerator
-from Grid_Generation.grid_info import GridInfo
+from flowmaputility.grid.generator import GridGenerator
+from flowmaputility.grid.info import GridInfo
 
 
 def test_for_grid_generator_output_type() -> None:

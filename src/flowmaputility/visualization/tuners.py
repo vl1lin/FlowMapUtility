@@ -6,8 +6,8 @@ from matplotlib.collections import QuadMesh
 from matplotlib.figure import Figure
 from matplotlib.patches import Patch
 
-from Grid_Generation.grid_info import GridInfo
-from visualization.map_info import DEFAULT_COLORS, PATTERN_NAMES
+from flowmaputility.grid.info import GridInfo
+from flowmaputility.visualization.palette import DEFAULT_COLORS, PATTERN_NAMES
 
 
 class ColorTuner:
