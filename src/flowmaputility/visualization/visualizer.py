@@ -39,11 +39,10 @@ class MapVisualizer:
         """
         unique_codes = self._get_unique_patterns()
         pattern_colors = self._get_colors(unique_codes)
-        pattern_names = self._get_pattern_names(unique_codes)
         fig, ax = self.graph_tuner("", unique_codes, self.grid.log_scale)
         self.color_tuner = ColorTuner(ax, self.grid, self.codes)
         color_bounds = self._create_color_bounds(unique_codes)
-        map = self.color_tuner(pattern_colors, color_bounds, unique_codes)
+        self.color_tuner(pattern_colors, color_bounds, unique_codes)
         self._save_map(self.save_path)
         self._show_map(self.show_plot)
 
