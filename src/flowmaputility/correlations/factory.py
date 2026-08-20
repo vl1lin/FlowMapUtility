@@ -1,11 +1,11 @@
 from typing import overload
 
-from Correlation.ansari import AnsariModel
-from Correlation.model_abs import IFlowModel
-from Data_Block_1.data import FluidParams, PipeParams
+from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.correlations.base import IFlowModel
+from flowmaputility.domain.params import FluidParams, PipeParams
 
 
-class ModelFabric:
+class ModelFactory:
     """
     Фабрика для создания моделей расчета режима потока
     Основной элемент: словарь MODELS (название модели -> класс модели)

@@ -7,11 +7,11 @@ name = "FlowMapUtilite"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "numpy>=2.5.1",
+    "numpy>=2.0",
     "matplotlib>=3.11.1",
 ]
 [tool.setuptools.packages.find]
-include = ["Data_Block_1*", "Correlation*", "Grid_Generation*", "Run_Core*", "visualization*", "api*"]
+where = ["src"]
 
 [project.optional-dependencies]
 dev = [
@@ -21,3 +21,6 @@ dev = [
 
 [tool.ruff.lint]
 select = ["I", "E", "F"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

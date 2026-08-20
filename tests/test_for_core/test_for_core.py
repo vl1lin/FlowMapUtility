@@ -1,18 +1,19 @@
 from typing import TYPE_CHECKING
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import numpy as np
 import pytest
 
-from Run_Core.worker_settings import init_worker, worker_function
+from flowmaputility.engine.worker import init_worker, worker_function
 
 if TYPE_CHECKING:
-    from Run_Core.process_manager import ProcessManager
+    from flowmaputility.engine.manager import ProcessManager
 
 
 def test_core_run(core_beginer: "ProcessManager") -> None:
     manager: "ProcessManager" = core_beginer
-    assert manager._count_workers() == 7
+    with patch("flowmaputility.engine.manager.mp.cpu_count", return_value=8):
+        assert manager._count_workers() == 7
     tasks = [
         (0, [0.1, 0.2, 0.3], [3.0 for _ in range(3)]),
         (1, [0.1, 0.2, 0.3], [2.0 for _ in range(3)]),

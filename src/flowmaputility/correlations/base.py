@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import IntEnum
 
-from Data_Block_1.data import FluidParams, PipeParams
+from flowmaputility.domain.params import FluidParams, PipeParams
 
 
 class FlowPatternCode(IntEnum):

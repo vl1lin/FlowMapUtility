@@ -2,8 +2,8 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 
-from visualization.map import MapVisualizer
-from visualization.map_info import DEFAULT_COLORS, PATTERN_NAMES
+from flowmaputility.visualization.palette import DEFAULT_COLORS, PATTERN_NAMES
+from flowmaputility.visualization.visualizer import MapVisualizer
 
 
 def test_for_unuique_patterns():
@@ -43,26 +43,26 @@ def test_for_color_bounds():
     assert color_bounds == [100.5, 102.5, 104.5, 105.5]
 
 
-@patch("visualization.map.plt")
+@patch("flowmaputility.visualization.visualizer.plt")
 def test_for_saveing_map(mock_plt):
     MapVisualizer._save_map("some_path")
     mock_plt.savefig.assert_called_once_with("some_path", dpi=300, bbox_inches="tight")
 
 
-@patch("visualization.map.plt")
+@patch("flowmaputility.visualization.visualizer.plt")
 def test_for_not_saving_map(mock_plt):
     MapVisualizer._save_map(None)
     mock_plt.savefig.assert_not_called()
 
 
-@patch("visualization.map.plt")
+@patch("flowmaputility.visualization.visualizer.plt")
 def test_for_showing_map(mock_plt):
     MapVisualizer._show_map(True)
     mock_plt.show.assert_called_once()
     mock_plt.close.assert_not_called()
 
 
-@patch("visualization.map.plt")
+@patch("flowmaputility.visualization.visualizer.plt")
 def test_for_hiding_map(mock_plt):
     MapVisualizer._show_map(False)
     mock_plt.show.assert_not_called()

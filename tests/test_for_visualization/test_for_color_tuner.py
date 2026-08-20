@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, Mock
 
-from visualization.tuners import ColorTuner
+from flowmaputility.visualization.tuners import ColorTuner
 
 
 def test_colot_tuner_colormap_settings(mock_mcolors):

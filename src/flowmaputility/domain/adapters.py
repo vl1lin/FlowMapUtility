@@ -1,7 +1,7 @@
 import math
 from typing import Protocol
 
-from Data_Block_1.data import FluidParams, PipeParams, SystemParams
+from flowmaputility.domain.params import FluidParams, PipeParams, SystemParams
 
 MEGAPASCAL_TO_PASCAL = 1e6
 CELSIUS_TO_KELVIN = 273.15

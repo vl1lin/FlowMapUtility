@@ -1,4 +1,4 @@
-from api.main_object import Builder
+from flowmaputility.builder import Builder
 
 
 def main() -> None:

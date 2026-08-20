@@ -1,6 +1,6 @@
 import pytest
 
-from Data_Block_1.adapter_for_data import FluidParamsAdapter
+from flowmaputility.domain.adapters import FluidParamsAdapter
 
 
 def test_for_fluid_adapter_not_valid(fluid_adapter_not_valid):

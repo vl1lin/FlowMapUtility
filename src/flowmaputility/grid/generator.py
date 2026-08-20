@@ -4,7 +4,7 @@ from typing import cast
 
 import numpy as np
 
-from Grid_Generation.grid_info import GridInfo
+from flowmaputility.grid.info import GridInfo
 
 
 class GridGeneratorABS(ABC):
@@ -75,7 +75,8 @@ class GridGenerator(GridGeneratorABS):
 
     def _generate_1d_array(self, min_val: float, max_val: float) -> np.ndarray:
         """
-        Генерирует одномерный массив значений от min_val до max_val с заданным разрешением.
+        Генерирует одномерный массив значений от min_val до max_val
+        с заданным разрешением.
 
         :param min_val: Минимальное значение.
         :param max_val: Максимальное значение.
@@ -145,7 +146,8 @@ class GridGenerator(GridGeneratorABS):
 
         if vs[0] > vs[1]:
             warnings.warn(
-                f"Минимальное значение ({vs[0]}) должно быть строго меньше максимального ({vs[1]}) \n Меняем местами"
+                f"Минимальное значение ({vs[0]}) должно быть строго меньше "
+                f"максимального ({vs[1]}) \n Меняем местами"
             )
             vs = (vs[1], vs[0])
 

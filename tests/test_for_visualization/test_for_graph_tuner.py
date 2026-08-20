@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib.colors import to_rgba
 from matplotlib.patches import Patch
 
-from visualization.map_info import DEFAULT_COLORS, PATTERN_NAMES
+from flowmaputility.visualization.palette import DEFAULT_COLORS, PATTERN_NAMES
 
 
 def test_for_graph_tuner_fig_settings(mock_plt, mock_graph_tuner):
