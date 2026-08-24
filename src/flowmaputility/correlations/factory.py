@@ -2,6 +2,7 @@ from typing import overload
 
 from flowmaputility.correlations.ansari import AnsariModel
 from flowmaputility.correlations.base import IFlowModel
+from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.domain.params import FluidParams, PipeParams
 
 
@@ -14,6 +15,7 @@ class ModelFactory:
     def __init__(self):
         self.MODELS: dict[str, type[IFlowModel]] = {
             "ansari": AnsariModel,
+            "beggs_brill": BeggsBrillModel,
         }
 
     @overload

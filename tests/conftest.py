@@ -6,6 +6,7 @@ import pytest
 
 from flowmaputility.builder import Builder
 from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.domain.adapters import (
     FluidParamsAdapter,
     PipeParamsAdapter,
@@ -74,9 +75,26 @@ def info_for_ansari_correlation():
 
 
 @pytest.fixture
+def bb_model() -> BeggsBrillModel:
+    # Диаметр трубы — 0.1 м, угол и параметры флюида этой моделью сейчас
+    # не используются (см. get_pattern_code), но объекты обязательны по
+    # контракту IFlowModel.__init__.
+    pipe = PipeParamsAdapter(0.1, 0.00005, 30.0).to_si()
+    fluid = FluidParamsAdapter(800, 50, 0.001, 0.00001, 0.01).to_si()
+    return BeggsBrillModel(pipe, fluid)
+
+
+@pytest.fixture
 def creating_Pipe():
     pipe = Mock(angle=80.0)
     return pipe
+
+
+@pytest.fixture
+def creating_Pipe_Beggs_Brill():
+    # Угол внутри диапазона Beggs-Brill (-90..75), но вне диапазона Ansari —
+    # чтобы model.validate_angle() внутри creat_model() не падала.
+    return Mock(angle=30.0)
 
 
 @pytest.fixture
