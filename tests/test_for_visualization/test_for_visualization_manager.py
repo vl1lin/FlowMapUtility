@@ -8,7 +8,7 @@ from flowmaputility.visualization.visualizer import MapVisualizer
 
 def test_for_unuique_patterns():
     code_matrix = np.array([[105, 103, 101], [103, 101, 105], [101, 105, 103]])
-    manager = MapVisualizer(code_matrix, Mock())
+    manager = MapVisualizer(code_matrix, Mock(), Mock())
     unique_codes = manager._get_unique_patterns()
     assert unique_codes.shape == (3,)
     assert unique_codes[0] == 101

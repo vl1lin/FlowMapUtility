@@ -304,6 +304,7 @@ class Builder:
         self.vis_manadger = MapVisualizer(
             code_matrix,
             self.grid_info,  # type: ignore
+            self.model.name(),  # type: ignore
             self.show_plot,
             self.save_path,  # type: ignore
         )

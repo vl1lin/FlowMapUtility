@@ -9,7 +9,6 @@ def main() -> None:
         .set_velocite_gas(0.1, 30)
         .set_velocite_liquid(0.1, 0.3)
         .set_resolution(100)
-        .set_model("ansari")
     )
 
     obj.build_all().run()

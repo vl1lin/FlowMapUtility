@@ -23,6 +23,7 @@ class MapVisualizer:
         self,
         code_matrix: np.ndarray,
         grid: "GridInfo",
+        model_name: str,
         show_plot: bool = True,
         save_path: str | None = None,
     ):
@@ -30,6 +31,7 @@ class MapVisualizer:
         self.grid = grid
         self.show_plot = show_plot
         self.save_path = save_path
+        self.model_name = model_name
         self.graph_tuner = GraphTuner()
         self.color_tuner: ColorTuner
 
@@ -39,7 +41,7 @@ class MapVisualizer:
         """
         unique_codes = self._get_unique_patterns()
         pattern_colors = self._get_colors(unique_codes)
-        fig, ax = self.graph_tuner("", unique_codes, self.grid.log_scale)
+        fig, ax = self.graph_tuner(self.model_name, unique_codes, self.grid.log_scale)
         self.color_tuner = ColorTuner(ax, self.grid, self.codes)
         color_bounds = self._create_color_bounds(unique_codes)
         self.color_tuner(pattern_colors, color_bounds, unique_codes)
