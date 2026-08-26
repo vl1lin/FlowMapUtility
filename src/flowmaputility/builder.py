@@ -8,12 +8,12 @@ from typing import TypeVar
 
 from flowmaputility.correlations.base import IFlowModel
 from flowmaputility.correlations.factory import ModelFactory
-from flowmaputility.domain.adapters import (
-    FluidParamsAdapter,
-    PipeParamsAdapter,
-    SystemParamsAdapter,
-)
 from flowmaputility.domain.params import FluidParams, PipeParams, SystemParams
+from flowmaputility.domain.validators import (
+    FluidParamsValidator,
+    PipeParamsValidator,
+    SystemParamsValidator,
+)
 from flowmaputility.engine.manager import ProcessManager
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
@@ -106,8 +106,8 @@ class Builder:
         :param roughness: шероховатость трубы: м, мм
         :param angle: угол наклона трубы: градусы, радианы
         """
-        pipe_params = PipeParamsAdapter(diameter, roughness, angle)
-        self.pipe_params = pipe_params.to_si()
+        pipe_params = PipeParamsValidator(diameter, roughness, angle)
+        self.pipe_params = pipe_params.validate()
         return self
 
     def set_fluid_params(
@@ -127,14 +127,14 @@ class Builder:
         :param viscosity_gas: вязкость газа: Па·с, Н·с/м²
         :param surface_tension: поверхностная плотность: Н/м, мПа
         """
-        fluid_params = FluidParamsAdapter(
+        fluid_params = FluidParamsValidator(
             density_liquid,
             density_gas,
             viscosity_liquid,
             viscosity_gas,
             surface_tension,
         )
-        self.fluid_params = fluid_params.to_si()
+        self.fluid_params = fluid_params.validate()
         return self
 
     def set_system_params(self, pressure: float, temperature: float) -> "Builder":
@@ -144,8 +144,8 @@ class Builder:
         :param pressure: давление: Па, атм
         :param temperature: температура: К, °C
         """
-        system_params = SystemParamsAdapter(pressure, temperature)
-        self.system_params = system_params.to_si()
+        system_params = SystemParamsValidator(pressure, temperature)
+        self.system_params = system_params.validate()
         return self
 
     def set_velocite_liquid(

@@ -1,4 +1,3 @@
-import math
 from unittest.mock import MagicMock, Mock, patch
 
 import numpy as np
@@ -7,10 +6,9 @@ import pytest
 from flowmaputility.builder import Builder
 from flowmaputility.correlations.ansari import AnsariModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
-from flowmaputility.domain.adapters import (
-    FluidParamsAdapter,
-    PipeParamsAdapter,
-    SystemParamsAdapter,
+from flowmaputility.domain.validators import (
+    FluidParamsValidator,
+    PipeParamsValidator,
 )
 from flowmaputility.engine.manager import ProcessManager
 from flowmaputility.grid.generator import GridGenerator
@@ -19,57 +17,9 @@ from flowmaputility.visualization.tuners import ColorTuner, GraphTuner
 
 
 @pytest.fixture
-def pipe_adapter_not_valid():
-    pipe_adapter = PipeParamsAdapter("wrong", "wrong", "wrong")  # type: ignore
-    return pipe_adapter
-
-
-@pytest.fixture
-def pipe_adapter_all_not_SI():
-    pipe_adapter = PipeParamsAdapter(1000, 0.1, 45 * math.pi / 180)
-    return pipe_adapter
-
-
-@pytest.fixture
-def pipe_adapter_all_SI():
-    pipe_adapter = PipeParamsAdapter(0.1, 0.1, 45)
-    return pipe_adapter
-
-
-@pytest.fixture
-def system_adapter_not_valid():
-    system_adapter = SystemParamsAdapter("", "")  # type: ignore
-    return system_adapter
-
-
-@pytest.fixture
-def system_adapter_all_not_SI():
-    system_adapter = SystemParamsAdapter(1, 70)
-    return system_adapter
-
-
-@pytest.fixture
-def system_adapter_all_SI():
-    system_adapter = SystemParamsAdapter(1 * 1e6, 274)
-    return system_adapter
-
-
-@pytest.fixture
-def fluid_adapter_not_valid():
-    fluid_adapter = FluidParamsAdapter("", "", "", "", "")  # type: ignore
-    return fluid_adapter
-
-
-@pytest.fixture
-def fluid_adapter_all_SI():
-    fluid_adapter = FluidParamsAdapter(1000, 7, 0.1, 0.5, 0.01)
-    return fluid_adapter
-
-
-@pytest.fixture
 def info_for_ansari_correlation():
-    pipe = PipeParamsAdapter(0.062, 0.00005, 90).to_si()
-    fluid = FluidParamsAdapter(800, 50, 0.001, 0.00001, 0.01).to_si()
+    pipe = PipeParamsValidator(0.062, 0.00005, 90).validate()
+    fluid = FluidParamsValidator(800, 50, 0.001, 0.00001, 0.01).validate()
     ansari_model = AnsariModel(pipe, fluid)
     return ansari_model
 
@@ -79,8 +29,8 @@ def bb_model() -> BeggsBrillModel:
     # Диаметр трубы — 0.1 м, угол и параметры флюида этой моделью сейчас
     # не используются (см. get_pattern_code), но объекты обязательны по
     # контракту IFlowModel.__init__.
-    pipe = PipeParamsAdapter(0.1, 0.00005, 30.0).to_si()
-    fluid = FluidParamsAdapter(800, 50, 0.001, 0.00001, 0.01).to_si()
+    pipe = PipeParamsValidator(0.1, 0.00005, 30.0).validate()
+    fluid = FluidParamsValidator(800, 50, 0.001, 0.00001, 0.01).validate()
     return BeggsBrillModel(pipe, fluid)
 
 
