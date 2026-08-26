@@ -1,7 +1,9 @@
 from flowmaputility.builder import Builder
+from flowmaputility.logging_config import configure_default_logging
 
 
 def main() -> None:
+    configure_default_logging()
     obj = (
         Builder()
         .set_pipe_params(pipe_diameter_m, roughness_m, angle_deg)

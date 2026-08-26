@@ -1,5 +1,6 @@
+import logging
+
 import numpy as np
-import pytest
 
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
@@ -42,11 +43,11 @@ def test_for_grid_generator_lin_scale(create_lin_grid_generator: GridGenerator) 
 
 
 def test_for_grid_generator_emergency_lin_scale(
-    create_emergency_grid_generator: GridGenerator,
+    create_emergency_grid_generator: GridGenerator, caplog
 ) -> None:
-    info = create_emergency_grid_generator.generate()
-    with pytest.warns(UserWarning):
+    with caplog.at_level(logging.WARNING):
         info = create_emergency_grid_generator.generate()
+    assert "switching to linear scale" in caplog.text
     assert create_emergency_grid_generator.log_scale is False
     assert np.all(info.vsl_1d == np.linspace(-0.1, 0.5, 10))
     assert np.all(info.vsg_1d == np.linspace(-1.0, 5.0, 10))
