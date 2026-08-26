@@ -1,10 +1,13 @@
-import warnings
+import logging
 from abc import ABC, abstractmethod
 from typing import cast
 
 import numpy as np
 
 from flowmaputility.grid.info import GridInfo
+from flowmaputility.logging_config import LOGGER_NAME
+
+_logger = logging.getLogger(LOGGER_NAME)
 
 
 class GridGeneratorABS(ABC):
@@ -60,7 +63,7 @@ class GridGenerator(GridGeneratorABS):
         vsg_min, vsg_max = self.vsg_range
 
         if vsl_min <= 0 or vsg_min <= 0:
-            warnings.warn(
+            _logger.warning(
                 "log_scale requires positive values, switching to linear scale"
             )
             self.log_scale = False
@@ -145,9 +148,11 @@ class GridGenerator(GridGeneratorABS):
             raise e
 
         if vs[0] > vs[1]:
-            warnings.warn(
-                f"Минимальное значение ({vs[0]}) должно быть строго меньше "
-                f"максимального ({vs[1]}) \n Меняем местами"
+            _logger.warning(
+                "Минимальное значение (%s) должно быть строго меньше "
+                "максимального (%s) \n Меняем местами",
+                vs[0],
+                vs[1],
             )
             vs = (vs[1], vs[0])
 
