@@ -3,15 +3,16 @@ from typing import Generic, TypeVar
 
 from flowmaputility.domain.params import FluidParams, PipeParams, SystemParams
 
-MEGAPASCAL_TO_PASCAL = 1e6
-CELSIUS_TO_KELVIN = 273.15
-MM_TO_METRES = 1000.0
-GSM3_TO_KGM3 = 1e3
-
 T = TypeVar("T")
 
 
 class BaseValidator(ABC, Generic[T]):
+    """
+    Базовый класс валидаторов
+    Внутренний метод _validate: проверяет каждый атрибут,
+    выбрасывает ошибку если хотя бы один из элемментов не является числом.
+    """
+
     def __init__(self):
         self._validate()
 
@@ -27,11 +28,11 @@ class BaseValidator(ABC, Generic[T]):
 
 class PipeParamsValidator(BaseValidator[PipeParams]):
     """
-    Адаптер для PipeParams.
-    Принимает извне данные, конвертирует в СИ и возвращает объект PipeParams.
-    :param diameter: диаметр сечения трубы: мм или м
-    :param roughness: шероховатость трубы: мм или м
-    :param angle: угол наклона трубы: градусы или радианы
+    Валидатор для PipeParams.
+    Принимает извне данные, валидирует и возвращает объект PipeParams.
+    :param diameter: диаметр сечения трубы: м
+    :param roughness: шероховатость трубы: м
+    :param angle: угол наклона трубы: градусы
     """
 
     def __init__(self, diameter: float, roughness: float, angle: float):
@@ -50,8 +51,8 @@ class PipeParamsValidator(BaseValidator[PipeParams]):
 
 class FluidParamsValidator(BaseValidator[FluidParams]):
     """
-    Адаптер для FluidParams.
-    Принимает извне данные, конвертирует в СИ и возвращает объект FluidParams.
+    Валидатор для FluidParams.
+    Принимает извне данные, валидирует и возвращает объект FluidParams.
     :param density_liquid: плотность жидкости: кг/м³
     :param density_gas: плотность газа: кг/м³
     :param viscosity_liquid: вязкость жидкости: Па·с
@@ -86,10 +87,10 @@ class FluidParamsValidator(BaseValidator[FluidParams]):
 
 class SystemParamsValidator(BaseValidator[SystemParams]):
     """
-    Адаптер для SystemParams.
-    Принимает извне данные, конвертирует в СИ и возвращает объект SystemParams.
-    :param pressure: давление: Па или МПа
-    :param temperature: температура: К или градусы
+    Валидатор для SystemParams.
+    Принимает извне данные, валидирует и возвращает объект SystemParams.
+    :param pressure: давление: Па
+    :param temperature: температура: К
     """
 
     def __init__(self, pressure: float, temperature: float):
