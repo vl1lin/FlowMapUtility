@@ -311,8 +311,11 @@ class Builder:
         Перед вызовом этого метода нужно создать модель и информацию о сетке.
         :return: self
         """
-        self.run_core = ProcessManager(  # type: ignore
-            self.model, self.grid_info, self.n_count, self.show_progress
+        self.run_core = ProcessManager(
+            self.model,  # type: ignore
+            self.grid_info,  # type: ignore
+            self.n_count,
+            self.show_progress,  # type: ignore
         )
         return self
 

@@ -51,7 +51,7 @@ def test_start_queue_listener_is_idempotent():
 
     assert logging_config._listener is listener
     assert logging_config._listener_started is True
-    assert listener._thread is not None
+    assert listener._thread is not None  # type: ignore
 
 
 def test_queue_records_are_routed_through_real_logger():
@@ -74,7 +74,7 @@ def test_queue_records_are_routed_through_real_logger():
     original_level = logger.level
     captured = []
     handler = logging.Handler()
-    handler.emit = captured.append
+    handler.emit = captured.append  # type: ignore
     logger.addHandler(handler)
     try:
         # Разрешаем DEBUG явно — как это сделал бы configure_default_logging()
@@ -118,7 +118,7 @@ def test_queue_respects_logger_effective_level():
     original_level = logger.level
     captured = []
     handler = logging.Handler()
-    handler.emit = captured.append
+    handler.emit = captured.append  # type: ignore
     logger.addHandler(handler)
     try:
         logger.setLevel(logging.WARNING)
@@ -176,9 +176,7 @@ def test_configure_default_logging_attaches_console_and_file_handlers():
     configure_default_logging()
     logger = logging.getLogger(LOGGER_NAME)
 
-    console_handlers = [
-        h for h in logger.handlers if type(h) is logging.StreamHandler
-    ]
+    console_handlers = [h for h in logger.handlers if type(h) is logging.StreamHandler]
     file_handlers = [
         h
         for h in logger.handlers
