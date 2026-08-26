@@ -1,24 +1,27 @@
 """
-Настройка логирования утилиты.
+Логирование FlowMapUtility как библиотеки.
 
-Единая точка конфигурации: консольный обработчик показывает только
-основные шаги пайплайна (INFO и выше), файловый обработчик с ротацией
-пишет всё, включая построчную работу воркеров (DEBUG и выше).
+По умолчанию пакет НИКАК не настраивает вывод логов — на верхний
+логгер "flowmaputility" повешен только NullHandler (стандартная
+рекомендация для библиотек: https://docs.python.org/3/howto/logging.html#library-config).
+Если приложение, использующее эту библиотеку, само настроило
+логирование (basicConfig/dictConfig на root, либо конкретно на
+"flowmaputility") — наши записи попадут туда естественным образом,
+через штатный propagate. Если ничего не настроено — записи молча
+гасятся NullHandler'ом, никакого вывода в файл/консоль без спроса.
 
-Логи из дочерних процессов (multiprocessing.Pool) собираются через
-общую очередь: воркеры кладут записи в очередь через QueueHandler,
-а QueueListener в основном процессе разбирает их теми же двумя
-обработчиками, что и логи основного процесса.
+configure_default_logging() — готовая конфигурация (консоль=только
+INFO и выше, ротируемый файл=всё от DEBUG) для тех, кто хочет её
+использовать. Она НЕ вызывается автоматически нигде внутри пакета —
+это осознанный выбор вызывающего кода (см. main.py).
 
-QueueListener запускает собственный фоновый поток. Если этот поток уже
-существует в момент os.fork() (создание пула процессов), дочерний
-процесс может унаследовать внутренние блокировки логгера в захваченном
-состоянии и зависнуть навсегда (см. предупреждение Python 3.12+ про
-fork() в многопоточном процессе). Поэтому создание очереди/обработчиков
-(setup_logging) и запуск потока-слушателя (start_queue_listener)
-разделены: очередь и обработчики нужны уже на этапе создания пула
-(они передаются воркерам), а сам поток должен стартовать только
-ПОСЛЕ того, как пул воркеров уже создан (форк уже произошёл).
+Отдельная сложность — воркеры multiprocessing.Pool: они не могут
+писать напрямую в обработчики главного процесса. Поэтому лог-записи
+из воркеров идут через общую очередь и в главном процессе
+"дописываются" через реальный логгер "flowmaputility"
+(logger.handle(record)) — то есть ведут себя так, как будто вызов
+logger.debug(...) произошёл прямо в главном процессе, подчиняясь
+ровно тем обработчикам/уровням, которые (если) настроило приложение.
 """
 
 import logging
@@ -32,49 +35,58 @@ LOG_FORMAT = "%(asctime)s [%(levelname)s] [%(processName)s] %(name)s: %(message)
 MAX_BYTES = 5 * 1024 * 1024
 BACKUP_COUNT = 1
 
-_configured = False
-_listener_started = False
+if not any(
+    isinstance(h, logging.NullHandler) for h in logging.getLogger(LOGGER_NAME).handlers
+):
+    logging.getLogger(LOGGER_NAME).addHandler(logging.NullHandler())
+
+_default_logging_configured = False
+
 _queue: "mp.Queue | None" = None
-_listener: logging.handlers.QueueListener | None = None
+_listener: "logging.handlers.QueueListener | None" = None
+_listener_started = False
 
 
-def setup_logging() -> "mp.Queue":
+class _RoutingQueueListener(logging.handlers.QueueListener):
     """
-    Настраивает обработчики и очередь логирования в основном процессе
-    (идемпотентно — повторные вызовы возвращают уже созданную очередь
-    без пересоздания обработчиков и слушателя).
-    Поток-слушатель НЕ запускается — см. start_queue_listener().
-    :return: Очередь, которую нужно передать воркерам для логирования.
+    QueueListener, диспетчеризующий записи через реальный логгер по
+    его имени (record.name), а не через фиксированный список
+    обработчиков. Так запись из воркера подчиняется той конфигурации
+    логирования, которую (если) настроило приложение в главном
+    процессе — а не той, что решила бы сама библиотека.
     """
-    global _configured, _queue, _listener
 
-    if _configured:
-        return _queue  # type: ignore
+    def handle(self, record: logging.LogRecord) -> None:
+        record = self.prepare(record)
+        logger = logging.getLogger(record.name)
+        # Logger.handle() сам по себе НЕ проверяет эффективный уровень
+        # логгера (это делают удобные методы вроде .debug()/.info() —
+        # но у нас тут уже готовый record, а не такой вызов). Воркер
+        # шлёт в очередь вообще всё, от DEBUG и выше, безусловно —
+        # именно тут, на стороне главного процесса, должна применяться
+        # реальная настройка уровня (наша через configure_default_logging
+        # или сделанная самим приложением), иначе DEBUG из воркеров
+        # пролезал бы мимо уровня, который выставило приложение.
+        if logger.isEnabledFor(record.levelno):
+            logger.handle(record)
 
-    formatter = logging.Formatter(LOG_FORMAT)
 
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
+def get_log_queue() -> "mp.Queue":
+    """
+    Возвращает очередь для передачи лог-записей из воркеров в главный
+    процесс (идемпотентно — создаётся один раз за всё время жизни
+    процесса). Не трогает конфигурацию логгера "flowmaputility" и не
+    производит никакого вывода — только служебная инфраструктура для
+    мультипроцессности.
+    :return: Очередь, которую нужно передать воркерам через init_worker.
+    """
+    global _queue, _listener
 
-    file_handler = logging.handlers.RotatingFileHandler(
-        LOG_FILE, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT, encoding="utf-8"
-    )
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    logger = logging.getLogger(LOGGER_NAME)
-    logger.setLevel(logging.DEBUG)
-    logger.propagate = False
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    if _queue is not None:
+        return _queue
 
     _queue = mp.Queue()
-    _listener = logging.handlers.QueueListener(
-        _queue, console_handler, file_handler, respect_handler_level=True
-    )
-
-    _configured = True
+    _listener = _RoutingQueueListener(_queue)
     return _queue
 
 
@@ -83,7 +95,8 @@ def start_queue_listener() -> None:
     Запускает поток-слушатель очереди логов (идемпотентно).
     Вызывать нужно ПОСЛЕ создания mp.Pool — то есть после того, как
     дочерние процессы уже созданы через fork, чтобы не форкать процесс
-    с лишним живым потоком (см. предупреждение Python 3.12+).
+    с лишним живым потоком (см. предупреждение Python 3.12+ про
+    fork() в многопоточном процессе).
     """
     global _listener_started
 
@@ -91,7 +104,7 @@ def start_queue_listener() -> None:
         return
 
     if _listener is None:
-        raise RuntimeError("setup_logging() must be called before start_queue_listener()")
+        raise RuntimeError("get_log_queue() must be called before start_queue_listener()")
 
     _listener.start()
     _listener_started = True
@@ -101,8 +114,12 @@ def configure_worker_logging(queue: "mp.Queue | None") -> None:
     """
     Настраивает логирование внутри дочернего процесса-воркера.
     Единственный обработчик — QueueHandler, кладущий записи в общую
-    очередь на разбор в основном процессе.
-    :param queue: Очередь логов, полученная из setup_logging().
+    очередь на разбор в главном процессе. Уровень выставлен в DEBUG
+    и propagate отключён намеренно и безусловно: воркер не решает,
+    что показывать пользователю — он просто отправляет всё дальше,
+    а фильтрация по уровню происходит уже в главном процессе, на
+    обработчиках, которые (если) настроило приложение.
+    :param queue: Очередь логов, полученная из get_log_queue().
         Если None — логирование в воркере не настраивается.
     """
     logger = logging.getLogger(LOGGER_NAME)
@@ -114,3 +131,48 @@ def configure_worker_logging(queue: "mp.Queue | None") -> None:
     logger.setLevel(logging.DEBUG)
     logger.propagate = False
     logger.addHandler(logging.handlers.QueueHandler(queue))
+
+
+def configure_default_logging(
+    log_file: str = LOG_FILE,
+    max_bytes: int = MAX_BYTES,
+    backup_count: int = BACKUP_COUNT,
+    console_level: int = logging.INFO,
+    file_level: int = logging.DEBUG,
+) -> None:
+    """
+    Опциональная готовая конфигурация логирования: консоль — только
+    основные шаги пайплайна (по умолчанию INFO и выше), ротируемый
+    файл — всё, включая построчную работу воркеров (по умолчанию
+    DEBUG и выше). Нужно вызвать явно — сама библиотека этого не
+    делает (см. докстринг модуля).
+    Идемпотентна — повторные вызовы не дублируют обработчики.
+    :param log_file: Путь к файлу лога.
+    :param max_bytes: Размер файла в байтах, при котором происходит ротация.
+    :param backup_count: Количество бэкапов при ротации.
+    :param console_level: Минимальный уровень записей для консоли.
+    :param file_level: Минимальный уровень записей для файла.
+    """
+    global _default_logging_configured
+
+    if _default_logging_configured:
+        return
+
+    formatter = logging.Formatter(LOG_FORMAT)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(console_level)
+    console_handler.setFormatter(formatter)
+
+    file_handler = logging.handlers.RotatingFileHandler(
+        log_file, maxBytes=max_bytes, backupCount=backup_count, encoding="utf-8"
+    )
+    file_handler.setLevel(file_level)
+    file_handler.setFormatter(formatter)
+
+    logger = logging.getLogger(LOGGER_NAME)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
+    _default_logging_configured = True

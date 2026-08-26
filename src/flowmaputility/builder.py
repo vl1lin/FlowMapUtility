@@ -18,7 +18,7 @@ from flowmaputility.domain.validators import (
 from flowmaputility.engine.manager import ProcessManager
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
-from flowmaputility.logging_config import LOGGER_NAME, setup_logging
+from flowmaputility.logging_config import LOGGER_NAME
 from flowmaputility.visualization.visualizer import MapVisualizer
 
 F = TypeVar("F", bound=Callable)
@@ -78,7 +78,6 @@ class Builder:
     """
 
     def __init__(self):
-        setup_logging()
         # Блок 1
         self.pipe_params: PipeParams | None = None
         self.fluid_params: FluidParams | None = None

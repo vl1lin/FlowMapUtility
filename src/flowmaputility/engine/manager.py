@@ -8,7 +8,7 @@ from tqdm import tqdm
 from flowmaputility.engine.worker import init_worker, worker_function
 from flowmaputility.logging_config import (
     LOGGER_NAME,
-    setup_logging,
+    get_log_queue,
     start_queue_listener,
 )
 
@@ -44,7 +44,7 @@ class ProcessManager:
         """
         Запускает расчет кодов режима потока
         """
-        log_queue = setup_logging()
+        log_queue = get_log_queue()
         n_workers = self._count_workers()
 
         _logger.info(

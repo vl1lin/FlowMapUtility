@@ -24,11 +24,12 @@ def _isolate_flowmaputility_logging(tmp_path, monkeypatch):
     """
     Изолирует глобальное состояние логгера "flowmaputility" между тестами.
 
-    setup_logging() идемпотентна и хранит состояние на уровне модуля —
-    без сброса первый тест, реально запустивший расчет (а значит и
-    setup_logging), навсегда прикрепил бы обработчики и выставил
-    propagate=False, ломая caplog в остальных тестах. Заодно уводим
-    лог-файл во временную директорию, чтобы тесты не мусорили в репозитории.
+    get_log_queue()/configure_default_logging() идемпотентны и хранят
+    состояние на уровне модуля — без сброса первый тест, реально
+    запустивший расчет или явно включивший configure_default_logging,
+    навсегда прикрепил бы обработчики, ломая caplog и предположения
+    остальных тестов о чистом состоянии логгера. Заодно уводим лог-файл
+    во временную директорию, чтобы тесты не мусорили в репозитории.
     """
     monkeypatch.setattr(logging_config, "LOG_FILE", str(tmp_path / "test.log"))
 
@@ -41,10 +42,10 @@ def _isolate_flowmaputility_logging(tmp_path, monkeypatch):
 
     if logging_config._listener_started and logging_config._listener is not None:
         logging_config._listener.stop()
-    logging_config._configured = False
-    logging_config._listener_started = False
     logging_config._queue = None
     logging_config._listener = None
+    logging_config._listener_started = False
+    logging_config._default_logging_configured = False
 
     logger.handlers[:] = original_handlers
     logger.propagate = original_propagate
