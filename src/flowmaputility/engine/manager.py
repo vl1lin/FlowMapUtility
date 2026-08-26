@@ -6,7 +6,11 @@ import numpy as np
 from tqdm import tqdm
 
 from flowmaputility.engine.worker import init_worker, worker_function
-from flowmaputility.logging_config import LOGGER_NAME, setup_logging
+from flowmaputility.logging_config import (
+    LOGGER_NAME,
+    setup_logging,
+    start_queue_listener,
+)
 
 if TYPE_CHECKING:
     from flowmaputility.correlations.base import IFlowModel
@@ -56,6 +60,10 @@ class ProcessManager:
             initializer=init_worker,
             initargs=(self.worker_model, log_queue),
         ) as pool:
+            # Поток-слушатель очереди логов стартует только теперь, когда
+            # воркеры уже forked — иначе форкался бы процесс с лишним
+            # живым потоком (см. logging_config.start_queue_listener).
+            start_queue_listener()
             results = pool.imap_unordered(worker_function, self._prepare_tasks())
             code_pattern_grid = np.zeros(
                 [self.grid.resolution, self.grid.resolution], dtype=np.int32

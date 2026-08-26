@@ -2,11 +2,14 @@ import logging
 import logging.handlers
 import multiprocessing as mp
 
+import pytest
+
 from flowmaputility import logging_config
 from flowmaputility.logging_config import (
     LOGGER_NAME,
     configure_worker_logging,
     setup_logging,
+    start_queue_listener,
 )
 
 
@@ -17,6 +20,29 @@ def test_setup_logging_is_idempotent():
 
     logger = logging.getLogger(LOGGER_NAME)
     assert len(logger.handlers) == 2
+
+
+def test_setup_logging_does_not_start_listener_thread():
+    setup_logging()
+    assert logging_config._listener_started is False
+    assert logging_config._listener._thread is None
+
+
+def test_start_queue_listener_requires_setup_first():
+    with pytest.raises(RuntimeError):
+        start_queue_listener()
+
+
+def test_start_queue_listener_is_idempotent():
+    setup_logging()
+    start_queue_listener()
+    listener = logging_config._listener
+
+    start_queue_listener()
+
+    assert logging_config._listener is listener
+    assert logging_config._listener_started is True
+    assert listener._thread is not None
 
 
 def test_setup_logging_handler_levels():

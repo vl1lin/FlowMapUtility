@@ -9,6 +9,16 @@
 общую очередь: воркеры кладут записи в очередь через QueueHandler,
 а QueueListener в основном процессе разбирает их теми же двумя
 обработчиками, что и логи основного процесса.
+
+QueueListener запускает собственный фоновый поток. Если этот поток уже
+существует в момент os.fork() (создание пула процессов), дочерний
+процесс может унаследовать внутренние блокировки логгера в захваченном
+состоянии и зависнуть навсегда (см. предупреждение Python 3.12+ про
+fork() в многопоточном процессе). Поэтому создание очереди/обработчиков
+(setup_logging) и запуск потока-слушателя (start_queue_listener)
+разделены: очередь и обработчики нужны уже на этапе создания пула
+(они передаются воркерам), а сам поток должен стартовать только
+ПОСЛЕ того, как пул воркеров уже создан (форк уже произошёл).
 """
 
 import logging
@@ -23,15 +33,17 @@ MAX_BYTES = 5 * 1024 * 1024
 BACKUP_COUNT = 1
 
 _configured = False
+_listener_started = False
 _queue: "mp.Queue | None" = None
 _listener: logging.handlers.QueueListener | None = None
 
 
 def setup_logging() -> "mp.Queue":
     """
-    Настраивает логирование в основном процессе (идемпотентно —
-    повторные вызовы возвращают уже созданную очередь без пересоздания
-    обработчиков и слушателя).
+    Настраивает обработчики и очередь логирования в основном процессе
+    (идемпотентно — повторные вызовы возвращают уже созданную очередь
+    без пересоздания обработчиков и слушателя).
+    Поток-слушатель НЕ запускается — см. start_queue_listener().
     :return: Очередь, которую нужно передать воркерам для логирования.
     """
     global _configured, _queue, _listener
@@ -61,10 +73,28 @@ def setup_logging() -> "mp.Queue":
     _listener = logging.handlers.QueueListener(
         _queue, console_handler, file_handler, respect_handler_level=True
     )
-    _listener.start()
 
     _configured = True
     return _queue
+
+
+def start_queue_listener() -> None:
+    """
+    Запускает поток-слушатель очереди логов (идемпотентно).
+    Вызывать нужно ПОСЛЕ создания mp.Pool — то есть после того, как
+    дочерние процессы уже созданы через fork, чтобы не форкать процесс
+    с лишним живым потоком (см. предупреждение Python 3.12+).
+    """
+    global _listener_started
+
+    if _listener_started:
+        return
+
+    if _listener is None:
+        raise RuntimeError("setup_logging() must be called before start_queue_listener()")
+
+    _listener.start()
+    _listener_started = True
 
 
 def configure_worker_logging(queue: "mp.Queue | None") -> None:

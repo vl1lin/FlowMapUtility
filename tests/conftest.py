@@ -39,9 +39,10 @@ def _isolate_flowmaputility_logging(tmp_path, monkeypatch):
 
     yield
 
-    if logging_config._listener is not None:
+    if logging_config._listener_started and logging_config._listener is not None:
         logging_config._listener.stop()
     logging_config._configured = False
+    logging_config._listener_started = False
     logging_config._queue = None
     logging_config._listener = None
 
