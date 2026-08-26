@@ -2,6 +2,7 @@
 Основной объект для использования утилиты
 """
 
+import logging
 from collections.abc import Callable
 from functools import wraps
 from typing import TypeVar
@@ -17,9 +18,11 @@ from flowmaputility.domain.validators import (
 from flowmaputility.engine.manager import ProcessManager
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
+from flowmaputility.logging_config import LOGGER_NAME, setup_logging
 from flowmaputility.visualization.visualizer import MapVisualizer
 
 F = TypeVar("F", bound=Callable)
+_logger = logging.getLogger(LOGGER_NAME)
 
 
 def requires(*attr: str):
@@ -70,9 +73,12 @@ class Builder:
         save_path (str | None): Путь для сохранения результата.(Необязательный параметр)
         vis_manadger (MapVisualizer | None): Визуализатор карты.
         run_core (ProcessManager | None): Менеджер процессов.
+        show_progress (bool): Флаг отображения прогресс-бара расчета.
+            (Необязательный параметр.)
     """
 
     def __init__(self):
+        setup_logging()
         # Блок 1
         self.pipe_params: PipeParams | None = None
         self.fluid_params: FluidParams | None = None
@@ -95,6 +101,7 @@ class Builder:
         self.show_plot: bool = True
         self.save_path: str | None = None
         self.vis_manadger: MapVisualizer | None = None
+        self.show_progress: bool = False
 
     def set_pipe_params(
         self, diameter: float, roughness: float, angle: float
@@ -228,6 +235,16 @@ class Builder:
         self.save_path = save_path
         return self
 
+    def set_show_progress(self, show_progress: bool = True) -> "Builder":
+        """
+        Устанавливает флаг отображения прогресс-бара расчета.
+        Атрибут show_progress является НЕОБЯЗАТЕЛЬНЫМ,
+        ПО УМОЛЧАНИЮ равно False.
+        :param show_progress: флаг отображения прогресс-бара
+        """
+        self.show_progress = show_progress
+        return self
+
     @requires("velocite_liquid", "velocite_gas")
     def build_grid_generator(self) -> "Builder":
         """
@@ -251,6 +268,11 @@ class Builder:
         :return: self
         """
         self.grid_info = self.grid_generator.generate()  # type: ignore
+        _logger.info(
+            "Сетка построена: resolution=%d, log_scale=%s",
+            self.grid_info.resolution,
+            self.grid_info.log_scale,
+        )
         return self
 
     def build_model_factory(self) -> "Builder":
@@ -280,6 +302,7 @@ class Builder:
                 self.pipe_params,  # type: ignore
                 self.fluid_params,  # type: ignore
             )
+        _logger.info("Выбрана модель: %s", self.model.name())  # type: ignore
         return self
 
     @requires("model", "grid_info")
@@ -289,7 +312,9 @@ class Builder:
         Перед вызовом этого метода нужно создать модель и информацию о сетке.
         :return: self
         """
-        self.run_core = ProcessManager(self.model, self.grid_info, self.n_count)  # type: ignore
+        self.run_core = ProcessManager(  # type: ignore
+            self.model, self.grid_info, self.n_count, self.show_progress
+        )
         return self
 
     @requires("grid_info")
@@ -318,7 +343,7 @@ class Builder:
         """
         self.build_grid_generator().build_grid_info().build_model_factory().build_model().build_core()
         code_matrix = self.run_core.run()  # type: ignore
-        print(code_matrix)
+        _logger.debug("code_matrix=%s", code_matrix.tolist())
         final_obj = self.build_visualization_manadger(code_matrix)
         return final_obj
 
