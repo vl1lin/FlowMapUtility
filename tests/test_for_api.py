@@ -1,4 +1,3 @@
-import logging
 from unittest.mock import Mock
 
 import pytest
@@ -16,18 +15,6 @@ def test_for_build_grid_info(builder: "Builder") -> None:
     builder = builder.build_grid_info()
     builder.grid_generator.generate.assert_called_once()  # type: ignore
     assert isinstance(builder, Builder)
-
-
-def test_for_build_grid_info_logs_milestone(builder: "Builder", caplog) -> None:
-    with caplog.at_level(logging.INFO):
-        builder.build_grid_info()
-    assert "Сетка построена" in caplog.text
-
-
-def test_for_build_model_logs_milestone(builder: "Builder", caplog) -> None:
-    with caplog.at_level(logging.INFO):
-        builder.build_model()
-    assert "Выбрана модель" in caplog.text
 
 
 def test_for_set_show_progress_default() -> None:

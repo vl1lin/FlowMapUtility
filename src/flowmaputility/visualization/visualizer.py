@@ -1,17 +1,13 @@
-import logging
 from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-from flowmaputility.logging_config import LOGGER_NAME
 from flowmaputility.visualization.palette import DEFAULT_COLORS, PATTERN_NAMES
 from flowmaputility.visualization.tuners import ColorTuner, GraphTuner
 
 if TYPE_CHECKING:
     from flowmaputility.grid.info import GridInfo
-
-_logger = logging.getLogger(LOGGER_NAME)
 
 
 class MapVisualizer:
@@ -51,7 +47,6 @@ class MapVisualizer:
         self.color_tuner(pattern_colors, color_bounds, unique_codes)
         self._save_map(self.save_path)
         self._show_map(self.show_plot)
-        _logger.info("График карты режимов создан (модель=%s)", self.model_name)
 
     def _get_unique_patterns(self) -> np.ndarray:
         """
@@ -105,7 +100,7 @@ class MapVisualizer:
         """
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches="tight")
-            _logger.info("Карта сохранена в %s", save_path)
+            print(f"Карта сохранена в {save_path}")
 
     @classmethod
     def _show_map(cls, show_plot: bool) -> None:
