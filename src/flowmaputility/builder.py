@@ -2,7 +2,6 @@
 Основной объект для использования утилиты
 """
 
-import logging
 from collections.abc import Callable
 from functools import wraps
 from typing import TypeVar
@@ -18,11 +17,9 @@ from flowmaputility.domain.validators import (
 from flowmaputility.engine.manager import ProcessManager
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
-from flowmaputility.logging_config import LOGGER_NAME
 from flowmaputility.visualization.visualizer import MapVisualizer
 
 F = TypeVar("F", bound=Callable)
-_logger = logging.getLogger(LOGGER_NAME)
 
 
 def requires(*attr: str):
@@ -267,11 +264,6 @@ class Builder:
         :return: self
         """
         self.grid_info = self.grid_generator.generate()  # type: ignore
-        _logger.info(
-            "Сетка построена: resolution=%d, log_scale=%s",
-            self.grid_info.resolution,
-            self.grid_info.log_scale,
-        )
         return self
 
     def build_model_factory(self) -> "Builder":
@@ -301,7 +293,6 @@ class Builder:
                 self.pipe_params,  # type: ignore
                 self.fluid_params,  # type: ignore
             )
-        _logger.info("Выбрана модель: %s", self.model.name())  # type: ignore
         return self
 
     @requires("model", "grid_info")
@@ -345,7 +336,7 @@ class Builder:
         """
         self.build_grid_generator().build_grid_info().build_model_factory().build_model().build_core()
         code_matrix = self.run_core.run()  # type: ignore
-        _logger.debug("code_matrix=%s", code_matrix.tolist())
+        print(code_matrix)
         final_obj = self.build_visualization_manadger(code_matrix)
         return final_obj
 

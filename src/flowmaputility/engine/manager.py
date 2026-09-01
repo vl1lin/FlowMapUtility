@@ -1,4 +1,3 @@
-import logging
 import multiprocessing as mp
 from typing import TYPE_CHECKING, Iterator
 
@@ -6,17 +5,10 @@ import numpy as np
 from tqdm import tqdm
 
 from flowmaputility.engine.worker import init_worker, worker_function
-from flowmaputility.logging_config import (
-    LOGGER_NAME,
-    get_log_queue,
-    start_queue_listener,
-)
 
 if TYPE_CHECKING:
     from flowmaputility.correlations.base import IFlowModel
     from flowmaputility.grid.info import GridInfo
-
-_logger = logging.getLogger(LOGGER_NAME)
 
 
 class ProcessManager:
@@ -44,26 +36,11 @@ class ProcessManager:
         """
         Запускает расчет кодов режима потока
         """
-        log_queue = get_log_queue()
-        n_workers = self._count_workers()
-
-        _logger.info(
-            "Расчёт начат: модель=%s, сетка=%dx%d, воркеров=%d",
-            self.worker_model.name(),
-            self.grid.resolution,
-            self.grid.resolution,
-            n_workers,
-        )
-
         with mp.Pool(
-            processes=n_workers,
+            processes=self._count_workers(),
             initializer=init_worker,
-            initargs=(self.worker_model, log_queue),
+            initargs=(self.worker_model,),
         ) as pool:
-            # Поток-слушатель очереди логов стартует только теперь, когда
-            # воркеры уже forked — иначе форкался бы процесс с лишним
-            # живым потоком (см. logging_config.start_queue_listener).
-            start_queue_listener()
             results = pool.imap_unordered(worker_function, self._prepare_tasks())
             code_pattern_grid = np.zeros(
                 [self.grid.resolution, self.grid.resolution], dtype=np.int32
@@ -75,8 +52,6 @@ class ProcessManager:
                 disable=not self.show_progress,
             ):
                 code_pattern_grid[i] = row
-
-        _logger.info("Расчёт завершён")
 
         return code_pattern_grid
 

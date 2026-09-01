@@ -1,4 +1,3 @@
-import logging
 from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 
@@ -6,7 +5,6 @@ import numpy as np
 import pytest
 
 from flowmaputility.engine.worker import init_worker, worker_function
-from flowmaputility.logging_config import LOGGER_NAME
 
 if TYPE_CHECKING:
     from flowmaputility.engine.manager import ProcessManager
@@ -40,26 +38,6 @@ def test_worker_function() -> None:
     assert res_i == i
     assert len(result) == 3
     assert np.all(result == 105)
-
-
-def test_worker_function_logs_result_row(caplog) -> None:
-    ansari = Mock(get_pattern_code=Mock(return_value=105))
-    vsl = np.array([0.1, 0.2, 0.3])
-    vsg = np.array([1.0, 1.0, 1.0])
-
-    init_worker(ansari)  # log_queue=None -> логирование в воркере не настроено
-
-    logger = logging.getLogger(LOGGER_NAME)
-    logger.addHandler(caplog.handler)
-    logger.setLevel(logging.DEBUG)
-    try:
-        with caplog.at_level(logging.DEBUG):
-            worker_function((0, vsl, vsg))
-    finally:
-        logger.removeHandler(caplog.handler)
-
-    assert "row=0" in caplog.text
-    assert "[105, 105, 105]" in caplog.text
 
 
 def test_for_core(core_beginer: "ProcessManager") -> None:

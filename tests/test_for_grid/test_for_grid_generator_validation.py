@@ -1,5 +1,3 @@
-import logging
-
 import pytest
 
 from flowmaputility.grid.generator import GridGenerator
@@ -18,12 +16,11 @@ def test_generator_not_valid_len_of_tuple():
         grid.validation_befor_grid_generation()
 
 
-def test_generator_valid_range_not_logical(caplog):
+def test_generator_valid_range_not_logical():
     grid = GridGenerator((10, 5), (20, 10), 100, True)  # type: ignore
-    with caplog.at_level(logging.WARNING):
+    with pytest.warns(UserWarning):
         grid.validation_befor_grid_generation()
 
-    assert "должно быть строго меньше" in caplog.text
     assert grid.vsl_range == (5, 10)
     assert grid.vsg_range == (10, 20)
 
