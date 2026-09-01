@@ -12,4 +12,3 @@ tests/test_for_adapter/__pycache__/test_for_pipe_adapter.cpython-314-pytest-9.1.
 tests/test_for_adapter/__pycache__/test_for_system_adapter.cpython-314-pytest-9.1.1.pyc
 .ipynb_checkpoints
 flowmaputility.log*
-demo_output/
