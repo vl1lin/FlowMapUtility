@@ -1,0 +1,272 @@
+---
+title: "FlowMapUtility"
+subtitle: "Карты режимов течения двухфазного потока"
+author: "Студент РГУ нефти и газа им. И. М. Губкина Бартенев Владислав"
+date: 04.09.2026
+format:
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-tools: true
+    page-layout: full
+    theme: darkly
+    fig-cap-location: bottom
+    include-in-header:
+          - text: |
+              <style>
+              .panel-tabset .tab-content > .tab-pane {
+                display: block !important;
+              }
+              .panel-tabset .tab-content > .tab-pane:not(.active) {
+                height: 0;
+                overflow: hidden;
+                visibility: hidden;
+              }
+              </style>
+execute:
+  echo: true
+  warning: false
+---
+
+## Введение
+
+Данный код предназначен для построения карт режимов потока двухфазного потока в трубах.
+
+:::{.callout-note}
+Под двухфазным потоком понимается жидкость + газ.
+:::
+
+## Зачем это нужно
+
+Когда по трубе одновременно идут жидкость и газ, они не смешиваются равномерно — а укладываются в разные **структуры течения** (пузырьки, пробки, кольцевой поток и т.д.). От того, какая именно структура сейчас в трубе, зависит:
+
+- сопротивление потока и падение давления,
+- скорость коррозии/эрозии стенок трубы,
+- работа насосов и сепараторов ниже по потоку.
+
+Поэтому инженеру важно заранее знать: при заданных скоростях жидкости и газа — какой режим потока получится? `FlowMapUtility` строит **карту режимов** — двумерный график, где по осям отложены скорости жидкости ($v_{sl}$) и газа ($v_{sg}$), а цветом закрашена область каждого режима.
+
+::: {.callout-note}
+Расчёт режима в каждой точке карты не связан с соседними — можно параллелить по процессам, что и делает `ProcessManager`.
+:::
+
+## Архитектура
+
+:::{.panel-tabset}
+
+### Таблица
+
+Код построен на нескольких классических паттернах проектирования:
+
+| Паттерн | Класс | Зачем |
+|---|---|---|
+| **Builder** | `Builder` | Собирает объект пошагово через цепочку `set_*()` — не нужно передавать 15 аргументов в один конструктор |
+| **Factory** | `ModelFactory` | По имени или углу трубы создаёт нужную модель, скрывая детали выбора класса |
+| **Strategy** | `IFlowModel` + наследники (`AnsariModel`, `BeggsBrillModel`) | Разные модели расчёта взаимозаменяемы — можно добавить новую корреляцию, не трогая остальной код |
+| **Template Method** | `BaseValidator._validate()` | Общая логика проверки чисел одна на все валидаторы, конкретные поля — в наследниках |
+
+
+### Диаграмма
+
+```{mermaid}
+flowchart LR
+    A[Builder] -->|создаёт| B[GridGenerator]
+    A -->|создаёт через| C[ModelFactory]
+    C -->|выбирает| D["IFlowModel<br>(Ansari / Beggs-Brill)"]
+    A -->|запускает| E[ProcessManager]
+    E -->|использует| D
+    E -->|считает по сетке| B
+    A -->|передаёт результат| F[MapVisualizer]
+```
+:::
+
+
+## Реализованные корреляции
+
+На данный момент код поддерживает 2 корреляции: Ансари, Беггс-Брилл.
+
+| | Ансари | Беггс-Брилл |
+|---|---|---|
+| Тип | Механистическая | Эмпирическая |
+| Труба | Вертикальная / крутонаклонная | Горизонтальная / наклонная |
+| Диапазон угла | 75° – 90° | 0° – 75° |
+| Основано на | Физических уравнениях баланса сил | Экспериментальных корреляциях (карта Beggs-Brill) |
+
+Выбор модели происходит автоматически по углу трубы (`pipe_params.angle`) через `ModelFactory`, либо явно — методом `set_model(...)`.
+
+## Как устроен API
+
+Всё строится через `Builder` — цепочку вызовов `set_*`, завершающуюся `build_all().run()`:
+
+`Builder().set_pipe_params(...).set_fluid_params(...)....build_all().run()`
+
+**Обязательные вызовы**:
+
+|название метода|что делает|аргументы|
+|---|---|---|
+|set_pipe_params|задает параметры трубы|diameter - диаметр трубы [м]<br>roughness - абсолютная шероховатость [м]<br>angle - угол наклона трубы относительно вертикали [$^{\circ}$]|
+|set_fluid_params|задает параметры флюидов|density_liquid - плотность жидкости[$\text{кг}/\text{м}^{3}$]<br>density_gas - плотность газа [$\text{кг}/\text{м}^{3}$]<br>viscosity_liquid - вязкость жидкости [$\text{Па} \cdot \text{с}$]<br>viscosity_gas - вязкость газа [$\text{Па} \cdot \text{с}$]<br>surface_tension - поверхностное натяжение на границе раздела жидкость-газ [$\text{Н} / \text{м}$]|
+|set_velocite_liquid|задает диапазон скорости жидкости|min - минимальная скорость [м/c]<br>max - максимальная скорость [м/c]|
+|set_velocite_gas|задает диапазон скорости газа|min - минимальная скорость [м/c]<br>max - максимальная скорость [м/c]|
+
+::: {.callout-warning}
+Все значения передаются сразу в **СИ** — утилита их **не конвертирует**. Переводить единицы (например, сПз → Па·с) нужно самостоятельно до вызова.
+:::
+
+**Необязательные флаги**:
+
+|название метода|что делает|
+|---|---|
+|set_model(name)| явно задать корреляцию ("Ansari" или "Beggs-Brill").<br>Без вызова — автоматически по углу трубы: Ансари 75°-90°, Beggs-Brill 0°-75°.|
+|set_resolution(n)|разрешение сетки (точек на ось), по умолчанию 100.|
+|set_scale_flag(bool)|логарифмическая (по умолчанию) или линейная шкала сетки.|
+|set_show_plot_flag(bool)|показывать график (по умолчанию True).|
+|set_save_path(path)|сохранить график в файл (по умолчанию None).|
+|set_show_progress(bool)|прогресс-бар расчёта (по умолчанию выключен).|
+|set_count_of_workers(n)|число процессов для расчёта (по умолчанию — число ядер минус один).|
+
+
+### Обязательная нстройка Builder
+
+```{mermaid}
+flowchart LR
+    A[начало] -->|создание объекта| B["Builder()"]
+    B -->|задаем парметры трубы| C[".set_pipe_params"]
+    C -->|аргументы| F["диаметр<br>абсолютная шероховатость<br>угол наклона трубы относительно вертикали"]
+    B -->|задаем парметры флюидов| D[".set_fluid_params"]
+    D -->|аргументы| G["плотность жидкости<br>плотность газа<br>вязкость жидкости<br>вязкость газа<br>поверхностное натяжение на границе раздела жидкость - газ"]
+    B -->|задаем диапазон скорости газа и жидкости| E[".set_velocite_gas<br>.set_velocite_liquid"]
+    E -->|аргументы| H["min - минимальная скорость<br>max - максимальная скорость"]
+```
+
+## Пример использования
+
+:::{.panel-tabset}
+### Вертикальная труба, модель Ансари (автовыбор)
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+from flowmaputility.builder import Builder
+
+
+def main() -> None:
+    obj = (
+        Builder()
+        .set_pipe_params(pipe_diameter_m, roughness_m, angle_deg)
+        .set_fluid_params(rho_liq_si, rho_gas_si, mu_liq_si, mu_gas_si, sigma_si)
+        .set_velocite_gas(0.1, 30)
+        .set_velocite_liquid(0.1, 0.3)
+        .set_resolution(100)
+    )
+
+    obj.build_all().run()
+
+
+if __name__ == "__main__":
+    pipe_diameter_m = 0.062
+    roughness_m = 0.0001
+    angle_deg = 90.0
+
+    rho_liq_si = 800.0
+    rho_gas_si = 50.0
+    mu_liq_si = 1.0 * 0.001
+    mu_gas_si = 0.01 * 0.001
+    sigma_si = 0.01
+    main()
+```
+
+### Наклонная труба, модель Beggs-Brill (автовыбор)
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+from flowmaputility.builder import Builder
+
+
+def main() -> None:
+    obj = (
+        Builder()
+        .set_pipe_params(pipe_diameter_m, roughness_m, angle_deg)
+        .set_fluid_params(rho_liq_si, rho_gas_si, mu_liq_si, mu_gas_si, sigma_si)
+        .set_velocite_gas(0.1, 30)
+        .set_velocite_liquid(0.1, 0.3)
+        .set_resolution(100)
+    )
+
+    obj.build_all().run()
+
+
+if __name__ == "__main__":
+    pipe_diameter_m = 0.062
+    roughness_m = 0.0001
+    angle_deg = 30.0
+
+    rho_liq_si = 800.0
+    rho_gas_si = 50.0
+    mu_liq_si = 1.0 * 0.001
+    mu_gas_si = 0.01 * 0.001
+    sigma_si = 0.01
+    main()
+```
+
+### Явный выбор модели по имени (`set_model`)
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+from flowmaputility.builder import Builder
+
+
+def main() -> None:
+    obj = (
+        Builder()
+        .set_pipe_params(0.062, 0.0001, 45.0)
+        .set_fluid_params(800.0, 50.0, 1.0 * 0.001, 0.01 * 0.001, 0.01)
+        .set_velocite_liquid(0.1, 0.3)
+        .set_velocite_gas(0.1, 30)
+        .set_resolution(100)
+        .set_model("Beggs-Brill")
+    )
+
+    obj.build_all().run()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+### Прогресс-бар расчёта (`set_show_progress`)
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+from flowmaputility.builder import Builder
+
+
+def main() -> None:
+    obj = (
+        Builder()
+        .set_pipe_params(0.062, 0.0001, 90.0)
+        .set_fluid_params(800.0, 50.0, 1.0 * 0.001, 0.01 * 0.001, 0.01)
+        .set_velocite_liquid(0.1, 0.3)
+        .set_velocite_gas(0.1, 30)
+        .set_resolution(200)
+        .set_show_progress(True)
+    )
+
+    obj.build_all().run()
+
+
+if __name__ == "__main__":
+    main()
+```
+:::
+
+## Ограничения
+
+- Сейчас утилита только **классифицирует** режим потока, но не считает удержание жидкости (holdup) и градиент давления.
+- Нет автоматической конвертации единиц измерения — только СИ.
+- Поддержаны только 2 корреляции; архитектура (паттерн Strategy) позволяет легко добавить новые модели, унаследовавшись от `IFlowModel`.
+- `mp.Pool` в `ProcessManager` создаёт накладные расходы на малых сетках — для `resolution < 50` возможно быстрее считать в один процесс.

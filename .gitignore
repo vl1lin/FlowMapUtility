@@ -25,3 +25,8 @@ flowmaputility.log*
 *.fish
 *.ps1
 *.cfg
+
+# Quarto render files
+/.quarto/
+*_files/
+summary.html
