@@ -58,6 +58,6 @@ class IFlowModel(ABC):
         min, max = self.angle_limit()
         if self.pipe.angle < min or self.pipe.angle > max:
             raise ValueError(
-                f"Модель '{self.name}' работает только для углов"
+                f"Модель '{self.name()}' работает только для углов"
                 f"{min}°-{max}°.\nТекущий угол: {self.pipe.angle}°"
             )
