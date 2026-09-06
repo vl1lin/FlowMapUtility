@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: flowmaputility-api
+    env: python
+    plan: free
+    buildCommand: pip install .
+    startCommand: uvicorn flowmaputility.api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: FLOWMAP_API_ALLOWED_ORIGINS
+        value: ""
+      - key: FLOWMAP_API_MAX_RESOLUTION
+        value: "150"
