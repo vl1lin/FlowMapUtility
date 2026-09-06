@@ -10,6 +10,6 @@ services:
       - key: PYTHON_VERSION
         value: "3.12.8"
       - key: FLOWMAP_API_ALLOWED_ORIGINS
-        value: ""
+        value: "https://vl1lin.github.io,http://127.0.0.1:5500"
       - key: FLOWMAP_API_MAX_RESOLUTION
         value: "150"
