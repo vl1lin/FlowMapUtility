@@ -93,7 +93,11 @@ class GraphTuner:
         self.ax: Axes
 
     def __call__(
-        self, model_name: str, codes: np.ndarray, log_scale: bool
+        self,
+        model_name: str,
+        codes: np.ndarray,
+        log_scale: bool,
+        invert_axes: bool = False,
     ) -> tuple[Figure, Axes]:
         """
         Вызов создания осей и фигуры для графика а также их настройка
@@ -105,7 +109,7 @@ class GraphTuner:
         self._fig_settings()
         scale = self.set_scale(log_scale)
         legend_elements = self._create_legend(codes)
-        self._ax_settings(model_name, legend_elements, scale)
+        self._ax_settings(model_name, legend_elements, scale, invert_axes)
         return self.fig, self.ax
 
     def _fig_settings(self) -> None:
@@ -126,7 +130,11 @@ class GraphTuner:
         return scale_type
 
     def _ax_settings(
-        self, model_name: str, legend_elements: list[Patch], scale: str
+        self,
+        model_name: str,
+        legend_elements: list[Patch],
+        scale: str,
+        invert_axes: bool = False,
     ) -> None:
         """
         Настройка осей графика
@@ -139,8 +147,14 @@ class GraphTuner:
         self.ax.grid(
             True, which="both", ls="--", linewidth=0.5, color="gray", alpha=0.5
         )
-        self.ax.set_xlabel("Приведенная скорость жидкости ($v_{sl}$), м/с", fontsize=12)
-        self.ax.set_ylabel("Приведенная скорость газа ($v_{sg}$), м/с", fontsize=12)
+        xlabel, ylabel = (
+            "Приведенная скорость жидкости ($v_{sl}$), м/с",
+            "Приведенная скорость газа ($v_{sg}$), м/с",
+        )
+        if invert_axes:
+            xlabel, ylabel = ylabel, xlabel
+        self.ax.set_xlabel(xlabel, fontsize=12)
+        self.ax.set_ylabel(ylabel, fontsize=12)
         self.ax.set_title(
             f"Карта режимов течения \n Расчетная модель: {model_name}",
             fontsize=14,

@@ -1,5 +1,9 @@
 from unittest.mock import MagicMock, Mock, patch
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import numpy as np
 import pytest
 

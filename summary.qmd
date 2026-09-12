@@ -125,6 +125,7 @@ flowchart LR
 |set_save_path(path)|сохранить график в файл (по умолчанию None).|
 |set_show_progress(bool)|прогресс-бар расчёта (по умолчанию выключен).|
 |set_count_of_workers(n)|число процессов для расчёта (по умолчанию — число ядер минус один).|
+|set_invert_axes(bool)|меняет местами оси графика: X = газ, Y = жидкость (по умолчанию False, т.е. X = жидкость, Y = газ).|
 
 
 ### Обязательная нстройка Builder
@@ -261,6 +262,36 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+```
+
+### Инверсия осей (`set_invert_axes`)
+
+По умолчанию на карте по оси X отложена скорость жидкости ($v_{sl}$), по оси Y — скорость газа ($v_{sg}$). Метод `set_invert_axes(True)` меняет оси местами (X = газ, Y = жидкость), при этом сам расчёт режимов течения не меняется — инвертируется только отображение.
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+#| layout-ncol: 2
+from flowmaputility.builder import Builder
+
+
+def build(invert_axes: bool) -> Builder:
+    return (
+        Builder()
+        .set_pipe_params(0.062, 0.0001, 90.0)
+        .set_fluid_params(800.0, 50.0, 1.0 * 0.001, 0.01 * 0.001, 0.01)
+        .set_velocite_liquid(0.1, 0.3)
+        .set_velocite_gas(0.1, 30)
+        .set_resolution(100)
+        .set_invert_axes(invert_axes)
+    )
+
+
+# По умолчанию: X = жидкость, Y = газ
+build(invert_axes=False).build_all().run()
+
+# С инверсией: X = газ, Y = жидкость
+build(invert_axes=True).build_all().run()
 ```
 :::
 

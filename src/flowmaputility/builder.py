@@ -95,6 +95,7 @@ class Builder:
         self.run_core: ProcessManager | None = None
         # Блок 5
         self.show_plot: bool = True
+        self.invert_axes: bool = False
         self.save_path: str | None = None
         self.vis_manadger: MapVisualizer | None = None
         self.show_progress: bool = False
@@ -221,6 +222,16 @@ class Builder:
         self.show_plot = show_plot
         return self
 
+    def set_invert_axes(self, invert_axes: bool = False) -> "Builder":
+        """
+        Меняет местами оси X и Y на графике (X=газ, Y=жидкость).
+        Атрибут invert_axes является НЕОБЯЗАТЕЛЬНЫМ,
+        ПО УМОЛЧАНИЮ равно False (X=жидкость, Y=газ).
+        :param invert_axes: флаг инверсии осей
+        """
+        self.invert_axes = invert_axes
+        return self
+
     def set_save_path(self, save_path: str) -> "Builder":
         """
         Устанавливает путь сохранения результатов.
@@ -324,6 +335,7 @@ class Builder:
             self.grid_info,  # type: ignore
             self.model.name(),  # type: ignore
             self.show_plot,
+            self.invert_axes,
             self.save_path,  # type: ignore
         )
         return self

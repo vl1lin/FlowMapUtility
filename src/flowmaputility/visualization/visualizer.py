@@ -16,6 +16,7 @@ class MapVisualizer:
     :param code_matrix: Матрица кодов (неотсортированная)
     :param grid: Информация о сетке (объект GridInfo)
     :param show_plot: Показывать ли график (флаг)
+    :param invert_axes: Меняет местами оси карты (флаг)
     :param save_path: Путь для сохранения графика
     """
 
@@ -25,11 +26,13 @@ class MapVisualizer:
         grid: "GridInfo",
         model_name: str,
         show_plot: bool = True,
+        invert_axes: bool = False,
         save_path: str | None = None,
     ):
         self.codes = code_matrix
         self.grid = grid
         self.show_plot = show_plot
+        self.invert_axes = invert_axes
         self.save_path = save_path
         self.model_name = model_name
         self.graph_tuner = GraphTuner()
@@ -41,12 +44,30 @@ class MapVisualizer:
         """
         unique_codes = self._get_unique_patterns()
         pattern_colors = self._get_colors(unique_codes)
-        fig, ax = self.graph_tuner(self.model_name, unique_codes, self.grid.log_scale)
-        self.color_tuner = ColorTuner(ax, self.grid, self.codes)
+        fig, ax = self.graph_tuner(
+            self.model_name, unique_codes, self.grid.log_scale, self.invert_axes
+        )
+        plot_grid = self._get_plot_grid()
+        self.color_tuner = ColorTuner(ax, plot_grid, self.codes)
         color_bounds = self._create_color_bounds(unique_codes)
         self.color_tuner(pattern_colors, color_bounds, unique_codes)
         self._save_map(self.save_path)
         self._show_map(self.show_plot)
+
+    def _get_plot_grid(self) -> "GridInfo":
+        """
+        Возвращает сетку для отрисовки с учетом флага invert_axes.
+        Исходный self.grid при этом не изменяется.
+        :return: Объект GridInfo для передачи в ColorTuner
+        """
+        if not self.invert_axes:
+            return self.grid
+        return self.grid._replace(
+            vsl_1d=self.grid.vsg_1d,
+            vsg_1d=self.grid.vsl_1d,
+            vsl_2d=self.grid.vsg_2d,
+            vsg_2d=self.grid.vsl_2d,
+        )
 
     def _get_unique_patterns(self) -> np.ndarray:
         """

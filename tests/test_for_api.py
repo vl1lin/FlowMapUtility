@@ -21,6 +21,22 @@ def test_for_set_show_progress_default() -> None:
     assert Builder().show_progress is False
 
 
+def test_for_set_invert_axes_default() -> None:
+    assert Builder().invert_axes is False
+
+
+def test_for_set_invert_axes() -> None:
+    builder = Builder().set_invert_axes()
+    assert builder.invert_axes is False
+    assert isinstance(builder, Builder)
+
+    builder = Builder().set_invert_axes(True)
+    assert builder.invert_axes is True
+
+    builder = Builder().set_invert_axes(False)
+    assert builder.invert_axes is False
+
+
 def test_for_set_show_progress() -> None:
     builder = Builder().set_show_progress()
     assert builder.show_progress is True
@@ -94,6 +110,31 @@ def test_for_build_visualization_manadger(builder: "Builder") -> None:
     builder = builder.build_visualization_manadger(code_matrix)
     assert isinstance(builder, Builder)
     assert isinstance(builder.vis_manadger, MapVisualizer)
+
+
+def test_for_full_pipeline_invert_axes_end_to_end() -> None:
+    def build_pipeline() -> Builder:
+        return (
+            Builder()
+            .set_pipe_params(diameter=1.0, roughness=0.01, angle=90.0)
+            .set_fluid_params(800, 50, 0.001, 0.00001, 0.01)
+            .set_velocite_liquid(0.1, 0.5)
+            .set_velocite_gas(1.0, 5.0)
+            .set_resolution(5)
+            .set_show_plot_flag(False)
+        )
+
+    default_result = build_pipeline().build_all()
+    default_result.run()
+    default_ax = default_result.vis_manadger.color_tuner.ax  # type: ignore
+    assert "v_{sl}" in default_ax.get_xlabel()
+    assert "v_{sg}" in default_ax.get_ylabel()
+
+    inverted_result = build_pipeline().set_invert_axes(True).build_all()
+    inverted_result.run()
+    inverted_ax = inverted_result.vis_manadger.color_tuner.ax  # type: ignore
+    assert "v_{sg}" in inverted_ax.get_xlabel()
+    assert "v_{sl}" in inverted_ax.get_ylabel()
 
 
 def test_for_build_all(builder: "Builder", monkeypatch: pytest.MonkeyPatch) -> None:

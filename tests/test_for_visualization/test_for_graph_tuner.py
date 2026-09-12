@@ -75,6 +75,34 @@ def test_for_graph_tuner_calling(mock_plt, mock_graph_tuner):
     mock_ax.legend.assert_called_once()
 
 
+def test_for_graph_tuner_labels_default(mock_plt, mock_graph_tuner):
+    mock_fig = MagicMock()
+    mock_ax = MagicMock()
+    mock_plt.subplots.return_value = (mock_fig, mock_ax)
+
+    tuner = mock_graph_tuner
+    tuner("ansari", np.array([101, 103]), True)
+
+    xlabel = mock_ax.set_xlabel.call_args[0][0]
+    ylabel = mock_ax.set_ylabel.call_args[0][0]
+    assert "v_{sl}" in xlabel
+    assert "v_{sg}" in ylabel
+
+
+def test_for_graph_tuner_labels_inverted(mock_plt, mock_graph_tuner):
+    mock_fig = MagicMock()
+    mock_ax = MagicMock()
+    mock_plt.subplots.return_value = (mock_fig, mock_ax)
+
+    tuner = mock_graph_tuner
+    tuner("ansari", np.array([101, 103]), True, invert_axes=True)
+
+    xlabel = mock_ax.set_xlabel.call_args[0][0]
+    ylabel = mock_ax.set_ylabel.call_args[0][0]
+    assert "v_{sg}" in xlabel
+    assert "v_{sl}" in ylabel
+
+
 def test_for_graph_tuner_ax_settings(mock_plt, mock_graph_tuner):
     mock_fig = MagicMock()
     mock_ax = MagicMock()
