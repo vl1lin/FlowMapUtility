@@ -126,6 +126,7 @@ flowchart LR
 |set_show_progress(bool)|прогресс-бар расчёта (по умолчанию выключен).|
 |set_count_of_workers(n)|число процессов для расчёта (по умолчанию — число ядер минус один).|
 |set_invert_axes(bool)|меняет местами оси графика: X = газ, Y = жидкость (по умолчанию False, т.е. X = жидкость, Y = газ).|
+|set_export_path(path)|экспортировать рассчитанную сетку (скорость газа, код режима, скорость жидкости) в CSV или XLSX — формат определяется по расширению файла (по умолчанию None — экспорт не выполняется).|
 
 
 ### Обязательная нстройка Builder
@@ -292,6 +293,39 @@ build(invert_axes=False).build_all().run()
 
 # С инверсией: X = газ, Y = жидкость
 build(invert_axes=True).build_all().run()
+```
+
+### Экспорт сетки в файл (`set_export_path`)
+
+Помимо графика, можно выгрузить саму рассчитанную сетку — три колонки: скорость газа, код режима, скорость жидкости. Формат (CSV или XLSX) определяется по расширению пути. Экспорт не зависит от `set_invert_axes` — колонки в файле всегда подписаны явно.
+
+:::{.callout-note}
+Экспорт в XLSX требует пакет `openpyxl` (`pip install openpyxl`, либо `flowmaputility[excel]`). Для CSV дополнительные зависимости не нужны.
+:::
+
+```{python}
+#| fig-width: 6
+#| fig-height: 4
+import csv
+
+from flowmaputility.builder import Builder
+
+obj = (
+    Builder()
+    .set_pipe_params(0.062, 0.0001, 90.0)
+    .set_fluid_params(800.0, 50.0, 1.0 * 0.001, 0.01 * 0.001, 0.01)
+    .set_velocite_liquid(0.1, 0.3)
+    .set_velocite_gas(0.1, 30)
+    .set_resolution(10)
+    .set_show_plot_flag(False)
+    .set_export_path("map_grid.csv")
+)
+
+obj.build_all().run()
+
+with open("map_grid.csv", encoding="utf-8-sig") as f:
+    for line in list(csv.reader(f))[:5]:
+        print(line)
 ```
 :::
 

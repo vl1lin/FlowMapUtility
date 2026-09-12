@@ -6,6 +6,8 @@ from collections.abc import Callable
 from functools import wraps
 from typing import TypeVar
 
+import numpy as np
+
 from flowmaputility.correlations.base import IFlowModel
 from flowmaputility.correlations.factory import ModelFactory
 from flowmaputility.domain.params import FluidParams, PipeParams, SystemParams
@@ -15,6 +17,7 @@ from flowmaputility.domain.validators import (
     SystemParamsValidator,
 )
 from flowmaputility.engine.manager import ProcessManager
+from flowmaputility.export.grid_exporter import GridExporter
 from flowmaputility.grid.generator import GridGenerator
 from flowmaputility.grid.info import GridInfo
 from flowmaputility.visualization.visualizer import MapVisualizer
@@ -68,6 +71,9 @@ class Builder:
         n_count (int): Количество процессов. (Необязательный параметр.)
         show_plot (bool): Флаг отображения графика. (Необязательный параметр.)
         save_path (str | None): Путь для сохранения результата.(Необязательный параметр)
+        export_path (str | None): Путь для экспорта сетки в CSV/XLSX.
+            (Необязательный параметр.)
+        code_matrix (np.ndarray | None): Матрица кодов режимов, посчитанная в build_all.
         vis_manadger (MapVisualizer | None): Визуализатор карты.
         run_core (ProcessManager | None): Менеджер процессов.
         show_progress (bool): Флаг отображения прогресс-бара расчета.
@@ -97,6 +103,8 @@ class Builder:
         self.show_plot: bool = True
         self.invert_axes: bool = False
         self.save_path: str | None = None
+        self.export_path: str | None = None
+        self.code_matrix: np.ndarray | None = None
         self.vis_manadger: MapVisualizer | None = None
         self.show_progress: bool = False
 
@@ -242,6 +250,17 @@ class Builder:
         self.save_path = save_path
         return self
 
+    def set_export_path(self, export_path: str) -> "Builder":
+        """
+        Устанавливает путь для экспорта сетки (скорости газа/жидкости и коды режимов)
+        в CSV или XLSX. Формат определяется по расширению файла.
+        Атрибут export_path является НЕОБЯЗАТЕЛЬНЫМ.
+        ПО УМОЛЧАНИЮ равно None (экспорт не выполняется).
+        :param export_path: путь до файла (.csv или .xlsx)
+        """
+        self.export_path = export_path
+        return self
+
     def set_show_progress(self, show_progress: bool = True) -> "Builder":
         """
         Устанавливает флаг отображения прогресс-бара расчета.
@@ -349,12 +368,15 @@ class Builder:
         self.build_grid_generator().build_grid_info().build_model_factory().build_model().build_core()
         code_matrix = self.run_core.run()  # type: ignore
         print(code_matrix)
+        self.code_matrix = code_matrix
         final_obj = self.build_visualization_manadger(code_matrix)
         return final_obj
 
     def run(self) -> None:
         """
-        Запускает визуализацию.
+        Запускает визуализацию и, если задан export_path, экспорт сетки в файл.
         :return: None
         """
         self.vis_manadger.run()  # type: ignore
+        if self.export_path:
+            GridExporter(self.grid_info, self.code_matrix).export(self.export_path)  # type: ignore

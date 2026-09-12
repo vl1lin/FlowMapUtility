@@ -1,4 +1,5 @@
-from unittest.mock import Mock
+import csv
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -35,6 +36,55 @@ def test_for_set_invert_axes() -> None:
 
     builder = Builder().set_invert_axes(False)
     assert builder.invert_axes is False
+
+
+def test_for_set_export_path_default() -> None:
+    assert Builder().export_path is None
+    assert Builder().code_matrix is None
+
+
+def test_for_set_export_path() -> None:
+    builder = Builder().set_export_path("map.csv")
+    assert builder.export_path == "map.csv"
+    assert isinstance(builder, Builder)
+
+
+def test_for_run_exports_grid_when_export_path_set(builder: "Builder") -> None:
+    builder.export_path = "map.csv"
+    builder.code_matrix = Mock()
+    with patch("flowmaputility.builder.GridExporter") as mock_exporter_cls:
+        builder.run()
+        mock_exporter_cls.assert_called_once_with(builder.grid_info, builder.code_matrix)
+        mock_exporter_cls.return_value.export.assert_called_once_with("map.csv")
+
+
+def test_for_run_does_not_export_when_export_path_not_set(builder: "Builder") -> None:
+    builder.export_path = None
+    with patch("flowmaputility.builder.GridExporter") as mock_exporter_cls:
+        builder.run()
+        mock_exporter_cls.assert_not_called()
+
+
+def test_for_full_pipeline_export_end_to_end(tmp_path) -> None:
+    export_path = tmp_path / "grid.csv"
+    result = (
+        Builder()
+        .set_pipe_params(diameter=1.0, roughness=0.01, angle=90.0)
+        .set_fluid_params(800, 50, 0.001, 0.00001, 0.01)
+        .set_velocite_liquid(0.1, 0.5)
+        .set_velocite_gas(1.0, 5.0)
+        .set_resolution(5)
+        .set_show_plot_flag(False)
+        .set_export_path(str(export_path))
+        .build_all()
+    )
+    result.run()
+
+    assert export_path.exists()
+    with open(export_path, newline="", encoding="utf-8-sig") as f:
+        rows = list(csv.reader(f))
+    assert rows[0] == ["Скорость газа, м/с", "Код режима", "Скорость жидкости, м/с"]
+    assert len(rows) == 1 + result.code_matrix.size  # type: ignore
 
 
 def test_for_set_show_progress() -> None:
