@@ -7,8 +7,6 @@
 Если нужна повышенная точность для расчета наклонной трубы: см.
 """
 
-import math
-
 from flowmaputility.correlations.base import FlowPatternCode, IFlowModel
 from flowmaputility.domain.params import FluidParams, PipeParams
 
@@ -49,7 +47,7 @@ class BeggsBrillModel(IFlowModel):
         """
         Метод класса, возвращает допустимый диапазон углов в градусах (min, max)
         """
-        return (0.0, math.nextafter(75.0, -math.inf))
+        return (-90.0, 90.0)
 
     def get_pattern_code(self, vsl: float, vsg: float) -> int:
         """

@@ -198,22 +198,3 @@ class AnsariModel(IFlowModel):
                 if vsl >= vslb
                 else FlowPatternCode.SLUG.value
             )
-
-    def _friction_factor(self, n_re: float, roughness_d: float) -> float:
-        """
-        Moody (Darcy-Weisbach) friction factor using Brkic explicit approximation.
-
-        Laminar: f = 64/Re. Turbulent: Brkic (2011) approximation of Colebrook.
-
-        :param n_re: Reynolds number. Type: float
-        :param roughness_d: relative pipe roughness (eps/d). Type: float
-        :return: Darcy friction factor. Type: float
-        """
-        if n_re == 0.0:
-            return 0.0
-        if n_re < 2000.0:
-            return 64.0 / n_re
-        # Brkic explicit approximation (case 3 in VBA)
-        s = math.log(n_re / (1.816 * math.log(1.1 * n_re / math.log(1.0 + 1.1 * n_re))))
-        f1 = -2.0 * math.log10(roughness_d / 3.71 + 2.0 * s / n_re)
-        return 1.0 / f1**2

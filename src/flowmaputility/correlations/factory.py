@@ -1,6 +1,7 @@
 from typing import overload
 
 from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.correlations.barnea import BarneaModel
 from flowmaputility.correlations.base import IFlowModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.domain.params import FluidParams, PipeParams
@@ -16,7 +17,21 @@ class ModelFactory:
         self.MODELS: dict[str, type[IFlowModel]] = {
             "ansari": AnsariModel,
             "beggs_brill": BeggsBrillModel,
+            "barnea": BarneaModel,
         }
+
+        self.AUTO: list[tuple[float, float, str]] = [
+            (0.0, 75.0, "barnea"),
+            (75.0, 90.0, "ansari"),
+        ]
+        self._validate_auto()
+
+    def _validate_auto(self):
+        for _, _, key in self.AUTO:
+            if key not in self.MODELS:
+                raise ValueError(
+                    f"AUTO_DISPATCH ссылается на незарегистрированную модель '{key}'"
+                )
 
     @overload
     def creat_model(
@@ -49,10 +64,16 @@ class ModelFactory:
             except KeyError:
                 raise ValueError(f"Model {model_name_or_angel} is not supported")
         elif isinstance(model_name_or_angel, float):
-            for model in self.MODELS.values():
-                angle_range = model.angle_limit()
-                if angle_range[0] <= model_name_or_angel <= angle_range[1]:
-                    return model(pipe, fluid)
+            n = len(self.AUTO)
+            for i, (angle_min, angle_max, key) in enumerate(self.AUTO):
+                is_last = i == n - 1
+                in_range = (
+                    angle_min <= model_name_or_angel <= angle_max
+                    if is_last
+                    else angle_min <= model_name_or_angel < angle_max
+                )
+                if in_range:
+                    return self.MODELS[key](pipe, fluid)
             raise ValueError(
                 f"Angle {model_name_or_angel} is out of range for any model"
             )
