@@ -1,0 +1,2800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Сравнительный анализ методов определения режима течения газожидкостной смеси в трубе</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="report_olga_comparison_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_olga_comparison_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="report_olga_comparison_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="report_olga_comparison_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_olga_comparison_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_olga_comparison_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_olga_comparison_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_olga_comparison_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_olga_comparison_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_olga_comparison_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_olga_comparison_files/libs/bootstrap/bootstrap-62e2d20df198e8a01bb734742f2e28cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Содержание</h2>
+   
+  <ul>
+  <li><a href="#аннотация" id="toc-аннотация" class="nav-link active" data-scroll-target="#аннотация">Аннотация</a></li>
+  <li><a href="#введение" id="toc-введение" class="nav-link" data-scroll-target="#введение">1. Введение</a></li>
+  <li><a href="#обзор-методов-определения-режима-течения" id="toc-обзор-методов-определения-режима-течения" class="nav-link" data-scroll-target="#обзор-методов-определения-режима-течения">2. Обзор методов определения режима течения</a>
+  <ul class="collapse">
+  <li><a href="#эмпирические-карты-режимов" id="toc-эмпирические-карты-режимов" class="nav-link" data-scroll-target="#эмпирические-карты-режимов">2.1 Эмпирические карты режимов</a></li>
+  <li><a href="#механистические-и-полуэмпирические-модели" id="toc-механистические-и-полуэмпирические-модели" class="nav-link" data-scroll-target="#механистические-и-полуэмпирические-модели">2.2 Механистические и полуэмпирические модели</a></li>
+  <li><a href="#коммерческие-симуляторы-многофазного-течения" id="toc-коммерческие-симуляторы-многофазного-течения" class="nav-link" data-scroll-target="#коммерческие-симуляторы-многофазного-течения">2.3 Коммерческие симуляторы многофазного течения</a></li>
+  </ul></li>
+  <li><a href="#материалы-и-методы" id="toc-материалы-и-методы" class="nav-link" data-scroll-target="#материалы-и-методы">3. Материалы и методы</a>
+  <ul class="collapse">
+  <li><a href="#программная-реализация-корреляций" id="toc-программная-реализация-корреляций" class="nav-link" data-scroll-target="#программная-реализация-корреляций">3.1 Программная реализация корреляций</a></li>
+  <li><a href="#тестовые-сценарии" id="toc-тестовые-сценарии" class="nav-link" data-scroll-target="#тестовые-сценарии">3.2 Тестовые сценарии</a></li>
+  <li><a href="#легенда-кодов-режимов-и-их-сопоставление" id="toc-легенда-кодов-режимов-и-их-сопоставление" class="nav-link" data-scroll-target="#легенда-кодов-режимов-и-их-сопоставление">3.3 Легенда кодов режимов и их сопоставление</a></li>
+  <li><a href="#методика-сопоставления-и-воспроизводимость" id="toc-методика-сопоставления-и-воспроизводимость" class="nav-link" data-scroll-target="#методика-сопоставления-и-воспроизводимость">3.4 Методика сопоставления и воспроизводимость</a></li>
+  </ul></li>
+  <li><a href="#результаты" id="toc-результаты" class="nav-link" data-scroll-target="#результаты">4. Результаты</a>
+  <ul class="collapse">
+  <li><a href="#площадь-режимов-на-карте-100100-10000-точек-на-кейс" id="toc-площадь-режимов-на-карте-100100-10000-точек-на-кейс" class="nav-link" data-scroll-target="#площадь-режимов-на-карте-100100-10000-точек-на-кейс">4.1 Площадь режимов на карте (100×100 = 10000 точек на кейс)</a></li>
+  <li><a href="#визуальное-сопоставление-карт-режимов" id="toc-визуальное-сопоставление-карт-режимов" class="nav-link" data-scroll-target="#визуальное-сопоставление-карт-режимов">4.2 Визуальное сопоставление карт режимов</a></li>
+  <li><a href="#матрицы-сопряжения-по-каждому-кейсу" id="toc-матрицы-сопряжения-по-каждому-кейсу" class="nav-link" data-scroll-target="#матрицы-сопряжения-по-каждому-кейсу">4.3 Матрицы сопряжения по каждому кейсу</a></li>
+  <li><a href="#агрегированные-результаты-по-семействам-моделей" id="toc-агрегированные-результаты-по-семействам-моделей" class="nav-link" data-scroll-target="#агрегированные-результаты-по-семействам-моделей">4.4 Агрегированные результаты по семействам моделей</a></li>
+  <li><a href="#итоговое-совпадение-по-кейсам" id="toc-итоговое-совпадение-по-кейсам" class="nav-link" data-scroll-target="#итоговое-совпадение-по-кейсам">4.5 Итоговое совпадение по кейсам</a></li>
+  <li><a href="#сравнение-границ-режимов" id="toc-сравнение-границ-режимов" class="nav-link" data-scroll-target="#сравнение-границ-режимов">4.6 Сравнение границ режимов</a></li>
+  </ul></li>
+  <li><a href="#обсуждение" id="toc-обсуждение" class="nav-link" data-scroll-target="#обсуждение">5. Обсуждение</a></li>
+  <li><a href="#заключение" id="toc-заключение" class="nav-link" data-scroll-target="#заключение">6. Заключение</a></li>
+  <li><a href="#направления-дальнейших-исследований" id="toc-направления-дальнейших-исследований" class="nav-link" data-scroll-target="#направления-дальнейших-исследований">7. Направления дальнейших исследований</a></li>
+  <li><a href="#список-литературы" id="toc-список-литературы" class="nav-link" data-scroll-target="#список-литературы">Список литературы</a></li>
+  <li><a href="#приложение-а.-карты-режимов-течения-для-всех-10-кейсов" id="toc-приложение-а.-карты-режимов-течения-для-всех-10-кейсов" class="nav-link" data-scroll-target="#приложение-а.-карты-режимов-течения-для-всех-10-кейсов">Приложение А. Карты режимов течения для всех 10 кейсов</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Сравнительный анализ методов определения режима течения газожидкостной смеси в трубе</h1>
+<p class="subtitle lead">Верификация корреляций Ансари и Беггса-Брилла по данным симулятора OLGA (Schlumberger) на 10 сценариях, сетка 100×100 (Vsl × Vsg)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Дата публикации</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">17 сентября 2026 г.</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="аннотация" class="level2">
+<h2 class="anchored" data-anchor-id="аннотация">Аннотация</h2>
+<p>Определение режима течения газожидкостной смеси в трубе — необходимый этап проектирования систем сбора и транспорта углеводородов: от режима течения зависят потери давления, удержание жидкости (holdup), интенсивность коррозии, тепловые потери и риск возникновения гидроударов при переходе к пробковому режиму. В работе выполнено сопоставление классификации режимов течения, полученной двумя классическими корреляциями — механистической моделью Ансари и др. (Ansari et al., 1994) для восходящего наклонно-вертикального потока и полуэмпирической моделью Беггса-Брилла (Beggs, Brill, 1973) для труб произвольного наклона, реализованными в авторском программном обеспечении FlowMapUtility, — с результатами промышленного симулятора многофазного течения OLGA (Schlumberger), принятого в работе за отраслевой референс. Сравнение выполнено на 10 сценариях (5 скважин и 5 трубопроводов) с углами наклона от 0° до 90°, на регулярной сетке 100×100 точек по приведённым скоростям жидкости и газа (10 000 точек на кейс, 100 000 точек всего). Показано, что для около-вертикальных скважин (модель Ансари) совпадение классификации с OLGA составляет 68–77%, тогда как для горизонтальных и наклонных трубопроводов (модель Беггса-Брилла) — 38–60%, причём точность в целом снижается с ростом угла наклона. Установлено, что основной источник расхождений — структурные ограничения самих классических корреляций (независимость порога перехода в кольцевой режим от скорости жидкости у модели Ансари; полное отсутствие угла наклона в классификации режима у модели Беггса-Брилла; заниженная по сравнению с OLGA площадь расслоенного режима у модели Беггса-Брилла), а не ошибки программной реализации. Результаты показывают, что использование классических корреляций для построения карт режимов течения без модификаций требует осторожности, особенно для наклонных трубопроводов с углом наклона более 30°.</p>
+<p><strong>Ключевые слова:</strong> многофазный поток, режим течения, карта режимов течения, корреляция Ансари, корреляция Беггса-Брилла, OLGA, верификация расчётных моделей, приведённая скорость</p>
+</section>
+<section id="введение" class="level2">
+<h2 class="anchored" data-anchor-id="введение">1. Введение</h2>
+<p>Совместное течение газа и жидкости в трубе может принимать качественно разные пространственные конфигурации (пузырьковую, пробковую, дисперсно-пузырьковую, расслоённую, кольцевую и др.), объединяемые понятием <em>режим течения</em> (flow pattern / flow regime). Режим течения — не второстепенная деталь, а определяющий фактор для инженерного расчёта многофазного потока: от него зависят применяемая корреляция для градиента давления и удержания жидкости, интенсивность коррозии и эрозии, эффективность теплообмена, а также риск возникновения гидроударов и переполнения сепараторов при пробковом (slug) режиме. Ошибка в определении режима течения приводит к системной ошибке во всех последующих гидравлических расчётах, поэтому точность карт режимов течения — предмет постоянных исследований в трубопроводной гидравлике с 1950-х годов.</p>
+<p>Исторически сложилось два подхода к построению карт режимов: (1) классические корреляции — эмпирические и полуэмпирические зависимости, полученные аппроксимацией лабораторных данных на трубах малого диаметра, и (2) коммерческие механистические симуляторы многофазного потока (OLGA, PIPESIM, LedaFlow и др.), использующие более сложные, часто проприетарные модели с большим числом эмпирических замыканий. Классические корреляции остаются массово востребованными из-за простоты реализации и вычислительной дешевизны, но их применимость за пределами условий, на которых они были откалиброваны, заранее не гарантирована.</p>
+<p>Настоящая работа посвящена количественной верификации двух классических корреляций — модели Ансари (Ansari et al., 1994) для восходящего наклонно-вертикального потока и модели Беггса-Брилла (Beggs, Brill, 1973) для труб произвольного наклона, — реализованных в открытом программном обеспечении FlowMapUtility, против карт режимов течения, построенных промышленным симулятором OLGA (Schlumberger) для тех же условий. Целью работы является не столько подтверждение или опровержение корректности реализации корреляций (она заведомо соответствует исходным публикациям, см. §3.1), сколько количественная оценка <em>расхождения самих корреляций с промышленным эталоном</em> и объяснение природы этого расхождения через структурные особенности исходных моделей.</p>
+<p>Задачи работы:</p>
+<ol type="1">
+<li>Провести обзор существующих подходов к определению режима течения — от ранних эмпирических карт до механистических моделей и коммерческих симуляторов (§2).</li>
+<li>Описать методику сопоставления двух классификаций режимов на сетке приведённых скоростей и официальное соответствие кодов режимов FlowMapUtility и OLGA (§3).</li>
+<li>Количественно оценить долю совпадения классификации для 10 представительных сценариев скважин и трубопроводов (§4).</li>
+<li>Объяснить наблюдаемые расхождения через структурные особенности корреляций и сформулировать практические рекомендации (§5–§6).</li>
+</ol>
+</section>
+<section id="обзор-методов-определения-режима-течения" class="level2">
+<h2 class="anchored" data-anchor-id="обзор-методов-определения-режима-течения">2. Обзор методов определения режима течения</h2>
+<section id="эмпирические-карты-режимов" class="level3">
+<h3 class="anchored" data-anchor-id="эмпирические-карты-режимов">2.1 Эмпирические карты режимов</h3>
+<p>Первые карты режимов течения строились как эмпирические диаграммы в координатах, связанных с массовыми или объёмными расходами фаз, без явной физической модели перехода между режимами. Наиболее известна ранняя карта Бейкера (Baker, 1954) для горизонтальных труб, построенная по данным на трубах малого диаметра и до сих пор встречающаяся в инженерных справочниках, несмотря на ограниченную применимость к современным диаметрам труб и свойствам флюидов. Позднее Мандхейн с соавторами (Mandhane, Gregory, Aziz, 1974) предложили карту в координатах приведённых скоростей газа и жидкости (Vsg–Vsl) — именно этот формат координат стал стандартом де-факто и используется в настоящей работе. Эмпирические карты просты в применении, но их границы режимов являются статическими линиями на плоскости и не учитывают явно диаметр трубы, свойства флюидов и угол наклона, что ограничивает их точность за пределами условий калибровки.</p>
+</section>
+<section id="механистические-и-полуэмпирические-модели" class="level3">
+<h3 class="anchored" data-anchor-id="механистические-и-полуэмпирические-модели">2.2 Механистические и полуэмпирические модели</h3>
+<p>Механистические модели, в отличие от чисто эмпирических карт, выводят границы режимов из физических критериев устойчивости (например, устойчивость расслоённого течения по Кельвину-Гельмгольцу, критическая скорость дробления пузырьков и т.п.), откалиброванных по экспериментальным константам. Основополагающей работой стала модель Тайтела-Даклера (Taitel, Dukler, 1976) для горизонтальных и слабонаклонных труб, впоследствии обобщённая Барнеа (Barnea, 1987) в единую модель, применимую при произвольном угле наклона трубы от -90° до +90°.</p>
+<p>Для восходящего течения в наклонно-вертикальных скважинах отдельное направление развития механистических моделей представлено работой Ансари и др. (Ansari et al., 1994) — составной (composite) моделью, объединяющей критерии перехода между пузырьковым, пробковым, дисперсно-пузырьковым и кольцевым режимами специально для условий добывающих скважин. Именно эта модель реализована в FlowMapUtility как <code>AnsariModel</code> (см. §3.1) и используется в настоящей работе для сценариев скважин (кейсы 1, 2, 3, 7, 10, угол 75–90°).</p>
+<p>Отдельную нишу занимает полуэмпирическая корреляция Беггса-Брилла (Beggs, Brill, 1973), полученная по результатам экспериментов на прозрачной трубе диаметром 1–1.5 дюйма с изменяемым углом наклона от -90° до +90°. Важная особенность оригинальной методики Беггса-Брилла — классификация режима (segregated / intermittent / distributed, с переходной зоной transition) определяется <strong>только</strong> числом Фруда смеси и объёмным расходным содержанием жидкости без учёта угла наклона трубы; угол наклона в оригинальной работе 1973 года используется лишь для последующей поправки удержания жидкости внутри уже определённого режима, а не для самой границы режима. Это структурное свойство исходной модели, а не упрощение при программной реализации — оно подробно разбирается в §5 как одна из основных причин расхождений с OLGA.</p>
+</section>
+<section id="коммерческие-симуляторы-многофазного-течения" class="level3">
+<h3 class="anchored" data-anchor-id="коммерческие-симуляторы-многофазного-течения">2.3 Коммерческие симуляторы многофазного течения</h3>
+<p>Коммерческие транзиентные симуляторы многофазного потока, из которых наиболее распространён OLGA (Schlumberger/ SLB), используют собственный, проприетарный набор замыкающих корреляций для перехода между режимами, не публикуемый в полном объёме в открытой печати. Поэтому в настоящей работе OLGA рассматривается исключительно как источник эталонных карт режимов (“чёрный ящик”) для сравнения, без попытки воспроизвести или объяснить внутреннюю логику самого симулятора. Официальная легенда кодов режимов на экспортируемой карте OLGA (см. §3.3) при этом документирована и однозначна.</p>
+</section>
+</section>
+<section id="материалы-и-методы" class="level2">
+<h2 class="anchored" data-anchor-id="материалы-и-методы">3. Материалы и методы</h2>
+<section id="программная-реализация-корреляций" class="level3">
+<h3 class="anchored" data-anchor-id="программная-реализация-корреляций">3.1 Программная реализация корреляций</h3>
+<p>Обе корреляции реализованы в модулях <code>src/flowmaputility/correlations/ansari.py</code> и <code>src/flowmaputility/correlations/beggs_brill.py</code> пакета FlowMapUtility. Классификация режима возвращается в виде кода <code>FlowPatternCode</code> (перечисление в <code>src/flowmaputility/correlations/base.py</code>, см. легенду в §3.3).</p>
+<p>Модель Ансари (<code>AnsariModel._fpup</code>) для восходящего потока (75° ≤ угол ≤ 90°) определяет режим через три граничные скорости газа <code>vsg1</code>, <code>vsg2</code>, <code>vsg3</code>, рассчитываемые итерационно (<code>_mpoint</code>, <code>_dbtran</code>) с учётом диаметра трубы, шероховатости, плотностей, вязкостей фаз и поверхностного натяжения. Ключевая для дальнейшего анализа деталь — порог перехода в кольцевой режим:</p>
+<p><span class="math display">\[v_{sg,3} = \frac{3.1\,\bigl(\sigma \, g \sin\alpha \,(\rho_l - \rho_g)\bigr)^{0.25}}{\sqrt{\rho_g}}\]</span></p>
+<p>не зависит от приведённой скорости жидкости <span class="math inline">\(v_{sl}\)</span> — это прямое следствие формулы из оригинальной работы Ансари и др. (1994), а не артефакт реализации.</p>
+<p>Модель Беггса-Брилла (<code>BeggsBrillModel._flow_pattern</code>, диапазон углов 0°–75°) классифицирует режим по безразмерному объёмному содержанию жидкости <span class="math inline">\(\lambda_l = v_{sl}/(v_{sl}+v_{sg})\)</span> и числу Фруда смеси <span class="math inline">\(N_{Fr} = (v_{sl}+v_{sg})^2/(g D)\)</span> по системе пороговых неравенств:</p>
+<p><span class="math display">\[
+\text{Stratified: } N_{Fr} \le 0.000925\,\lambda_l^{-2.468}; \qquad
+\text{Distributed: } N_{Fr} \ge 316\,\lambda_l^{0.302} \ \text{или} \ N_{Fr} \ge 0.5\,\lambda_l^{-6.738};
+\]</span></p>
+<p>промежуточные значения классифицируются как Transition или Intermittent (в выводе приложения оба объединены в код SLUG, см. §3.3). Ни в одном из этих неравенств угол наклона трубы не участвует — см. обсуждение в §5.</p>
+</section>
+<section id="тестовые-сценарии" class="level3">
+<h3 class="anchored" data-anchor-id="тестовые-сценарии">3.2 Тестовые сценарии</h3>
+<p>Для сопоставления с OLGA подготовлено 10 сценариев, охватывающих диапазон углов наклона от 0° (горизонтальный трубопровод) до 90° (вертикальная скважина), с различными диаметрами труб, свойствами флюидов и давлениями — 5 сценариев рассчитаны моделью Ансари (скважины) и 5 — моделью Беггса-Брилла (трубопроводы). Таблица широкая — её можно прокрутить по горизонтали:</p>
+<div style="overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #ddd; border-radius:4px; padding:4px;">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 16%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">case_id</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">D,м</th>
+<th style="text-align: right;">k,м</th>
+<th style="text-align: right;">angle,°</th>
+<th style="text-align: right;">rho_l,кг/м3</th>
+<th style="text-align: right;">rho_g,кг/м3</th>
+<th style="text-align: right;">mu_l,Па*с</th>
+<th style="text-align: right;">mu_g,Па*с</th>
+<th style="text-align: right;">sigma,Н/м</th>
+<th style="text-align: right;">P,Па</th>
+<th style="text-align: right;">T,K</th>
+<th style="text-align: right;">Vsl_min</th>
+<th style="text-align: right;">Vsl_max</th>
+<th style="text-align: right;">Vsg_min</th>
+<th style="text-align: right;">Vsg_max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Верт. газоконд. скважина</td>
+<td style="text-align: left;">ansari</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">750</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">0.0005</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1e+07</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Наклонная скважина</td>
+<td style="text-align: left;">ansari</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">800</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">1.3e-05</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">8e+06</td>
+<td style="text-align: right;">340</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Верт. водогазовая скважина</td>
+<td style="text-align: left;">ansari</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">2e-05</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0009</td>
+<td style="text-align: right;">1.8e-05</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">1.2e+07</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Горизонтальный трубопровод</td>
+<td style="text-align: left;">beggs_brill</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">4.6e-05</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">850</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">1.2e-05</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1e+06</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Трубопровод холмистый рельеф</td>
+<td style="text-align: left;">beggs_brill</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">4.6e-05</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">820</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">1.3e-05</td>
+<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">2e+06</td>
+<td style="text-align: right;">305</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Крутой наклон граница моделей</td>
+<td style="text-align: left;">beggs_brill</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">780</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">1.4e-05</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">3e+06</td>
+<td style="text-align: right;">310</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Тяжелая нефть верт. скважина</td>
+<td style="text-align: left;">ansari</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">900</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">1.6e-05</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">9e+06</td>
+<td style="text-align: right;">345</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Слабо наклонный трубопровод</td>
+<td style="text-align: left;">beggs_brill</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">4.6e-05</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">830</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">1.2e-05</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">1.5e+06</td>
+<td style="text-align: right;">298</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Морской трубопровод</td>
+<td style="text-align: left;">beggs_brill</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">4.6e-05</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">780</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">6e+06</td>
+<td style="text-align: right;">290</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Верт. газовая скважина высокий GLR</td>
+<td style="text-align: left;">ansari</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">1.5e-05</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">760</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">0.0007</td>
+<td style="text-align: right;">1.4e-05</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">1.1e+07</td>
+<td style="text-align: right;">355</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">30</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Сценарии подобраны так, чтобы охватить и типичные условия (вертикальная газоконденсатная скважина, морской трубопровод), и граничные случаи (тяжёлая нефть с вязкостью 50 сПз, крутой наклон 60° — на стыке диапазонов применимости двух моделей, высокий газовый фактор). Для каждого сценария на область <span class="math inline">\(v_{sl} \in
+[V_{sl,min}, V_{sl,max}]\)</span>, <span class="math inline">\(v_{sg} \in [V_{sg,min}, V_{sg,max}]\)</span> строится логарифмически равномерная сетка 100×100 точек (10 000 точек на кейс), для каждой точки рассчитывается код режима течения в FlowMapUtility и экспортируется эквивалентная карта из OLGA (Case Setup, Flow Regime Map, тот же диапазон Vsl/Vsg).</p>
+</section>
+<section id="легенда-кодов-режимов-и-их-сопоставление" class="level3">
+<h3 class="anchored" data-anchor-id="легенда-кодов-режимов-и-их-сопоставление">3.3 Легенда кодов режимов и их сопоставление</h3>
+<p>Коды режимов FlowMapUtility (<code>FlowPatternCode</code>, из <code>src/flowmaputility/correlations/base.py</code>):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Код</th>
+<th>Название</th>
+<th>Модель, где встречается</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100</td>
+<td>Однофазная жидкость (SINGLE_LIQUID)</td>
+<td>обе (Vsl&gt;0, Vsg≈0)</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td>Однофазный газ (SINGLE_GAS)</td>
+<td>обе (Vsg&gt;0, Vsl≈0)</td>
+</tr>
+<tr class="odd">
+<td>102</td>
+<td>Пузырьковый (BUBBLE)</td>
+<td>только Ansari</td>
+</tr>
+<tr class="even">
+<td>103</td>
+<td>Пробковый (SLUG)</td>
+<td>обе</td>
+</tr>
+<tr class="odd">
+<td>104</td>
+<td>Дисперг. пузырьковый (DISPERSED_BUBBLE)</td>
+<td>обе</td>
+</tr>
+<tr class="even">
+<td>105</td>
+<td>Кольцевой (ANNULAR)</td>
+<td>только Ansari</td>
+</tr>
+<tr class="odd">
+<td>106</td>
+<td>Стратифицированный (STRATIFIED)</td>
+<td>только Beggs-Brill</td>
+</tr>
+<tr class="even">
+<td>199</td>
+<td>Неизвестно (UNKNOWN)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Коды режимов OLGA (<code>Flow Regimes, Gas/Liquid</code>) — официальная легенда симулятора:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Код OLGA</th>
+<th>Название (англ.)</th>
+<th>Название (рус.)</th>
+<th>В каких кейсах встречается</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Stratified smooth</td>
+<td>Расслоенный гладкий</td>
+<td>кейс 4 (угол 0°)</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Stratified wavy</td>
+<td>Расслоенный волновой</td>
+<td>Beggs-Brill кейсы (4, 5, 6, 8, 9)</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Annular</td>
+<td>Кольцевой</td>
+<td>Ansari кейсы (1, 2, 3, 7, 10)</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Slug</td>
+<td>Пробковый</td>
+<td>во всех кейсах</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Bubble</td>
+<td>Пузырьковый (OLGA не различает Bubble и Dispersed Bubble)</td>
+<td>во всех кейсах</td>
+</tr>
+<tr class="even">
+<td>5, 6</td>
+<td>(не используются в легенде OLGA / не встретились в данных)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Single phase oil</td>
+<td>Однофазная жидкость (краевая точка сетки)</td>
+<td>кейс 8, 1 точка из 10000</td>
+</tr>
+</tbody>
+</table>
+<p>Совпадением засчитывается пара кодов, соответствующая одному физическому режиму:</p>
+<ul>
+<li><strong>Ansari:</strong> Пузырьковый/Дисперг. пузырьковый (FlowMapUtility) ↔︎ Bubble, код 4 (OLGA); Пробковый ↔︎ Slug, код 3; Кольцевой ↔︎ Annular, код 2.</li>
+<li><strong>Beggs-Brill:</strong> Стратифицированный (FlowMapUtility) ↔︎ Stratified smooth <strong>или</strong> Stratified wavy, коды 0 и 1 (OLGA) — оба кода относятся к одному физическому режиму (расслоённое течение, различающееся лишь формой границы раздела фаз); Пробковый ↔︎ Slug, код 3; Дисперг. пузырьковый ↔︎ Bubble, код 4 <strong>только</strong> (код 1 — Stratified wavy — к дисперсно-пузырьковому режиму отношения не имеет).</li>
+</ul>
+</section>
+<section id="методика-сопоставления-и-воспроизводимость" class="level3">
+<h3 class="anchored" data-anchor-id="методика-сопоставления-и-воспроизводимость">3.4 Методика сопоставления и воспроизводимость</h3>
+<p>Все числовые результаты в данной работе посчитаны кодом ниже (языковой движок Quarto/Jupyter; при рендеринге пересчитывает заново из исходных файлов <code>flow_pattern_test_cases_2.csv</code>, <code>map_case/python/2/*.csv</code>, <code>map_case/olga/2/*.xls</code>) с применением легенды кодов из §3.3. Если Quarto не установлен — файл читается как обычный markdown, все таблицы и числа уже посчитаны и приведены ниже как текст.</p>
+<p>Поскольку внутренние корреляции OLGA закрыты (см. §2.3), в работе не ставится задача объяснить, <em>почему</em> OLGA проводит границу режима именно там, где она проходит — OLGA используется только как источник эталонных данных для количественной оценки расхождения с классическими корреляциями. Единственное используемое допущение — соответствие физических режимов из §3.3, которое теперь основано на официальной легенде симулятора, а не на эмпирической расшифровке.</p>
+</section>
+</section>
+<section id="результаты" class="level2">
+<h2 class="anchored" data-anchor-id="результаты">4. Результаты</h2>
+<section id="площадь-режимов-на-карте-100100-10000-точек-на-кейс" class="level3">
+<h3 class="anchored" data-anchor-id="площадь-режимов-на-карте-100100-10000-точек-на-кейс">4.1 Площадь режимов на карте (100×100 = 10000 точек на кейс)</h3>
+<p><strong>OLGA</strong> (коды режимов — см. §3.3):</p>
+<div style="overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #ddd; border-radius:4px; padding:4px;">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">case</th>
+<th style="text-align: right;">Расслоенный гладкий (n)</th>
+<th style="text-align: right;">Расслоенный гладкий (%)</th>
+<th style="text-align: right;">Расслоенный волновой (n)</th>
+<th style="text-align: right;">Расслоенный волновой (%)</th>
+<th style="text-align: right;">Кольцевой (n)</th>
+<th style="text-align: right;">Кольцевой (%)</th>
+<th style="text-align: right;">Пробковый (n)</th>
+<th style="text-align: right;">Пробковый (%)</th>
+<th style="text-align: right;">Пузырьковый (n)</th>
+<th style="text-align: right;">Пузырьковый (%)</th>
+<th style="text-align: right;">Однофазная жидк. (n)</th>
+<th style="text-align: right;">Однофазная жидк. (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3369</td>
+<td style="text-align: right;">33.69</td>
+<td style="text-align: right;">3702</td>
+<td style="text-align: right;">37.02</td>
+<td style="text-align: right;">2929</td>
+<td style="text-align: right;">29.29</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3072</td>
+<td style="text-align: right;">30.72</td>
+<td style="text-align: right;">4008</td>
+<td style="text-align: right;">40.08</td>
+<td style="text-align: right;">2920</td>
+<td style="text-align: right;">29.2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3265</td>
+<td style="text-align: right;">32.65</td>
+<td style="text-align: right;">3746</td>
+<td style="text-align: right;">37.46</td>
+<td style="text-align: right;">2989</td>
+<td style="text-align: right;">29.89</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1414</td>
+<td style="text-align: right;">14.14</td>
+<td style="text-align: right;">4114</td>
+<td style="text-align: right;">41.14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3885</td>
+<td style="text-align: right;">38.85</td>
+<td style="text-align: right;">587</td>
+<td style="text-align: right;">5.87</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3697</td>
+<td style="text-align: right;">36.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4068</td>
+<td style="text-align: right;">40.68</td>
+<td style="text-align: right;">2235</td>
+<td style="text-align: right;">22.35</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7433</td>
+<td style="text-align: right;">74.33</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">428</td>
+<td style="text-align: right;">4.28</td>
+<td style="text-align: right;">2139</td>
+<td style="text-align: right;">21.39</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4011</td>
+<td style="text-align: right;">40.11</td>
+<td style="text-align: right;">2876</td>
+<td style="text-align: right;">28.76</td>
+<td style="text-align: right;">3113</td>
+<td style="text-align: right;">31.13</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1302</td>
+<td style="text-align: right;">13.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7106</td>
+<td style="text-align: right;">71.06</td>
+<td style="text-align: right;">1591</td>
+<td style="text-align: right;">15.91</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2580</td>
+<td style="text-align: right;">25.8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6023</td>
+<td style="text-align: right;">60.23</td>
+<td style="text-align: right;">1397</td>
+<td style="text-align: right;">13.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3660</td>
+<td style="text-align: right;">36.6</td>
+<td style="text-align: right;">4043</td>
+<td style="text-align: right;">40.43</td>
+<td style="text-align: right;">2297</td>
+<td style="text-align: right;">22.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>FlowMapUtility:</strong></p>
+<div style="overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #ddd; border-radius:4px; padding:4px;">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">case</th>
+<th style="text-align: right;">Пузырьковый (n)</th>
+<th style="text-align: right;">Пузырьковый (%)</th>
+<th style="text-align: right;">Пробковый (n)</th>
+<th style="text-align: right;">Пробковый (%)</th>
+<th style="text-align: right;">Дисперг. пузырьковый (n)</th>
+<th style="text-align: right;">Дисперг. пузырьковый (%)</th>
+<th style="text-align: right;">Кольцевой (n)</th>
+<th style="text-align: right;">Кольцевой (%)</th>
+<th style="text-align: right;">Стратифицированный (n)</th>
+<th style="text-align: right;">Стратифицированный (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1012</td>
+<td style="text-align: right;">10.12</td>
+<td style="text-align: right;">3040</td>
+<td style="text-align: right;">30.4</td>
+<td style="text-align: right;">248</td>
+<td style="text-align: right;">2.48</td>
+<td style="text-align: right;">5700</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1038</td>
+<td style="text-align: right;">10.38</td>
+<td style="text-align: right;">3413</td>
+<td style="text-align: right;">34.13</td>
+<td style="text-align: right;">249</td>
+<td style="text-align: right;">2.49</td>
+<td style="text-align: right;">5300</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1161</td>
+<td style="text-align: right;">11.61</td>
+<td style="text-align: right;">3297</td>
+<td style="text-align: right;">32.97</td>
+<td style="text-align: right;">142</td>
+<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">5400</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4784</td>
+<td style="text-align: right;">47.84</td>
+<td style="text-align: right;">2492</td>
+<td style="text-align: right;">24.92</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2724</td>
+<td style="text-align: right;">27.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4708</td>
+<td style="text-align: right;">47.08</td>
+<td style="text-align: right;">2814</td>
+<td style="text-align: right;">28.14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2478</td>
+<td style="text-align: right;">24.78</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4556</td>
+<td style="text-align: right;">45.56</td>
+<td style="text-align: right;">3290</td>
+<td style="text-align: right;">32.9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2154</td>
+<td style="text-align: right;">21.54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">852</td>
+<td style="text-align: right;">8.52</td>
+<td style="text-align: right;">2965</td>
+<td style="text-align: right;">29.65</td>
+<td style="text-align: right;">383</td>
+<td style="text-align: right;">3.83</td>
+<td style="text-align: right;">5800</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4847</td>
+<td style="text-align: right;">48.47</td>
+<td style="text-align: right;">2236</td>
+<td style="text-align: right;">22.36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2917</td>
+<td style="text-align: right;">29.17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4893</td>
+<td style="text-align: right;">48.93</td>
+<td style="text-align: right;">2027</td>
+<td style="text-align: right;">20.27</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3080</td>
+<td style="text-align: right;">30.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">958</td>
+<td style="text-align: right;">9.58</td>
+<td style="text-align: right;">3135</td>
+<td style="text-align: right;">31.35</td>
+<td style="text-align: right;">307</td>
+<td style="text-align: right;">3.07</td>
+<td style="text-align: right;">5600</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Уже на уровне суммарных площадей режимов заметны две закономерности. Во-первых, для кейсов Ansari доля Кольцевого режима у FlowMapUtility систематически выше, чем доля Annular у OLGA (57% против 34% в кейсе 1) — признак того, что порог начала кольцевого режима у FlowMapUtility занижен относительно OLGA (подтверждается в §4.6). Во-вторых, для кейсов Beggs-Brill суммарная площадь расслоённого семейства у OLGA (Расслоенный гладкий + Расслоенный волновой) систематически <strong>больше</strong>, чем площадь Стратифицированного режима у FlowMapUtility: например, в кейсе 4 (горизонтальная труба) OLGA относит к расслоённому течению 55.28% карты (1414+4114 точек), а FlowMapUtility — только 27.24%. Это прямо противоположно интуитивному предположению о том, что классическая граница Беггса-Брилла слишком долго удерживает поток в расслоённом режиме — на деле она, по сравнению с OLGA, отдаёт часть расслоённой области в пробковый и дисперсно-пузырьковый режимы раньше, чем это делает OLGA (см. §4.6, §5).</p>
+</section>
+<section id="визуальное-сопоставление-карт-режимов" class="level3">
+<h3 class="anchored" data-anchor-id="визуальное-сопоставление-карт-режимов">4.2 Визуальное сопоставление карт режимов</h3>
+<p>Ниже приведены карты режимов течения для трёх представительных кейсов: кейс 1 (вертикальная газоконденсатная скважина, модель Ансари — лучшее совпадение среди кейсов Ansari), кейс 4 (горизонтальный трубопровод, модель Беггса-Брилла — базовый случай без влияния угла) и кейс 6 (трубопровод с углом наклона 60°, модель Беггса-Брилла — худшее совпадение среди всех 10 кейсов). Оси на картах OLGA — Vsg (X) и Vsl (Y) в м/с, логарифмическая шкала; легенда режимов встроена в изображение (соответствие цветов кодам — см. §3.3).</p>
+<p><strong>Кейс 1</strong> (ansari, угол 90°, «Верт. газоконд. скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_1_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_1_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 4</strong> (beggs_brill, угол 0°, «Горизонтальный трубопровод»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_4_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_4_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 6</strong> (beggs_brill, угол 60°, «Крутой наклон — граница моделей»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_6_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_6_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p>Визуально хорошо видно то, что количественно подтверждается матрицами сопряжения (§4.3): граница кольцевого/пузырькового режима у FlowMapUtility в кейсе 1 представляет собой почти вертикальную линию (порог не зависит от Vsl), тогда как у OLGA эта граница явно наклонная и растёт с Vsl. В кейсе 6 карта FlowMapUtility визуально почти не отличается от карты кейса 4 (0°) — угол наклона не входит в классификацию режима у Беггса-Брилла (см. §3.1, §5), тогда как у OLGA область расслоённого режима (гладкого и волнового суммарно) в кейсе 6 занимает 74.33% карты — заметно больше, чем в кейсе 4.</p>
+</section>
+<section id="матрицы-сопряжения-по-каждому-кейсу" class="level3">
+<h3 class="anchored" data-anchor-id="матрицы-сопряжения-по-каждому-кейсу">4.3 Матрицы сопряжения по каждому кейсу</h3>
+<p>Строки и столбцы каждой матрицы — это <strong>один и тот же</strong> набор из трёх физических режимов, поэтому матрица квадратная 3×3, а диагональ (выделена в описании как “ok”) — это точное совпадение классификаций FlowMapUtility и OLGA. Значения — число точек сетки (из 10000).</p>
+<p>Чтобы получить квадратную матрицу, категории, которые различает только одна из двух моделей, объединены: у FlowMapUtility — Пузырьковый и Дисперг. пузырьковый (OLGA возвращает для обоих один код Bubble, см. §3.3); у OLGA — Расслоенный гладкий и Расслоенный волновой (FlowMapUtility возвращает для обоих один код Stratified). Более детальная, не объединённая разбивка по всем кодам приведена в таблицах площадей §4.1.</p>
+<p><strong>Кейс 1: ansari, угол 90°, «Верт. газоконд. скважина»</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>1260</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1260</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">667</td>
+<td style="text-align: right;"><strong>2373</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3040</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">1002</td>
+<td style="text-align: right;">1329</td>
+<td style="text-align: right;"><strong>3369</strong></td>
+<td style="text-align: right;">5700</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">2929</td>
+<td style="text-align: right;">3702</td>
+<td style="text-align: right;">3369</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 2: ansari, угол 80°, «Наклонная скважина»</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>1287</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1287</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">695</td>
+<td style="text-align: right;"><strong>2718</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3413</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">938</td>
+<td style="text-align: right;">1290</td>
+<td style="text-align: right;"><strong>3072</strong></td>
+<td style="text-align: right;">5300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">2920</td>
+<td style="text-align: right;">4008</td>
+<td style="text-align: right;">3072</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 3: ansari, угол 75°, «Верт. водогазовая скважина»</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>1303</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1303</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">831</td>
+<td style="text-align: right;"><strong>2466</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3297</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">855</td>
+<td style="text-align: right;">1280</td>
+<td style="text-align: right;"><strong>3265</strong></td>
+<td style="text-align: right;">5400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">2989</td>
+<td style="text-align: right;">3746</td>
+<td style="text-align: right;">3265</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 4: beggs_brill, угол 0°, «Горизонтальный трубопровод»</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>2724</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2724</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">1508</td>
+<td style="text-align: right;"><strong>3008</strong></td>
+<td style="text-align: right;">268</td>
+<td style="text-align: right;">4784</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">1296</td>
+<td style="text-align: right;">877</td>
+<td style="text-align: right;"><strong>319</strong></td>
+<td style="text-align: right;">2492</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">5528</td>
+<td style="text-align: right;">3885</td>
+<td style="text-align: right;">587</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 5: beggs_brill, угол 30°, «Трубопровод холмистый рельеф»</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>1009</strong></td>
+<td style="text-align: right;">1469</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2478</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">1190</td>
+<td style="text-align: right;"><strong>2515</strong></td>
+<td style="text-align: right;">1003</td>
+<td style="text-align: right;">4708</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">1498</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;"><strong>1232</strong></td>
+<td style="text-align: right;">2814</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">3697</td>
+<td style="text-align: right;">4068</td>
+<td style="text-align: right;">2235</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 6: beggs_brill, угол 60°, «Крутой наклон граница моделей»</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>2154</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2154</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">3182</td>
+<td style="text-align: right;"><strong>428</strong></td>
+<td style="text-align: right;">946</td>
+<td style="text-align: right;">4556</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">2097</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;"><strong>1193</strong></td>
+<td style="text-align: right;">3290</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">7433</td>
+<td style="text-align: right;">428</td>
+<td style="text-align: right;">2139</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 7: ansari, угол 90°, «Тяжелая нефть верт. скважина»</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>1235</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1235</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">676</td>
+<td style="text-align: right;"><strong>1909</strong></td>
+<td style="text-align: right;">380</td>
+<td style="text-align: right;">2965</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">1202</td>
+<td style="text-align: right;">967</td>
+<td style="text-align: right;"><strong>3631</strong></td>
+<td style="text-align: right;">5800</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">3113</td>
+<td style="text-align: right;">2876</td>
+<td style="text-align: right;">4011</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 8: beggs_brill, угол 10°, «Слабо наклонный трубопровод»</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>94</strong></td>
+<td style="text-align: right;">2823</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2917</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;"><strong>4155</strong></td>
+<td style="text-align: right;">652</td>
+<td style="text-align: right;">4847*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">1169</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;"><strong>939</strong></td>
+<td style="text-align: right;">2236</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">1302</td>
+<td style="text-align: right;">7106</td>
+<td style="text-align: right;">1591</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p>* В строке “Пробковый” ещё 1 точка (0.01%) — код OLGA “Однофазная жидкость” (7), не показан отдельным столбцом ради квадратной формы матрицы; см. примечание к коду 7 в §3.3.</p>
+<p><strong>Кейс 9: beggs_brill, угол 5°, «Морской трубопровод»</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>740</strong></td>
+<td style="text-align: right;">2340</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3080</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">628</td>
+<td style="text-align: right;"><strong>3616</strong></td>
+<td style="text-align: right;">649</td>
+<td style="text-align: right;">4893</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">1212</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;"><strong>748</strong></td>
+<td style="text-align: right;">2027</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">2580</td>
+<td style="text-align: right;">6023</td>
+<td style="text-align: right;">1397</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 10: ansari, угол 90°, «Верт. газовая скважина высокий GLR»</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>1263</strong></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1265</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">344</td>
+<td style="text-align: right;"><strong>2791</strong></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3135</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">690</td>
+<td style="text-align: right;">1250</td>
+<td style="text-align: right;"><strong>3660</strong></td>
+<td style="text-align: right;">5600</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">2297</td>
+<td style="text-align: right;">4043</td>
+<td style="text-align: right;">3660</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="агрегированные-результаты-по-семействам-моделей" class="level3">
+<h3 class="anchored" data-anchor-id="агрегированные-результаты-по-семействам-моделей">4.4 Агрегированные результаты по семействам моделей</h3>
+<p>Как и в §4.3, категории объединены до трёх физических режимов, общих для обеих моделей, чтобы получить квадратную матрицу с содержательной диагональю.</p>
+<p><strong>Ansari (кейсы 1, 2, 3, 7, 10) — всего 50000 точек</strong></p>
+<p>Число точек:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>6348</strong></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6350</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">3213</td>
+<td style="text-align: right;"><strong>12257</strong></td>
+<td style="text-align: right;">380</td>
+<td style="text-align: right;">15850</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">4687</td>
+<td style="text-align: right;">6116</td>
+<td style="text-align: right;"><strong>16997</strong></td>
+<td style="text-align: right;">27800</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">14248</td>
+<td style="text-align: right;">18375</td>
+<td style="text-align: right;">17377</td>
+<td style="text-align: right;">50000</td>
+</tr>
+</tbody>
+</table>
+<p>Доля по строке, %:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Кольцевой</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Пузырьковый / Дисперг. пузырьковый</td>
+<td style="text-align: right;"><strong>100.0</strong></td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">20.3</td>
+<td style="text-align: right;"><strong>77.3</strong></td>
+<td style="text-align: right;">2.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Кольцевой</td>
+<td style="text-align: right;">16.9</td>
+<td style="text-align: right;">22.0</td>
+<td style="text-align: right;"><strong>61.1</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Beggs-Brill (кейсы 4, 5, 6, 8, 9) — всего 50000 точек</strong></p>
+<p>Число точек:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+<th style="text-align: right;">ИТОГО</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>6721</strong></td>
+<td style="text-align: right;">6632</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13353</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">6547</td>
+<td style="text-align: right;"><strong>13722</strong></td>
+<td style="text-align: right;">3518</td>
+<td style="text-align: right;">23788*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">7272</td>
+<td style="text-align: right;">1156</td>
+<td style="text-align: right;"><strong>4431</strong></td>
+<td style="text-align: right;">12859</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ИТОГО</td>
+<td style="text-align: right;">20540</td>
+<td style="text-align: right;">21510</td>
+<td style="text-align: right;">7949</td>
+<td style="text-align: right;">50000*</td>
+</tr>
+</tbody>
+</table>
+<p>* Без учёта 1 точки (0.002% от 50000) с кодом OLGA “Однофазная жидкость” (7) в кейсе 8, см. примечание в §4.3.</p>
+<p>Доля по строке, %:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">FlowMapUtility &nbsp;OLGA</th>
+<th style="text-align: right;">Расслоенный (гладкий+волновой)</th>
+<th style="text-align: right;">Пробковый</th>
+<th style="text-align: right;">Пузырьковый</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Стратифицированный</td>
+<td style="text-align: right;"><strong>50.3</strong></td>
+<td style="text-align: right;">49.7</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Пробковый</td>
+<td style="text-align: right;">27.5</td>
+<td style="text-align: right;"><strong>57.7</strong></td>
+<td style="text-align: right;">14.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Дисперг. пузырьковый</td>
+<td style="text-align: right;">56.6</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;"><strong>34.5</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Из таблицы для Beggs-Brill хорошо видно источник расхождения: 56.6% точек, которые FlowMapUtility относит к Дисперг. пузырьковому режиму, у OLGA попадают в объединённый Расслоенный режим (в подавляющем большинстве — именно Расслоенный волновой, код 1, см. §4.1) — то есть OLGA в этих точках всё ещё видит расслоённое течение там, где классическая корреляция Беггса-Брилла уже считает поток достаточно турбулентным для дисперсно-пузырькового режима (детальное обсуждение — §5).</p>
+</section>
+<section id="итоговое-совпадение-по-кейсам" class="level3">
+<h3 class="anchored" data-anchor-id="итоговое-совпадение-по-кейсам">4.5 Итоговое совпадение по кейсам</h3>
+<p>Совпадением засчитывается пара кодов, соответствующая одному физическому режиму (определение см. §3.3): Пузырьковый/Дисперг. пузырьковый ↔︎ Пузырьковый (OLGA), Пробковый ↔︎ Пробковый (OLGA), Кольцевой ↔︎ Кольцевой (OLGA) (для Ансари); Стратифицированный ↔︎ Расслоенный гладкий <strong>или</strong> Расслоенный волновой (OLGA), Пробковый ↔︎ Пробковый (OLGA), Дисперг. пузырьковый ↔︎ Пузырьковый (OLGA) (для Беггс-Брилл).</p>
+<p><strong>Ансари (75–90°)</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Кейс</th>
+<th style="text-align: left;">Модель</th>
+<th style="text-align: right;">Угол, °</th>
+<th style="text-align: right;">Совпадение, %</th>
+<th style="text-align: left;">Пузырьковый (совпадение)</th>
+<th style="text-align: left;">Пробковый (совпадение)</th>
+<th style="text-align: left;">Кольцевой (совпадение)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Ансари</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">70.0</td>
+<td style="text-align: left;">1260/1260 (100.0%)</td>
+<td style="text-align: left;">2373/3040 (78.1%)</td>
+<td style="text-align: left;">3369/5700 (59.1%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Ансари</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">70.8</td>
+<td style="text-align: left;">1287/1287 (100.0%)</td>
+<td style="text-align: left;">2718/3413 (79.6%)</td>
+<td style="text-align: left;">3072/5300 (58.0%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Ансари</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">70.3</td>
+<td style="text-align: left;">1303/1303 (100.0%)</td>
+<td style="text-align: left;">2466/3297 (74.8%)</td>
+<td style="text-align: left;">3265/5400 (60.5%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Ансари</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">67.8</td>
+<td style="text-align: left;">1235/1235 (100.0%)</td>
+<td style="text-align: left;">1909/2965 (64.4%)</td>
+<td style="text-align: left;">3631/5800 (62.6%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Ансари</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">77.1</td>
+<td style="text-align: left;">1263/1265 (99.8%)</td>
+<td style="text-align: left;">2791/3135 (89.0%)</td>
+<td style="text-align: left;">3660/5600 (65.4%)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Беггс-Брилл (0–60°)</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Кейс</th>
+<th style="text-align: left;">Модель</th>
+<th style="text-align: right;">Угол, °</th>
+<th style="text-align: right;">Совпадение, %</th>
+<th style="text-align: left;">Стратифицированный (совпадение)</th>
+<th style="text-align: left;">Пробковый (совпадение)</th>
+<th style="text-align: left;">Дисперг. пузырьковый (совпадение)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Беггс-Брилл</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">60.5</td>
+<td style="text-align: left;">2724/2724 (100.0%)</td>
+<td style="text-align: left;">3008/4784 (62.9%)</td>
+<td style="text-align: left;">319/2492 (12.8%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Беггс-Брилл</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">47.6</td>
+<td style="text-align: left;">1009/2478 (40.7%)</td>
+<td style="text-align: left;">2515/4708 (53.4%)</td>
+<td style="text-align: left;">1232/2814 (43.8%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Беггс-Брилл</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">37.8</td>
+<td style="text-align: left;">2154/2154 (100.0%)</td>
+<td style="text-align: left;">428/4556 (9.4%)</td>
+<td style="text-align: left;">1193/3290 (36.3%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Беггс-Брилл</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">51.9</td>
+<td style="text-align: left;">94/2917 (3.2%)</td>
+<td style="text-align: left;">4155/4847 (85.7%)</td>
+<td style="text-align: left;">939/2236 (42.0%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Беггс-Брилл</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">51.0</td>
+<td style="text-align: left;">740/3080 (24.0%)</td>
+<td style="text-align: left;">3616/4893 (73.9%)</td>
+<td style="text-align: left;">748/2027 (36.9%)</td>
+</tr>
+</tbody>
+</table>
+<p>Суммарное (взвешенное по всем точкам) совпадение: <strong>71.2%</strong> для семейства Ансари (50000 точек) и <strong>49.7%</strong> для семейства Беггс-Брилл (50000 точек); по всем 10 кейсам вместе — <strong>60.5%</strong> (60476 из 100000 точек). Столбец “Стратифицированный (совпадение)” для Беггс-Брилла демонстрирует неоднородную, но местами очень высокую точность (100% в кейсах 4 и 6 — там, где у FlowMapUtility стратифицированный режим ни разу не попадает в Пробковый/Пузырьковый код OLGA), тогда как столбец “Дисперг. пузырьковый (совпадение)” показывает низкую и умеренную точность (12.8–43.8%) — именно дисперсно-пузырьковый режим является главным источником расхождения для семейства Беггс-Брилл (см. §5).</p>
+</section>
+<section id="сравнение-границ-режимов" class="level3">
+<h3 class="anchored" data-anchor-id="сравнение-границ-режимов">4.6 Сравнение границ режимов</h3>
+<p><strong>Граница начала Кольцевого режима (кейсы Ансари), по срезам Vsl.</strong> Важное наблюдение: у модели Ансари порог начала кольцевого режима (<code>vsg3</code> в <code>ansari.py</code>, см. формулу §3.1) <strong>не зависит от Vsl</strong> — это константа. У OLGA граница явно растёт с Vsl. Из-за этого на малых Vsl FlowMapUtility и OLGA близки, а на больших Vsl расхождение доходит до 10+ м/с.</p>
+<p><strong>Кейс 1</strong> (угол 90°, «Верт. газоконд. скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 34%">
+<col style="width: 35%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Vsl, м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (FlowMapUtility), м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (OLGA), м/с</th>
+<th style="text-align: right;">Δ, м/с</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-0.809</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">2.245</td>
+<td style="text-align: right;">-1.054</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">2.519</td>
+<td style="text-align: right;">-1.328</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">3.172</td>
+<td style="text-align: right;">-1.981</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">3.994</td>
+<td style="text-align: right;">-2.803</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.316</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">4.481</td>
+<td style="text-align: right;">-3.29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">5.643</td>
+<td style="text-align: right;">-4.452</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.257</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">10.04</td>
+<td style="text-align: right;">-8.849</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.507</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">10.635</td>
+<td style="text-align: right;">-9.444</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.191</td>
+<td style="text-align: right;">10.635</td>
+<td style="text-align: right;">-9.444</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 2</strong> (угол 80°, «Наклонная скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 34%">
+<col style="width: 35%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Vsl, м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (FlowMapUtility), м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (OLGA), м/с</th>
+<th style="text-align: right;">Δ, м/с</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">2.519</td>
+<td style="text-align: right;">-1.019</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">2.668</td>
+<td style="text-align: right;">-1.169</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">2.994</td>
+<td style="text-align: right;">-1.494</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">3.559</td>
+<td style="text-align: right;">-2.059</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">4.747</td>
+<td style="text-align: right;">-3.247</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.316</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">5.327</td>
+<td style="text-align: right;">-3.827</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">7.105</td>
+<td style="text-align: right;">-5.606</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.257</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">11.266</td>
+<td style="text-align: right;">-9.766</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.507</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">12.642</td>
+<td style="text-align: right;">-11.142</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">12.642</td>
+<td style="text-align: right;">-11.142</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 3</strong> (угол 75°, «Верт. водогазовая скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 34%">
+<col style="width: 35%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Vsl, м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (FlowMapUtility), м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (OLGA), м/с</th>
+<th style="text-align: right;">Δ, м/с</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">2.519</td>
+<td style="text-align: right;">-1.103</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">2.668</td>
+<td style="text-align: right;">-1.252</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">3.172</td>
+<td style="text-align: right;">-1.756</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">3.559</td>
+<td style="text-align: right;">-2.143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">4.481</td>
+<td style="text-align: right;">-3.066</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.316</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">5.029</td>
+<td style="text-align: right;">-3.613</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">5.643</td>
+<td style="text-align: right;">-4.227</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.257</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">8.446</td>
+<td style="text-align: right;">-7.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.507</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">9.477</td>
+<td style="text-align: right;">-8.062</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.416</td>
+<td style="text-align: right;">9.477</td>
+<td style="text-align: right;">-8.062</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 7</strong> (угол 90°, «Тяжелая нефть верт. скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 34%">
+<col style="width: 35%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Vsl, м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (FlowMapUtility), м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (OLGA), м/с</th>
+<th style="text-align: right;">Δ, м/с</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">0.133</td>
+<td style="text-align: right;">0.991</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">0.563</td>
+<td style="text-align: right;">0.561</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">0.893</td>
+<td style="text-align: right;">0.231</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">1.683</td>
+<td style="text-align: right;">-0.559</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">3.559</td>
+<td style="text-align: right;">-2.435</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.316</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">4.481</td>
+<td style="text-align: right;">-3.357</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">6.332</td>
+<td style="text-align: right;">-5.208</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.257</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">13.391</td>
+<td style="text-align: right;">-12.267</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.507</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">16.862</td>
+<td style="text-align: right;">-15.738</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.124</td>
+<td style="text-align: right;">20.043</td>
+<td style="text-align: right;">-18.919</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 10</strong> (угол 90°, «Верт. газовая скважина высокий GLR»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 34%">
+<col style="width: 35%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Vsl, м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (FlowMapUtility), м/с</th>
+<th style="text-align: right;">Vsg нач. Кольцевого (OLGA), м/с</th>
+<th style="text-align: right;">Δ, м/с</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-0.739</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">2.119</td>
+<td style="text-align: right;">-0.857</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">2.245</td>
+<td style="text-align: right;">-0.983</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">2.519</td>
+<td style="text-align: right;">-1.257</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">2.994</td>
+<td style="text-align: right;">-1.732</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.316</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">3.559</td>
+<td style="text-align: right;">-2.297</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">4.231</td>
+<td style="text-align: right;">-2.969</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1.257</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">5.978</td>
+<td style="text-align: right;">-4.716</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2.507</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">12.642</td>
+<td style="text-align: right;">-11.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.262</td>
+<td style="text-align: right;">12.642</td>
+<td style="text-align: right;">-11.38</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Площадь расслоённого режима (кейс 4, угол 0° — горизонталь, без влияния угла).</strong> В отличие от Ансари, для Беггс-Брилл протестировать границу расслоённого режима одной линией “Vsg(Vsl)” некорректно: в экспортированной карте OLGA код “Расслоенный волновой” (1) для горизонтальной трубы встречается не только сразу после кода “Расслоенный гладкий” (0), но и повторно на самых высоких значениях Vsg при умеренных Vsl (после зоны Пробкового режима) — то есть граница расслоённого режима у OLGA в этом кейсе не монотонна по Vsg, поскольку для истинно горизонтальной трубы в экспортируемой карте OLGA нет отдельной категории “кольцевой/дисперсный”, и часть высокоскоростных точек по газу возвращается в категорию “расслоённый волновой”. Поэтому для честного сравнения используется не граница, а суммарная площадь: <strong>OLGA относит к расслоённому семейству (коды 0+1) 55.28% карты кейса 4, тогда как FlowMapUtility — только 27.24%</strong> (см. §4.1). Иными словами, классическая граница Беггса-Брилла (<span class="math inline">\(N_{Fr} \le 0.000925\,\lambda_l^{-2.468}\)</span>) отдаёт в пробковый и дисперсно-пузырьковый режимы почти вдвое большую долю карты, чем показывает OLGA.</p>
+</section>
+</section>
+<section id="обсуждение" class="level2">
+<h2 class="anchored" data-anchor-id="обсуждение">5. Обсуждение</h2>
+<p><strong>Кейсы Ансари (вертикальные/сильно наклонные скважины, 75–90°) — совпадение 68–77%, лучшее среди всех.</strong> Режимы Пузырьковый и Дисперг. пузырьковый у FlowMapUtility в 99.8–100% случаев попадают в код OLGA «Пузырьковый» (OLGA их вообще не различает). Пробковый режим совпадает на 64–89%. Главный источник расхождения — Кольцевой режим: совпадает только 58–65%, потому что порог начала кольцевого режима у модели Ансари — константа по Vsg, не зависящая от Vsl (см. формулу в §3.1), а у OLGA граница явно растёт с Vsl (§4.6). На малых Vsl расхождение по границе — доли м/с, на больших Vsl (2.5–5 м/с) — 9–19 м/с.</p>
+<p><strong>Кейсы Беггс-Брилл (горизонталь/наклон, 0–60°) — совпадение 38–60%, заметно хуже.</strong> Столбец «Стратифицированный (совпадение)» показывает 100% в кейсах 4 и 6, но не потому, что классическая граница расслоённого режима точна — а потому, что <em>все</em> точки, где FlowMapUtility ставит Стратифицированный режим, попадают либо в код 0, либо в код 1 OLGA (оба физически — расслоённое течение), то есть FlowMapUtility никогда не ошибается “в другую сторону” в этих точках. Настоящая проблема — противоположная: <strong>FlowMapUtility относит к расслоённому режиму значительно меньшую площадь карты, чем OLGA</strong> (27.24% против 55.28% в кейсе 4, см. §4.6), а недостающая площадь у FlowMapUtility уходит в Пробковый и особенно в Дисперг. пузырьковый режим. Именно поэтому точность распознавания Дисперг. пузырькового режима низкая (12.8–43.8%, §4.5) — 34.5–56.6% точек, отмеченных FlowMapUtility как дисперсно- пузырьковые, OLGA классифицирует как расслоённый волновой (§4.4). Структурная причина — сама формула Беггса-Брилла для верхней границы расслоённого режима (<span class="math inline">\(N_{Fr} \le 0.000925\,\lambda_l^{-2.468}\)</span>) при малом <span class="math inline">\(\lambda_l\)</span> (малая доля жидкости) быстро формально “выпускает” поток из расслоённого режима, что не соответствует более консервативной (в терминах сохранения расслоённого течения при высоких Vsg) классификации OLGA. Кроме того, классификация режима у Беггса-Брилла вообще не учитывает угол наклона трубы (это точное следование оригинальной статье 1973 года: там угол используется только в расчёте удержания жидкости, см. §2.2), поэтому карта режимов у FlowMapUtility для кейса 4 (0°) и кейса 6 (60°) идентичны по форме, тогда как у OLGA площадь расслоённого семейства растёт с 55.28% (0°) до 74.33% (60°). Кейс 6 (угол 60° — на стыке диапазонов применимости моделей Ансари и Беггса-Брилла) закономерно показывает одно из наихудших совпадений по Пробковому режиму (9.4%): классическая карта Беггса-Брилла не предназначена для крутых углов, для которых в литературе рекомендуется единая модель Барнеа (Barnea, 1987), явно учитывающая угол наклона в критериях перехода между режимами.</p>
+<p>В совокупности результаты показывают, что расхождения между классическими корреляциями и промышленным симулятором носят не случайный, а систематический характер, напрямую выводимый из структуры исходных уравнений 1973 и 1994 годов. Это согласуется с общей тенденцией в литературе по многофазному потоку: модели, разработанные для узкого диапазона условий (углы наклона, диаметры труб, свойства флюидов лабораторных экспериментов), сохраняют топологию границ режимов за пределами калибровочного диапазона, даже когда реальная физика перехода меняется. Поскольку внутренние корреляции OLGA закрыты (§2.3), дальнейшая детализация причин расхождения со стороны OLGA невозможна — все объяснения в данном разделе относятся к структуре именно классических корреляций, что и было целью работы.</p>
+</section>
+<section id="заключение" class="level2">
+<h2 class="anchored" data-anchor-id="заключение">6. Заключение</h2>
+<p>Выполнено количественное сопоставление классификации режимов течения, полученной классическими корреляциями Ансари (1994) и Беггса-Брилла (1973), реализованными в FlowMapUtility, с результатами промышленного симулятора OLGA (Schlumberger) на 10 представительных сценариях скважин и трубопроводов (100 000 точек сравнения), с использованием официальной легенды кодов режимов OLGA. Показано, что:</p>
+<ol type="1">
+<li>Для около-вертикальных скважин (модель Ансари, углы 75–90°) совпадение классификации с OLGA составляет 68–77%, при этом пузырьковый и дисперсно-пузырьковый режимы распознаются практически безошибочно (99.8–100%), а основные расхождения сосредоточены на границе кольцевого режима, порог которой у модели Ансари не зависит от скорости жидкости.</li>
+<li>Для горизонтальных и наклонных трубопроводов (модель Беггса-Брилла, углы 0–60°) совпадение заметно ниже (38–60%). Основная причина — модель Беггса-Брилла отдаёт в пробковый и дисперсно-пузырьковый режимы существенно большую долю карты, чем OLGA относит к расслоённому течению (в кейсе 4: 27.24% против 55.28%), а не наоборот, как можно было бы предположить по внешнему виду классической границы расслоённого режима.</li>
+<li>Классификация режима у модели Беггса-Брилла вообще не зависит от угла наклона трубы — прямое следствие исходной работы 1973 года, — тогда как у OLGA доля расслоённого режима заметно растёт с углом наклона (55.28% при 0° → 74.33% при 60°), что дополнительно увеличивает расхождение на больших углах.</li>
+<li>Оба расхождения носят структурный, а не случайный характер и напрямую выводятся из математической формы исходных корреляций, а не являются ошибками программной реализации.</li>
+<li>Использование классических корреляций Ансари и Беггса-Брилла для построения карт режимов течения без модификаций даёт приемлемую точность (≥68%) только для около-вертикальных скважин; для наклонных трубопроводов точность составляет 38–60%, что требует осторожности при практическом применении и указывает на целесообразность перехода к более современным механистическим моделям (например, единой модели Барнеа) для таких условий.</li>
+</ol>
+</section>
+<section id="направления-дальнейших-исследований" class="level2">
+<h2 class="anchored" data-anchor-id="направления-дальнейших-исследований">7. Направления дальнейших исследований</h2>
+<ul>
+<li>Для модели Ансари: оценить целесообразность модификации порога начала кольцевого режима (<code>vsg3</code>), сделав его зависимым от Vsl, если сопоставление с OLGA принимается как целевой бенчмарк.</li>
+<li>Для модели Беггса-Брилла: пересмотреть верхнюю границу расслоённого режима (<span class="math inline">\(N_{Fr} \le 0.000925\,\lambda_l^{-2.468}\)</span>) в сторону более консервативного (по площади расслоённого режима) критерия, и рассмотреть переход на модель с явным учётом угла наклона в границах режима (например, единую модель Барнеа (Barnea, 1987) или Taitel-Dukler (1976) с поправкой Barnea) для сценариев с углом наклона более 30°.</li>
+<li>Расширение набора корреляций: добавить в сравнение другие классические и механистические модели (например, Тайтела-Даклера, единую модель Барнеа), чтобы оценить, насколько общей является наблюдаемая картина расхождений с OLGA, а не ограничиваться только моделями Ансари и Беггса-Брилла.</li>
+</ul>
+</section>
+<section id="список-литературы" class="level2">
+<h2 class="anchored" data-anchor-id="список-литературы">Список литературы</h2>
+<ol type="1">
+<li>Ansari, A.M., Sylvester, N.D., Sarica, C., Shoham, O., Brill, J.P. A Comprehensive Mechanistic Model for Upward Two-Phase Flow in Wellbores // SPE Production &amp; Facilities. — 1994. — Vol. 9, No.&nbsp;2. — P. 143–151.</li>
+<li>Beggs, H.D., Brill, J.P. A Study of Two-Phase Flow in Inclined Pipes // Journal of Petroleum Technology. —
+<ol start="1973" type="1">
+<li>— Vol. 25, No.&nbsp;5. — P. 607–617.</li>
+</ol></li>
+<li>Taitel, Y., Dukler, A.E. A Model for Predicting Flow Regime Transitions in Horizontal and Near Horizontal Gas-Liquid Flow // AIChE Journal. — 1976. — Vol. 22, No.&nbsp;1. — P. 47–55.</li>
+<li>Barnea, D. A Unified Model for Predicting Flow-Pattern Transitions for the Whole Range of Pipe Inclinations // International Journal of Multiphase Flow. — 1987. — Vol. 13, No.&nbsp;1. — P. 1–12.</li>
+<li>Mandhane, J.M., Gregory, G.A., Aziz, K. A Flow Pattern Map for Gas-Liquid Flow in Horizontal Pipes // International Journal of Multiphase Flow. — 1974. — Vol. 1, No.&nbsp;4. — P. 537–553.</li>
+<li>Baker, O. Simultaneous Flow of Oil and Gas // Oil and Gas Journal. — 1954. — Vol. 53. — P. 185–195.</li>
+</ol>
+</section>
+<section id="приложение-а.-карты-режимов-течения-для-всех-10-кейсов" class="level2">
+<h2 class="anchored" data-anchor-id="приложение-а.-карты-режимов-течения-для-всех-10-кейсов">Приложение А. Карты режимов течения для всех 10 кейсов</h2>
+<p>В §4.2 визуальное сопоставление карт приведено только для трёх представительных кейсов. Ниже — полный набор карт режимов течения для всех 10 кейсов (параметры каждого кейса см. §3.2), в том же формате: слева — FlowMapUtility, справа — OLGA. Оси на картах OLGA — Vsg (X) и Vsl (Y) в м/с, логарифмическая шкала; легенда режимов встроена в изображение (соответствие кодов режимов — см. §3.3).</p>
+<p><strong>Кейс 1</strong> (ansari, угол 90°, «Верт. газоконд. скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_1_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_1_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 2</strong> (ansari, угол 80°, «Наклонная скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_2_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_2_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 3</strong> (ansari, угол 75°, «Верт. водогазовая скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_3_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_3_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 4</strong> (beggs_brill, угол 0°, «Горизонтальный трубопровод»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_4_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_4_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 5</strong> (beggs_brill, угол 30°, «Трубопровод холмистый рельеф»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_5_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_5_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 6</strong> (beggs_brill, угол 60°, «Крутой наклон граница моделей»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_6_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_6_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 7</strong> (ansari, угол 90°, «Тяжелая нефть верт. скважина»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_7_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_7_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 8</strong> (beggs_brill, угол 10°, «Слабо наклонный трубопровод»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_8_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_8_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 9</strong> (beggs_brill, угол 5°, «Морской трубопровод»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_9_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_9_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кейс 10</strong> (ansari, угол 90°, «Верт. газовая скважина высокий GLR»):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FlowMapUtility</th>
+<th>OLGA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="map_case/python/2/map_case_10_invert.png" class="img-fluid"></td>
+<td><img src="map_case/olga/2/map_case_10_olga.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Скопировано");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Скопировано");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

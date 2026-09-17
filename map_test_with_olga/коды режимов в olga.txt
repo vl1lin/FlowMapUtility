@@ -1,0 +1,8 @@
+0 - stratified smooth
+1 - stratified wavy
+2 - Annular
+3 - slug
+4 - bubble
+5 -
+6 -
+7 - single phase oil

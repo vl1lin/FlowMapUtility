@@ -1,0 +1,1981 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ComponentsAdmin xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <m_OLGAS>
+    <Cases>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">80</Value>
+          <TimeStamp>2026-09-12T23:26:52.2908389+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">750</Value>
+          <TimeStamp>2026-09-12T23:26:56.6054+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-12T23:27:11.2888329+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.0005</Value>
+          <TimeStamp>2026-09-12T23:27:40.1117531+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.02</Value>
+          <TimeStamp>2026-09-12T23:28:12.3314042+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.1</Value>
+          <TimeStamp>2026-09-12T23:26:12.115947+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">90</Value>
+          <TimeStamp>2026-09-12T23:46:55.468015+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-12T23:26:25.7685053+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-765974200</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95278021533163E-310</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:17:33.120426+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">60</Value>
+          <TimeStamp>2026-09-12T23:47:30.8077033+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">800</Value>
+          <TimeStamp>2026-09-12T23:47:42.8835292+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.3E-05</Value>
+          <TimeStamp>2026-09-12T23:47:53.5832313+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.001</Value>
+          <TimeStamp>2026-09-12T23:48:11.2541978+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.025</Value>
+          <TimeStamp>2026-09-12T23:48:35.1345345+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.1</Value>
+          <TimeStamp>2026-09-12T23:47:02.723624+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">80</Value>
+          <TimeStamp>2026-09-12T23:47:05.4605351+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-12T23:47:15.440624+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1739882976</Value>
+          <TimeStamp>2026-09-13T00:01:52.2767628+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.9527320978436026E-310</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:01:52.2772647+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">100</Value>
+          <TimeStamp>2026-09-12T23:49:40.3274246+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">1000</Value>
+          <TimeStamp>2026-09-12T23:49:42.9347469+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.8E-05</Value>
+          <TimeStamp>2026-09-12T23:50:04.2546888+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.0009</Value>
+          <TimeStamp>2026-09-12T23:50:10.8185718+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.05</Value>
+          <TimeStamp>2026-09-12T23:50:18.3227856+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.15</Value>
+          <TimeStamp>2026-09-12T23:49:07.1646932+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">75</Value>
+          <TimeStamp>2026-09-12T23:49:33.6509835+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">2E-05</Value>
+          <TimeStamp>2026-09-12T23:49:19.1774063+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1671800496</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95273546156505E-310</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:04:03.0032312+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">10</Value>
+          <TimeStamp>2026-09-12T23:51:45.4625951+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">850</Value>
+          <TimeStamp>2026-09-12T23:51:52.7035387+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.2E-05</Value>
+          <TimeStamp>2026-09-12T23:52:19.5860758+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.005</Value>
+          <TimeStamp>2026-09-12T23:52:24.6502047+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.02</Value>
+          <TimeStamp>2026-09-12T23:52:32.8115867+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.2</Value>
+          <TimeStamp>2026-09-12T23:51:15.6238179+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">4.6E-05</Value>
+          <TimeStamp>2026-09-12T23:51:24.6197366+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1661789656</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.9527359561662607E-310</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:05:09.6663864+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">15</Value>
+          <TimeStamp>2026-09-12T23:53:10.208931+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">820</Value>
+          <TimeStamp>2026-09-12T23:53:32.0338007+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.3E-05</Value>
+          <TimeStamp>2026-09-12T23:53:03.7057449+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.003</Value>
+          <TimeStamp>2026-09-12T23:52:54.1750289+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.22</Value>
+          <TimeStamp>2026-09-12T23:52:47.5580631+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.15</Value>
+          <TimeStamp>2026-09-12T23:54:01.2838258+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">30</Value>
+          <TimeStamp>2026-09-12T23:53:33.5682947+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">4.6E-05</Value>
+          <TimeStamp>2026-09-12T23:53:40.5414434+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1218616536</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:06:17.4937721+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95275785182764E-310</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4927709+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4937721+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4937721+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4937721+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:06:17.4937721+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">25</Value>
+          <TimeStamp>2026-09-12T23:54:33.4104339+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">780</Value>
+          <TimeStamp>2026-09-12T23:54:38.7485214+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.4E-05</Value>
+          <TimeStamp>2026-09-12T23:54:50.3495785+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.002</Value>
+          <TimeStamp>2026-09-12T23:56:08.724054+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.018</Value>
+          <TimeStamp>2026-09-12T23:55:51.1567734+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.1</Value>
+          <TimeStamp>2026-09-12T23:54:04.6801226+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">60</Value>
+          <TimeStamp>2026-09-12T23:54:14.5118579+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-12T23:54:11.5226974+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1159364688</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.9527607792578909E-310</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:07:06.6349638+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">90</Value>
+          <TimeStamp>2026-09-12T23:56:50.3524427+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">900</Value>
+          <TimeStamp>2026-09-12T23:56:54.6725453+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.6E-05</Value>
+          <TimeStamp>2026-09-12T23:57:08.6313429+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.05</Value>
+          <TimeStamp>2026-09-12T23:57:15.3915146+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.015</Value>
+          <TimeStamp>2026-09-12T23:57:32.4851503+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.12</Value>
+          <TimeStamp>2026-09-12T23:56:19.3461773+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">90</Value>
+          <TimeStamp>2026-09-12T23:56:48.2808772+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-12T23:56:31.4783765+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-1100493408</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95276368788559E-310</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:08:52.1999198+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">12</Value>
+          <TimeStamp>2026-09-12T23:58:20.1323558+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">830</Value>
+          <TimeStamp>2026-09-12T23:58:22.8773401+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.2E-05</Value>
+          <TimeStamp>2026-09-12T23:58:34.6365901+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.004</Value>
+          <TimeStamp>2026-09-12T23:58:38.9861622+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.021</Value>
+          <TimeStamp>2026-09-12T23:58:49.6891251+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.25</Value>
+          <TimeStamp>2026-09-12T23:57:44.3886447+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">10</Value>
+          <TimeStamp>2026-09-12T23:57:53.3175968+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">4.6E-05</Value>
+          <TimeStamp>2026-09-12T23:58:14.7370027+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">4.622914915731344E-312</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.42506108271267E-311</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.9526482661697316E-310</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">165702288</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-7.049004354992462E-310</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:10:28.8495437+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">45</Value>
+          <TimeStamp>2026-09-12T23:59:46.3830067+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">780</Value>
+          <TimeStamp>2026-09-12T23:59:50.113453+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-13T00:00:46.3107296+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.002</Value>
+          <TimeStamp>2026-09-13T00:01:07.7712937+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.017</Value>
+          <TimeStamp>2026-09-13T00:01:18.9865182+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.3</Value>
+          <TimeStamp>2026-09-12T23:59:12.4059555+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">5</Value>
+          <TimeStamp>2026-09-12T23:59:33.6915743+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">4.6E-05</Value>
+          <TimeStamp>2026-09-12T23:59:21.3828172+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-996022120</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95276884945303E-310</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:11:32.9622085+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+      <MTBaseCase xsi:type="OLGASCase">
+        <m_in_USG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USG>
+        <m_in_USH>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USH>
+        <m_in_USW>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_USW>
+        <m_in_ROG>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">70</Value>
+          <TimeStamp>2026-09-12T23:59:58.6181904+03:00</TimeStamp>
+        </m_in_ROG>
+        <m_in_ROH>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">760</Value>
+          <TimeStamp>2026-09-13T00:00:08.4744907+03:00</TimeStamp>
+        </m_in_ROH>
+        <m_in_ROW>
+          <Unit>kg/m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_ROW>
+        <m_in_VISG>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">1.4E-05</Value>
+          <TimeStamp>2026-09-13T00:00:54.1094412+03:00</TimeStamp>
+        </m_in_VISG>
+        <m_in_VISH>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0.0007</Value>
+          <TimeStamp>2026-09-13T00:01:02.6900387+03:00</TimeStamp>
+        </m_in_VISH>
+        <m_in_VISW>
+          <Unit>N-s/m2</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_VISW>
+        <m_in_PT>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_PT>
+        <m_in_SIGHG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0.019</Value>
+          <TimeStamp>2026-09-13T00:01:41.9292022+03:00</TimeStamp>
+        </m_in_SIGHG>
+        <m_in_SIGWH>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWH>
+        <m_in_SIGWG>
+          <Unit>N/m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_SIGWG>
+        <m_in_DIAM>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0.08</Value>
+          <TimeStamp>2026-09-13T00:00:29.6501356+03:00</TimeStamp>
+        </m_in_DIAM>
+        <m_in_PHI1>
+          <Unit>DEGREE</Unit>
+          <Value xsi:type="xsd:double">90</Value>
+          <TimeStamp>2026-09-13T00:00:09.8202312+03:00</TimeStamp>
+        </m_in_PHI1>
+        <m_in_EPSABS>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">1.5E-05</Value>
+          <TimeStamp>2026-09-13T00:00:15.1207404+03:00</TimeStamp>
+        </m_in_EPSABS>
+        <m_in_LENGTH>
+          <Unit>m</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_in_LENGTH>
+        <m_out_HT>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_HT>
+        <m_out_WAT>
+          <Unit>%</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_WAT>
+        <m_out_DPZT>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">1.4250618187440007E-311</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_DPZT>
+        <m_out_DPZF>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">6.95272612410616E-310</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_DPZF>
+        <m_out_TAUGW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">6.95272611218287E-310</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_TAUGW>
+        <m_out_TAUOW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">1.4250612568332604E-311</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_TAUOW>
+        <m_out_TAUWW>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_TAUWW>
+        <m_out_IDGL>
+          <Unit />
+          <Value xsi:type="xsd:int">-789267928</Value>
+          <TimeStamp>2026-09-13T00:12:45.2457045+03:00</TimeStamp>
+        </m_out_IDGL>
+        <m_out_IDWHSEP>
+          <Unit />
+          <Value xsi:type="xsd:int">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_IDWHSEP>
+        <m_out_IERR>
+          <Unit />
+          <Value xsi:type="xsd:int">1007</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_IERR>
+        <m_out_USL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_USL>
+        <m_out_HOLHL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_HOLHL>
+        <m_out_DPZG>
+          <Unit>Pa/m</Unit>
+          <Value xsi:type="xsd:double">-6.95277906446737E-310</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_DPZG>
+        <m_out_AL>
+          <Unit>-</Unit>
+          <Value xsi:type="xsd:double">1</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_AL>
+        <m_out_UG>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_UG>
+        <m_out_UHL>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UHL>
+        <m_out_UWT>
+          <Unit>m/s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>0001-01-01T00:00:00</TimeStamp>
+        </m_out_UWT>
+        <m_out_LIQC>
+          <Unit>m3</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_LIQC>
+        <m_out_DP>
+          <Unit>Pa</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_DP>
+        <m_out_SLUGINT>
+          <Unit>s</Unit>
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_SLUGINT>
+        <m_out_AvSLUGFRQ>
+          <Unit />
+          <Value xsi:type="xsd:double">0</Value>
+          <TimeStamp>2026-09-13T00:12:45.2467038+03:00</TimeStamp>
+        </m_out_AvSLUGFRQ>
+        <Phases>Mode2Phase</Phases>
+      </MTBaseCase>
+    </Cases>
+    <ComponentOptions>
+      <Collection>
+        <Switch Tag="Opt_Phases" Default="Opt_Phases_3P" Selected="Opt_Phases_2P">
+          <Alt Tag="Opt_Phases_2P">2-phase</Alt>
+          <Alt Tag="Opt_Phases_3P">3-phase</Alt>
+          <Representation>
+            <Type>ToolStripCombobox</Type>
+            <Title>Phases</Title>
+          </Representation>
+        </Switch>
+        <Boolean Tag="Opt_ElaborateNames" Default="true" />
+      </Collection>
+    </ComponentOptions>
+  </m_OLGAS>
+  <m_PVT>
+    <Cases />
+    <ComponentOptions>
+      <Collection>
+        <Variable Tag="Opt_FluidFile" Default="">
+          <Representation>
+            <Type>ToolStripFileSpec</Type>
+            <Title>Fluid File:</Title>
+            <Filter>Fluid Files (*.tab)|*.tab|All Files (*.*)|*.*</Filter>
+          </Representation>
+          <Value />
+        </Variable>
+      </Collection>
+    </ComponentOptions>
+  </m_PVT>
+  <m_StdVolFlow>
+    <Cases />
+    <ComponentOptions>
+      <Collection>
+        <Switch Tag="Opt_PhaseRatioMode" Default="Opt_PhaseRatioMode_GOR" Selected="Opt_PhaseRatioMode_GOR">
+          <Alt Tag="Opt_PhaseRatioMode_GOR">GOR</Alt>
+          <Alt Tag="Opt_PhaseRatioMode_GLR">GLR</Alt>
+          <Representation>
+            <Type>ToolStripCombobox</Type>
+            <Title>Phase Ratio Input</Title>
+          </Representation>
+        </Switch>
+      </Collection>
+    </ComponentOptions>
+  </m_StdVolFlow>
+  <SMode>1</SMode>
+</ComponentsAdmin>
