@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowMapUtility</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <span class="brand">FlowMapUtility</span>
+      <span class="subtitle">Расчёт карты режимов потока — считается прямо в браузере</span>
+    </header>
+    <div class="layout">
+      <div class="sidebar">
+        <form id="calc-form" onsubmit="return false;">
+          <fieldset>
+            <legend>Труба</legend>
+            <div class="row">
+              <label>Диаметр, м <input type="number" id="diameter" step="any" value="0.062"></label>
+              <label>Угол, ° <span class="hint" data-tip="0 — горизонталь, 90 — вертикально вверх">?</span> <input type="number" id="angle" step="any" value="90"></label>
+            </div>
+            <label>Абсолютная шероховатость, м <input type="number" id="roughness" step="any" value="0.00005"></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Флюид</legend>
+            <div class="row">
+              <label>Плотность жидкости, кг/м³ <input type="number" id="density_liquid" step="any" value="800"></label>
+              <label>Плотность газа, кг/м³ <input type="number" id="density_gas" step="any" value="50"></label>
+              <label>Вязкость жидкости, Па·с <input type="number" id="viscosity_liquid" step="any" value="0.001"></label>
+              <label>Вязкость газа, Па·с <input type="number" id="viscosity_gas" step="any" value="0.00001"></label>
+            </div>
+            <label>Поверхностное натяжение, Н/м <input type="number" id="surface_tension" step="any" value="0.01"></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Диапазон скорости жидкости, м/с</legend>
+            <div class="row">
+              <label>Min <input type="number" id="vl_min" step="any" value="0.1"></label>
+              <label>Max <input type="number" id="vl_max" step="any" value="0.5"></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Диапазон скорости газа, м/с</legend>
+            <div class="row">
+              <label>Min <input type="number" id="vg_min" step="any" value="10"></label>
+              <label>Max <input type="number" id="vg_max" step="any" value="15"></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Размерность сетки</legend>
+            <label><span class="hint" data-tip="Число точек по каждой оси скорости, формирующих карту. Больше значение — плавнее карта, но дольше расчёт.">?</span> <input type="number" id="resolution" min="2" max="400" step="1" value="100"></label>
+            <label class="checkbox"><input type="checkbox" id="log_scale" checked> Логарифмическая шкала осей</label>
+            <label class="checkbox"><input type="checkbox" id="invert_axes"> Поменять оси местами (X=газ, Y=жидкость)</label>
+            <label>Модель
+              <select id="model"></select>
+            </label>
+          </fieldset>
+
+          <button type="button" id="calculate-btn">Рассчитать</button>
+
+          <fieldset id="export-fieldset" hidden>
+            <legend>Экспорт сетки</legend>
+            <div class="row">
+              <select id="export-format">
+                <option value="csv">CSV</option>
+                <option value="xlsx">XLSX</option>
+              </select>
+              <button type="button" id="export-btn">Скачать</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="main">
+        <div id="error" hidden></div>
+        <div id="chart"></div>
+        <h2>Легенда режимов</h2>
+        <div id="legend"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script type="module" src="src/ui/main.js"></script>
+</body>
+</html>
