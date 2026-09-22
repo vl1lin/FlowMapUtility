@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>FlowMapUtility JS — тесты</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; background: #14151a; color: #e6e6e6; padding: 20px; }
+  h1 { font-size: 18px; }
+  #summary { font-size: 16px; margin: 12px 0; padding: 10px; border-radius: 4px; }
+  #summary.pass { background: #14351f; color: #7ee08a; }
+  #summary.fail { background: #3a1717; color: #ff8a8a; }
+  .fail-item { background: #241414; border: 1px solid #5c2b2b; border-radius: 4px; padding: 8px 12px; margin: 6px 0; white-space: pre-wrap; font-family: monospace; font-size: 12.5px; }
+  #status { color: #999; }
+</style>
+</head>
+<body>
+<h1>FlowMapUtility — JS-порт: результаты тестов</h1>
+<div id="status">Выполняется...</div>
+<div id="summary"></div>
+<div id="failures"></div>
+
+<script type="module">
+  import "./correlations.test.js";
+  import "./factory.test.js";
+  import "./grid.test.js";
+  import "./validators.test.js";
+  import "./gridExporter.test.js";
+  import "./calculator.test.js";
+  import { runAll } from "./tiny-test.js";
+
+  const statusEl = document.getElementById("status");
+  const summaryEl = document.getElementById("summary");
+  const failuresEl = document.getElementById("failures");
+
+  runAll().then(({ pass, fail, total, failures }) => {
+    statusEl.textContent = "";
+    summaryEl.className = fail === 0 ? "pass" : "fail";
+    summaryEl.textContent = `Пройдено: ${pass}/${total}` + (fail ? `, провалено: ${fail}` : " — всё зелёное");
+    // Дублируем в консоль в удобном для автоматической проверки виде.
+    console.log(`TEST_RESULT pass=${pass} fail=${fail} total=${total}`);
+    for (const f of failures) {
+      const div = document.createElement("div");
+      div.className = "fail-item";
+      div.textContent = `✗ ${f.name}\n${f.error}`;
+      failuresEl.appendChild(div);
+      console.error(`TEST_FAIL ${f.name}: ${f.error}`);
+    }
+  });
+</script>
+</body>
+</html>
