@@ -1,0 +1,33 @@
+name: Deploy app to GitHub Pages (gh-pages-report/app)
+
+on:
+  push:
+    branches: [js]
+    paths:
+      - "web/**"
+      - ".github/workflows/deploy-app.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Публикует содержимое web/ в подпапку app/ ветки gh-pages-report.
+      # keep_files: true - не трогает ничего вне destination_dir (статья
+      # на этой ветке остаётся нетронутой).
+      - name: Deploy web/ into gh-pages-report/app
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages-report
+          publish_dir: ./web
+          destination_dir: app
+          keep_files: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: "Автодеплой app/ из ветки js: ${{ github.sha }}"
