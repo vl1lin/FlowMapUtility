@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Добавлено (Barnea)
+
+- `BarneaModel` (`correlations/barnea.py`, ключ `"barnea"`, углы −90°…+90°): единая
+  модель Barnea (1987) с расслоённым гладким и волновым, дисперсно-пузырьковым,
+  кольцевым, пузырьковым и прерывистым режимами. Заглушка `BarneaModel` заменена
+  полной реализацией; автовыбор по углу по-прежнему ведёт на ключ `"barnea"`, то есть
+  теперь на работающую модель.
+- `physics/stratified.py`: геометрия расслоённого течения, равновесный уровень
+  жидкости, критерии Кельвина–Гельмгольца и Джеффриса. `physics/friction.py`:
+  `fanning_friction_taitel_dukler` (скалярная и векторная версии).
+- `FlowPatternCode.STRATIFIED_WAVY = 107` и `FlowPatternCode.CHURN = 108`, записи в
+  палитре и подписях легенды карты.
+
 ### Добавлено (Mukherjee–Brill)
 
 - Модель режимов `MukherjeeBrillModel` (`correlations/mukherjee_brill.py`, ключ фабрики

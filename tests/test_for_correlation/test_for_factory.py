@@ -5,6 +5,7 @@ import pytest
 
 from flowmaputility.correlations.ansari import AnsariModel
 from flowmaputility.correlations.ansari_vba import AnsariVBAModel
+from flowmaputility.correlations.barnea import BarneaModel, BarneaSettings
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.correlations.factory import ModelFactory
 from flowmaputility.correlations.mukherjee_brill import MukherjeeBrillModel
@@ -113,3 +114,17 @@ def test_factory_auto_selection_unchanged_by_mukherjee_brill():
     for angle in (80.0, 90.0):
         model = factory.creat_model(angle, Mock(angle=angle), Mock())
         assert type(model) is AnsariModel
+
+
+def test_factory_barnea_key(creating_Pipe):
+    factory = ModelFactory()
+    model = factory.creat_model("barnea", creating_Pipe, Mock())
+    assert type(model) is BarneaModel
+    assert model.name() == "Barnea"
+    assert model.settings == BarneaSettings()
+
+
+def test_factory_barnea_supports_negative_angles():
+    factory = ModelFactory()
+    model = factory.creat_model("Barnea", Mock(angle=-45.0), Mock())
+    assert type(model) is BarneaModel

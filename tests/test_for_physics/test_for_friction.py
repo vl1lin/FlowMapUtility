@@ -1,8 +1,13 @@
 import math
 
+import numpy as np
 import pytest
 
-from flowmaputility.physics.friction import darcy_friction_factor
+from flowmaputility.physics.friction import (
+    darcy_friction_factor,
+    fanning_friction_taitel_dukler,
+    fanning_friction_taitel_dukler_array,
+)
 
 
 @pytest.mark.parametrize("reynolds", [1.0, 100.0, 1999.0])
@@ -39,3 +44,33 @@ def test_turbulent_close_to_colebrook(reynolds: float, relative_roughness: float
 def test_non_positive_reynolds_raises(reynolds: float):
     with pytest.raises(ValueError):
         darcy_friction_factor(reynolds, 1e-4)
+
+
+# --- Коэффициент трения Фаннинга по Taitel–Dukler ---------------------------
+
+
+def test_fanning_laminar_is_16_over_re():
+    assert fanning_friction_taitel_dukler(1000.0) == 16.0 / 1000.0
+
+
+def test_fanning_turbulent_power_law():
+    assert fanning_friction_taitel_dukler(1e5) == pytest.approx(
+        0.046 * 1e5**-0.2, rel=1e-12
+    )
+
+
+@pytest.mark.parametrize("reynolds", [0.0, -1.0, float("nan")])
+def test_fanning_non_positive_reynolds_raises(reynolds: float):
+    with pytest.raises(ValueError):
+        fanning_friction_taitel_dukler(reynolds)
+
+
+def test_fanning_array_matches_scalar():
+    reynolds = np.array([10.0, 1000.0, 2299.0, 2300.0, 1e4, 1e6])
+    expected = [fanning_friction_taitel_dukler(float(value)) for value in reynolds]
+    assert fanning_friction_taitel_dukler_array(reynolds) == pytest.approx(expected)
+
+
+def test_fanning_array_non_positive_raises():
+    with pytest.raises(ValueError):
+        fanning_friction_taitel_dukler_array(np.array([1.0, 0.0]))

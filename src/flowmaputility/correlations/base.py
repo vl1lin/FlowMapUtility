@@ -15,6 +15,8 @@ class FlowPatternCode(IntEnum):
     DISPERSED_BUBBLE = 104
     ANNULAR = 105
     STRATIFIED = 106  # Добавим для горизонтальных труб
+    STRATIFIED_WAVY = 107  # Расслоённый волновой
+    CHURN = 108  # Эмульсионный (churn)
     UNKNOWN = 199
 
 
