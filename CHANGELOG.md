@@ -2,13 +2,15 @@
 
 ## Unreleased
 
-### Добавлено (Barnea)
+### Добавлено (Barnea, Taitel–Dukler)
 
 - `BarneaModel` (`correlations/barnea.py`, ключ `"barnea"`, углы −90°…+90°): единая
   модель Barnea (1987) с расслоённым гладким и волновым, дисперсно-пузырьковым,
   кольцевым, пузырьковым и прерывистым режимами. Заглушка `BarneaModel` заменена
   полной реализацией; автовыбор по углу по-прежнему ведёт на ключ `"barnea"`, то есть
   теперь на работающую модель.
+- `TaitelDuklerModel` (`correlations/taitel_dukler.py`, ключ `"taitel_dukler"`,
+  углы −10°…+10°): модель Taitel–Dukler (1976). Доступна только по явному ключу.
 - `physics/stratified.py`: геометрия расслоённого течения, равновесный уровень
   жидкости, критерии Кельвина–Гельмгольца и Джеффриса. `physics/friction.py`:
   `fanning_friction_taitel_dukler` (скалярная и векторная версии).

@@ -9,6 +9,7 @@ from flowmaputility.correlations.barnea import (
     BarneaSettings,
 )
 from flowmaputility.correlations.base import FlowPatternCode
+from flowmaputility.correlations.taitel_dukler import TaitelDuklerModel
 from flowmaputility.domain.params import FluidParams, PipeParams
 
 _STRATIFIED = FlowPatternCode.STRATIFIED
@@ -271,3 +272,16 @@ def test_performance_10k_calls(angle: float):
                 model.get_pattern_code(vsl, vsg)
         durations.append(time.perf_counter() - start)
     assert min(durations) < 3.0
+
+
+# --- Совпадение с Taitel–Dukler при θ = 0° ----------------------------------
+
+
+def test_stratified_boundary_matches_taitel_dukler_at_zero_angle():
+    """Один и тот же критерий Кельвина–Гельмгольца: граница расслоённое/нерасслоённое."""
+    barnea = _model(0.0)
+    taitel_dukler = TaitelDuklerModel(PipeParams(0.05, 1e-5, 0.0), _WATER_AIR)
+    for vsl, vsg in _grid():
+        barnea_stratified = barnea.classify(vsl, vsg).pattern in _STRATIFIED_PATTERNS
+        td_stratified = taitel_dukler.classify(vsl, vsg).pattern in _STRATIFIED_PATTERNS
+        assert barnea_stratified == td_stratified, (vsl, vsg)

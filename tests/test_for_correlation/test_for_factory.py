@@ -9,6 +9,10 @@ from flowmaputility.correlations.barnea import BarneaModel, BarneaSettings
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.correlations.factory import ModelFactory
 from flowmaputility.correlations.mukherjee_brill import MukherjeeBrillModel
+from flowmaputility.correlations.taitel_dukler import (
+    TaitelDuklerModel,
+    TaitelDuklerSettings,
+)
 
 
 @pytest.mark.parametrize("name", ["Ansari", "ansari", "ANSARI"])
@@ -128,3 +132,24 @@ def test_factory_barnea_supports_negative_angles():
     factory = ModelFactory()
     model = factory.creat_model("Barnea", Mock(angle=-45.0), Mock())
     assert type(model) is BarneaModel
+
+
+def test_factory_taitel_dukler_key():
+    factory = ModelFactory()
+    model = factory.creat_model("taitel_dukler", Mock(angle=5.0), Mock())
+    assert type(model) is TaitelDuklerModel
+    assert model.name() == "Taitel-Dukler"
+    assert model.settings == TaitelDuklerSettings()
+
+
+@pytest.mark.parametrize("name", ["Taitel-Dukler", "TAITEL DUKLER"])
+def test_factory_taitel_dukler_name_variants(name: str):
+    factory = ModelFactory()
+    model = factory.creat_model(name, Mock(angle=0.0), Mock())
+    assert type(model) is TaitelDuklerModel
+
+
+def test_factory_taitel_dukler_angle_range_is_validated():
+    factory = ModelFactory()
+    with pytest.raises(ValueError):
+        factory.creat_model("taitel_dukler", Mock(angle=45.0), Mock())

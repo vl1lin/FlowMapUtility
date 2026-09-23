@@ -6,6 +6,7 @@ from flowmaputility.correlations.barnea import BarneaModel
 from flowmaputility.correlations.base import IFlowModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.correlations.mukherjee_brill import MukherjeeBrillModel
+from flowmaputility.correlations.taitel_dukler import TaitelDuklerModel
 from flowmaputility.domain.params import FluidParams, PipeParams
 
 
@@ -22,6 +23,7 @@ class ModelFactory:
             "beggs_brill": BeggsBrillModel,
             "barnea": BarneaModel,
             "mukherjee_brill": MukherjeeBrillModel,
+            "taitel_dukler": TaitelDuklerModel,
         }
 
         # Автовыбор по углу: только ключи новых моделей ("ansari_vba" — лишь по имени),
