@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Добавлено (Mukherjee–Brill)
+
+- Модель режимов `MukherjeeBrillModel` (`correlations/mukherjee_brill.py`, ключ фабрики
+  `"mukherjee_brill"`, `name() == "Mukherjee-Brill"`) для углов от −90° до +90°:
+  пузырьковый, пробковый, кольцевой и расслоённый режимы. Метод `classify()` возвращает
+  диагностику (`MukherjeeBrillResult`). Автовыбор модели по углу не менялся: модель
+  доступна только по явному ключу.
+
 ### Изменено
 
 - Новая `AnsariModel` (`correlations/ansari.py`) с полными критериями перехода в

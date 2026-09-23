@@ -7,6 +7,7 @@ from flowmaputility.correlations.ansari import AnsariModel
 from flowmaputility.correlations.ansari_vba import AnsariVBAModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.correlations.factory import ModelFactory
+from flowmaputility.correlations.mukherjee_brill import MukherjeeBrillModel
 
 
 @pytest.mark.parametrize("name", ["Ansari", "ansari", "ANSARI"])
@@ -77,3 +78,38 @@ def test_factory_auto_ranges_must_not_overlap():
     factory.AUTO = [(0.0, 80.0, "beggs_brill"), (75.0, 90.0, "ansari")]
     with pytest.raises(ValueError):
         factory._validate_auto()
+
+
+def test_factory_mukherjee_brill_key(creating_Pipe):
+    factory = ModelFactory()
+    model = factory.creat_model("mukherjee_brill", creating_Pipe, Mock())
+    assert type(model) is MukherjeeBrillModel
+    assert model.name() == "Mukherjee-Brill"
+
+
+@pytest.mark.parametrize("name", ["Mukherjee-Brill", "MUKHERJEE BRILL"])
+def test_factory_mukherjee_brill_name_variants(name: str):
+    factory = ModelFactory()
+    model = factory.creat_model(name, Mock(angle=-45.0), Mock())
+    assert type(model) is MukherjeeBrillModel
+
+
+def test_factory_mukherjee_brill_angle_range_is_validated():
+    factory = ModelFactory()
+    with pytest.raises(ValueError):
+        factory.creat_model("mukherjee_brill", Mock(angle=91.0), Mock())
+
+
+def test_factory_auto_selection_unchanged_by_mukherjee_brill():
+    factory = ModelFactory()
+    assert factory.AUTO == [(0.0, 75.0, "barnea"), (75.0, 90.0, "ansari")]
+    factory.MODELS["barnea"] = Mock(return_value="barnea_instance")
+    expected = {
+        0.0: "barnea_instance",
+        45.0: "barnea_instance",
+    }
+    for angle, instance in expected.items():
+        assert factory.creat_model(angle, Mock(angle=angle), Mock()) == instance
+    for angle in (80.0, 90.0):
+        model = factory.creat_model(angle, Mock(angle=angle), Mock())
+        assert type(model) is AnsariModel
