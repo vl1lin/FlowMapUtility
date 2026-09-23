@@ -9,6 +9,7 @@ import pytest
 
 from flowmaputility.builder import Builder
 from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.correlations.ansari_vba import AnsariVBAModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.domain.validators import (
     FluidParamsValidator,
@@ -26,6 +27,13 @@ def info_for_ansari_correlation():
     fluid = FluidParamsValidator(800, 50, 0.001, 0.00001, 0.01).validate()
     ansari_model = AnsariModel(pipe, fluid)
     return ansari_model
+
+
+@pytest.fixture
+def info_for_ansari_vba_correlation():
+    pipe = PipeParamsValidator(0.062, 0.00005, 90).validate()
+    fluid = FluidParamsValidator(800, 50, 0.001, 0.00001, 0.01).validate()
+    return AnsariVBAModel(pipe, fluid)
 
 
 @pytest.fixture
@@ -96,13 +104,13 @@ def create_emergency_grid_generator() -> GridGenerator:
 
 
 @pytest.fixture
-def core_beginer(info_for_ansari_correlation):
+def core_beginer(info_for_ansari_vba_correlation):
     vsl_1d = np.array([0.1, 0.2, 0.3])
     vsl_2d = np.ones((3, 1)) * vsl_1d
     vsg_1d = np.flip(np.array([1.0, 2.0, 3.0]))
     vsg_2d = vsg_1d[:, np.newaxis] * np.ones((3, 3))
     grid_info = GridInfo(vsl_1d, vsg_1d, vsl_2d, vsg_2d, 3, True)
-    return ProcessManager(info_for_ansari_correlation, grid_info)
+    return ProcessManager(info_for_ansari_vba_correlation, grid_info)
 
 
 @pytest.fixture

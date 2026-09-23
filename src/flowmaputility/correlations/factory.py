@@ -1,6 +1,7 @@
 from typing import overload
 
 from flowmaputility.correlations.ansari import AnsariModel
+from flowmaputility.correlations.ansari_vba import AnsariVBAModel
 from flowmaputility.correlations.barnea import BarneaModel
 from flowmaputility.correlations.base import IFlowModel
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
@@ -16,10 +17,13 @@ class ModelFactory:
     def __init__(self):
         self.MODELS: dict[str, type[IFlowModel]] = {
             "ansari": AnsariModel,
+            "ansari_vba": AnsariVBAModel,
             "beggs_brill": BeggsBrillModel,
             "barnea": BarneaModel,
         }
 
+        # Автовыбор по углу: только ключи новых моделей ("ansari_vba" — лишь по имени),
+        # диапазоны не пересекаются, порядок элементов на выбор не влияет
         self.AUTO: list[tuple[float, float, str]] = [
             (0.0, 75.0, "barnea"),
             (75.0, 90.0, "ansari"),
@@ -31,6 +35,12 @@ class ModelFactory:
             if key not in self.MODELS:
                 raise ValueError(
                     f"AUTO_DISPATCH ссылается на незарегистрированную модель '{key}'"
+                )
+        ranges = sorted(self.AUTO)
+        for (_, prev_max, prev_key), (next_min, _, next_key) in zip(ranges, ranges[1:]):
+            if next_min < prev_max:
+                raise ValueError(
+                    f"Диапазоны автовыбора '{prev_key}' и '{next_key}' пересекаются"
                 )
 
     @overload
