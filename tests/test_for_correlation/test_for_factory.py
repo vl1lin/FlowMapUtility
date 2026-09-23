@@ -8,6 +8,7 @@ from flowmaputility.correlations.ansari_vba import AnsariVBAModel
 from flowmaputility.correlations.barnea import BarneaModel, BarneaSettings
 from flowmaputility.correlations.beggs_brill import BeggsBrillModel
 from flowmaputility.correlations.factory import ModelFactory
+from flowmaputility.correlations.hasan_kabir import HasanKabirModel, HasanKabirSettings
 from flowmaputility.correlations.mukherjee_brill import MukherjeeBrillModel
 from flowmaputility.correlations.taitel_dukler import (
     TaitelDuklerModel,
@@ -153,3 +154,24 @@ def test_factory_taitel_dukler_angle_range_is_validated():
     factory = ModelFactory()
     with pytest.raises(ValueError):
         factory.creat_model("taitel_dukler", Mock(angle=45.0), Mock())
+
+
+def test_factory_hasan_kabir_key(creating_Pipe):
+    factory = ModelFactory()
+    model = factory.creat_model("hasan_kabir", creating_Pipe, Mock())
+    assert type(model) is HasanKabirModel
+    assert model.name() == "Hasan-Kabir"
+    assert model.settings == HasanKabirSettings()
+
+
+@pytest.mark.parametrize("name", ["Hasan-Kabir", "HASAN KABIR"])
+def test_factory_hasan_kabir_name_variants(name: str, creating_Pipe):
+    factory = ModelFactory()
+    model = factory.creat_model(name, creating_Pipe, Mock())
+    assert type(model) is HasanKabirModel
+
+
+def test_factory_hasan_kabir_angle_range_is_validated():
+    factory = ModelFactory()
+    with pytest.raises(ValueError):
+        factory.creat_model("hasan_kabir", Mock(angle=30.0), Mock())

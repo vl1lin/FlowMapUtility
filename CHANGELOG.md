@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-### Добавлено (Barnea, Taitel–Dukler)
+### Добавлено (Barnea, Taitel–Dukler, Hasan–Kabir)
 
 - `BarneaModel` (`correlations/barnea.py`, ключ `"barnea"`, углы −90°…+90°): единая
   модель Barnea (1987) с расслоённым гладким и волновым, дисперсно-пузырьковым,
@@ -11,6 +11,10 @@
   теперь на работающую модель.
 - `TaitelDuklerModel` (`correlations/taitel_dukler.py`, ключ `"taitel_dukler"`,
   углы −10°…+10°): модель Taitel–Dukler (1976). Доступна только по явному ключу.
+- `HasanKabirModel` (`correlations/hasan_kabir.py`, ключ `"hasan_kabir"`, углы
+  45°…90°): модель Hasan–Kabir для восходящего потока; необязательная настройка
+  `use_barnea_annular_criteria` использует модель плёнки из `AnsariModel`. Доступна
+  только по явному ключу.
 - `physics/stratified.py`: геометрия расслоённого течения, равновесный уровень
   жидкости, критерии Кельвина–Гельмгольца и Джеффриса. `physics/friction.py`:
   `fanning_friction_taitel_dukler` (скалярная и векторная версии).

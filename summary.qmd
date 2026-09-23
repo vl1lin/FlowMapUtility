@@ -118,7 +118,7 @@ flowchart LR
 
 |название метода|что делает|
 |---|---|
-|set_model(name)| явно задать корреляцию ("Ansari", "Ansari-VBA", "Beggs-Brill" или "Mukherjee-Brill").<br>Без вызова — автоматически по углу трубы: Ансари 75°-90°, Beggs-Brill 0°-75°.|
+|set_model(name)| явно задать корреляцию ("Ansari", "Ansari-VBA", "Beggs-Brill", "Mukherjee-Brill", "Barnea", "Taitel-Dukler" или "Hasan-Kabir").<br>Без вызова — автоматически по углу трубы: Ансари 75°-90°, Beggs-Brill 0°-75°.|
 |set_resolution(n)|разрешение сетки (точек на ось), по умолчанию 100.|
 |set_scale_flag(bool)|логарифмическая (по умолчанию) или линейная шкала сетки.|
 |set_show_plot_flag(bool)|показывать график (по умолчанию True).|
