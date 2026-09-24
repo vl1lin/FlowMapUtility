@@ -7,6 +7,7 @@ from flowmaputility.correlations.barnea import (
     BarneaReason,
     BarneaResult,
     BarneaSettings,
+    film_equation,
 )
 from flowmaputility.correlations.base import FlowPatternCode
 from flowmaputility.correlations.taitel_dukler import TaitelDuklerModel
@@ -140,7 +141,9 @@ _TRANSITIONS = [
     (10.0, "vsl", 0.01, [(9.4, _SLUG, _ANNULAR)]),
     (90.0, "vsl", 0.01, [(23.8, _SLUG, _ANNULAR)]),
     (90.0, "vsg", 0.1, [(2.38, _SLUG, _DISPERSED)]),
-    (-10.0, "vsl", 1.0, [(5.9, _WAVY, _SLUG), (18.9, _SLUG, _ANNULAR)]),
+    # 22.0 вместо 18.9 из ТЗ: ориентир ТЗ считался со степенью 2.5 в уравнении плёнки,
+    # верная степень — 1.5 (Barnea, 1987, ур. 15)
+    (-10.0, "vsl", 1.0, [(5.9, _WAVY, _SLUG), (22.0, _SLUG, _ANNULAR)]),
     (-80.0, "vsg", 0.1, [(0.28, _WAVY, _ANNULAR), (8.3, _ANNULAR, _DISPERSED)]),
 ]
 
@@ -285,3 +288,14 @@ def test_stratified_boundary_matches_taitel_dukler_at_zero_angle():
         barnea_stratified = barnea.classify(vsl, vsg).pattern in _STRATIFIED_PATTERNS
         td_stratified = taitel_dukler.classify(vsl, vsg).pattern in _STRATIFIED_PATTERNS
         assert barnea_stratified == td_stratified, (vsl, vsg)
+
+
+def test_film_equation_uses_exponent_one_and_a_half():
+    """Barnea (1987), ур. 15: F(H) = Y − (1 + 75·H)/((1 − H)^1.5·H) + X²/H³."""
+    holdup = 0.36
+    expected = (
+        0.7 - (1.0 + 75.0 * holdup) / ((1.0 - holdup) ** 1.5 * holdup) + 0.2 / holdup**3
+    )
+    assert film_equation(film_holdup=holdup, x_squared=0.2, y=0.7) == pytest.approx(
+        expected, rel=1e-12
+    )

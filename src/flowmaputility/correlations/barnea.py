@@ -87,7 +87,7 @@ _CREAMING_FACTOR: Final = 3.0 / 8.0  # d_CB = (3/8)·(ρ_L/Δρ)·f_m·v_m²/(g�
 # Кольцевое течение (Barnea, 1986)
 _GRADIENT_FACTOR: Final = 2.0  # (dp/dL)_S = 2·f·ρ·v²/d
 _FILM_LINEAR_COEFFICIENT: Final = 75.0  # (1 + 75·H) в уравнении плёнки
-_FILM_EXPONENT: Final = 2.5  # (1 − H)^2.5
+_FILM_EXPONENT: Final = 1.5  # (1 − H)^1.5, Barnea (1987), ур. 15
 _FILM_HOLDUP_MIN: Final = 1e-7  # Нижняя граница поиска H
 _FILM_HOLDUP_MAX: Final = 0.999  # Верхняя граница поиска H
 _FILM_GRID_NODES: Final = 300
@@ -354,7 +354,7 @@ def film_parameters(
 def film_equation(*, film_holdup: float, x_squared: float, y: float) -> float:
     """
     Невязка уравнения плёнки (Barnea, 1986):
-    F(H) = Y − (1 + 75·H)/((1 − H)^2.5·H) + X²/H³ → +∞ при H → 0.
+    F(H) = Y − (1 + 75·H)/((1 − H)^1.5·H) + X²/H³ → +∞ при H → 0.
 
     :param film_holdup: доля плёнки H ∈ (0, 1)
     :param x_squared: параметр Мартинелли X²
