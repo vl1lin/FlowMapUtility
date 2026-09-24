@@ -1,4 +1,5 @@
 import math
+from typing import TypedDict
 
 import numpy as np
 import pytest
@@ -13,22 +14,36 @@ from flowmaputility.physics.stratified import (
     stratified_residual,
 )
 
-_WATER_AIR = {
-    "diameter": 0.05,
-    "liquid_density": 1000.0,
-    "gas_density": 1.2,
-    "liquid_viscosity": 1e-3,
-    "gas_viscosity": 1.8e-5,
-}
+
+class _Args(TypedDict):
+    """Аргументы `solve_equilibrium_level` (типизированный набор для распаковки `**`)."""
+
+    superficial_liquid_velocity: float
+    superficial_gas_velocity: float
+    diameter: float
+    liquid_density: float
+    gas_density: float
+    liquid_viscosity: float
+    gas_viscosity: float
+    angle_rad: float
+
+
+def _args(vsl: float, vsg: float, angle_rad: float) -> _Args:
+    """Вода–воздух, d = 0.05 м."""
+    return {
+        "superficial_liquid_velocity": vsl,
+        "superficial_gas_velocity": vsg,
+        "diameter": 0.05,
+        "liquid_density": 1000.0,
+        "gas_density": 1.2,
+        "liquid_viscosity": 1e-3,
+        "gas_viscosity": 1.8e-5,
+        "angle_rad": angle_rad,
+    }
 
 
 def _solve(angle_deg: float, vsl: float = 0.01, vsg: float = 1.0) -> EquilibriumLevel:
-    return solve_equilibrium_level(
-        superficial_liquid_velocity=vsl,
-        superficial_gas_velocity=vsg,
-        angle_rad=math.radians(angle_deg),
-        **_WATER_AIR,
-    )
+    return solve_equilibrium_level(**_args(vsl, vsg, math.radians(angle_deg)))
 
 
 # --- Геометрия -------------------------------------------------------------
@@ -88,13 +103,7 @@ def test_level_sign_of_gravity_term():
 def test_level_satisfies_equation():
     level = _solve(0.0).level
     assert level is not None
-    residual = stratified_residual(
-        level=level,
-        superficial_liquid_velocity=0.01,
-        superficial_gas_velocity=1.0,
-        angle_rad=0.0,
-        **_WATER_AIR,
-    )
+    residual = stratified_residual(level=level, **_args(0.01, 1.0, 0.0))
     assert abs(residual) < 1e-6
 
 
@@ -110,23 +119,13 @@ def test_no_root_returns_none_and_least_residual_level_is_on_grid(monkeypatch):
         return np.linspace(2.0, 1.0, stratified._LEVEL_GRID.size)
 
     monkeypatch.setattr(stratified, "_stratified_residual_grid", positive_residual)
-    kwargs = {
-        "superficial_liquid_velocity": 0.3,
-        "superficial_gas_velocity": 2.0,
-        "angle_rad": 0.0,
-        **_WATER_AIR,
-    }
+    kwargs = _args(0.3, 2.0, 0.0)
     assert solve_equilibrium_level(**kwargs) == EquilibriumLevel(None, ())
     assert least_residual_level(**kwargs) == pytest.approx(1.0 - 1e-4)
 
 
 def test_grid_residual_matches_scalar_residual():
-    kwargs = {
-        "superficial_liquid_velocity": 0.3,
-        "superficial_gas_velocity": 2.0,
-        "angle_rad": math.radians(-7.0),
-        **_WATER_AIR,
-    }
+    kwargs = _args(0.3, 2.0, math.radians(-7.0))
     grid_values = stratified._stratified_residual_grid(**kwargs)
     for index in (0, 57, 200, 333, 400):
         level = float(stratified._LEVEL_GRID[index])

@@ -1,5 +1,3 @@
-import math
-
 import pytest
 
 from flowmaputility.correlations.base import FlowPatternCode
@@ -14,7 +12,7 @@ from flowmaputility.correlations.beggs_brill import (
 
 def test_name_and_angle_limit(bb_model: BeggsBrillModel) -> None:
     assert bb_model.name() == "Beggs-Brill"
-    assert bb_model.angle_limit() == (0.0, math.nextafter(75.0, 0.0))
+    assert bb_model.angle_limit() == (-90.0, 90.0)
 
 
 def test_single_phase_gas(bb_model: BeggsBrillModel) -> None:

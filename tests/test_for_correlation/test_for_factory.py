@@ -1,4 +1,3 @@
-import math
 from unittest.mock import Mock
 
 import pytest
@@ -42,13 +41,13 @@ def test_factory_for_ansari_angle(angle: float, creating_Pipe):
     assert model.angle_limit() == (75.0, 90.0)
 
 
-@pytest.mark.parametrize("angle", [0.0, 30.0, 74.0, math.nextafter(75.0, -math.inf)])
-def test_factory_for_beggs_brill_angle(angle: float):
-    factory = ModelFactory()
-    model = factory.creat_model(angle, Mock(), Mock())
-    assert isinstance(model, BeggsBrillModel)
-    assert model.angle_limit() == (0.0, math.nextafter(75.0, -math.inf))
-    assert model.angle_limit()[1] != 75.0
+# @pytest.mark.parametrize("angle", [0.0, 30.0, 74.0, math.nextafter(75.0, -math.inf)])
+# def test_factory_for_beggs_brill_angle(angle: float):
+#     factory = ModelFactory()
+#     model = factory.creat_model(angle, Mock(), Mock())
+#     assert isinstance(model, BeggsBrillModel)
+#     assert model.angle_limit() == (0.0, math.nextafter(75.0, -math.inf))
+#     assert model.angle_limit()[1] != 75.0
 
 
 def test_factory_ansari_key_is_new_model(creating_Pipe):
@@ -106,16 +105,13 @@ def test_factory_mukherjee_brill_angle_range_is_validated():
         factory.creat_model("mukherjee_brill", Mock(angle=91.0), Mock())
 
 
-def test_factory_auto_selection_unchanged_by_mukherjee_brill():
+def test_factory_auto_selection_is_unchanged_by_new_models():
+    """Автовыбор по углу: Barnea на 0°–75°, Ансари на 75°–90° (новые модели только по ключу)."""
     factory = ModelFactory()
     assert factory.AUTO == [(0.0, 75.0, "barnea"), (75.0, 90.0, "ansari")]
-    factory.MODELS["barnea"] = Mock(return_value="barnea_instance")
-    expected = {
-        0.0: "barnea_instance",
-        45.0: "barnea_instance",
-    }
-    for angle, instance in expected.items():
-        assert factory.creat_model(angle, Mock(angle=angle), Mock()) == instance
+    for angle in (0.0, 45.0):
+        model = factory.creat_model(angle, Mock(angle=angle), Mock())
+        assert type(model) is BarneaModel
     for angle in (80.0, 90.0):
         model = factory.creat_model(angle, Mock(angle=angle), Mock())
         assert type(model) is AnsariModel
